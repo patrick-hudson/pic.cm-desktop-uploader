@@ -1,0 +1,17 @@
+[General]
+startup=True
+copyafter=True
+sendto=True
+winsound=True
+failsound=False
+autocheck=False
+savescr=False
+sound=False
+[Proxy]
+on=False
+adress=0.0.0.0
+port=0
+[Bugfix]
+Bug563=False
+[HotKeys]
+UploadFiles=null
