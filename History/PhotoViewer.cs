@@ -36,7 +36,7 @@ namespace Universal_Chevereto_Uploadr
             this.pictureBox1.ImageLocation=p.DirectLink;
             this.ShowInTaskbar=true;
             string correctString = q.DirectLink.Replace("http://pic.cm/i/", "http://i.pic.cm/");
-            this.Icon=Properties.Resources.newfavicon;
+            this.Icon=Properties.Resources.newfavicon1;
             this.Text=q.LocalName+" - Photo viewer";
             textBox1.Text = correctString;
 			textBox2.Text=q.ShortUrl;

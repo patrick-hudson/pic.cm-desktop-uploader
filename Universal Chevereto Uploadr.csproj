@@ -64,7 +64,7 @@
     <StartupObject>Universal_Chevereto_Uploadr.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>newfavicon.ico</ApplicationIcon>
+    <ApplicationIcon>icon_fw.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
@@ -247,8 +247,11 @@
     <None Include="dll\NDDE\NDde.dll" />
     <None Include="Resources\newfavicon.ico" />
     <None Include="Resources\newupload.ico" />
+    <Content Include="icon_fw.ico" />
     <Content Include="newfavicon.ico" />
     <None Include="Resources\jingle.wav" />
+    <None Include="Resources\icon.fw.png" />
+    <None Include="Resources\newfavicon1.ico" />
     <Content Include="Universal Chevereto Uploadr.cd" />
     <None Include="dll\Upload.png" />
     <None Include="dll\favicon.ico" />

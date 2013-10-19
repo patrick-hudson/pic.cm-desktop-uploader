@@ -30,7 +30,7 @@ namespace Universal_Chevereto_Uploadr
             listView1.MultiSelect=false;
             listView1.DoubleClick+=new EventHandler (listView1_DoubleClick);
             this.ShowInTaskbar=true;
-            this.Icon=Properties.Resources.newfavicon;
+            this.Icon=Properties.Resources.newfavicon1;
             if (All) comboBox1.SelectedItem=comboBox1.Items[0];
             else comboBox1.SelectedItem=comboBox1.Items[1];
             ImageList il=new ImageList ();

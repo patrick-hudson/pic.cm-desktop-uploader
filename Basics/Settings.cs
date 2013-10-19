@@ -33,7 +33,7 @@ namespace Universal_Chevereto_Uploadr
                 // LoadFilesEtc();
                 InitializeComponent();
                 this.ShowInTaskbar = true;
-                this.Icon = Properties.Resources.newfavicon;
+                this.Icon = Properties.Resources.newfavicon1;
                 if (Sets.CopyAfterUpload)
                 {
                     checkBox1.Checked = Sets.CopyAfterUpload;

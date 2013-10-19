@@ -47,6 +47,7 @@ namespace Universal_Chevereto_Uploadr
             this.label1 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.automaticUpdater2 = new wyDay.Controls.AutomaticUpdater();
@@ -63,7 +64,6 @@ namespace Universal_Chevereto_Uploadr
             this.label5 = new System.Windows.Forms.Label();
             this.btnUploadDesktop = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -152,6 +152,16 @@ namespace Universal_Chevereto_Uploadr
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "General";
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(3, 168);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(116, 25);
+            this.button2.TabIndex = 10;
+            this.button2.Text = "Check for updates";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(213, 168);
@@ -239,7 +249,7 @@ namespace Universal_Chevereto_Uploadr
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(364, 172);
+            this.tabPage2.Size = new System.Drawing.Size(364, 196);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Proxy";
             // 
@@ -264,7 +274,7 @@ namespace Universal_Chevereto_Uploadr
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(364, 172);
+            this.tabPage3.Size = new System.Drawing.Size(364, 196);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Key binding";
             // 
@@ -324,16 +334,6 @@ namespace Universal_Chevereto_Uploadr
             this.label4.Size = new System.Drawing.Size(137, 13);
             this.label4.TabIndex = 0;
             this.label4.Text = "Upload desktop screenshot";
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(3, 168);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(116, 25);
-            this.button2.TabIndex = 10;
-            this.button2.Text = "Check for updates";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // Settings
             // 
