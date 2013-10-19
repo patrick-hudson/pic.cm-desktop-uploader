@@ -317,7 +317,7 @@ namespace Universal_Chevereto_Uploadr
             }
             else
             {
-                MessageBox.Show("You haven't saved any images yet dufus");
+                MessageBox.Show("You don't currently have any saved images.","No Images");
             }
 
         }

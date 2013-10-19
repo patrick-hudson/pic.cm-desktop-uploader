@@ -24,7 +24,7 @@ namespace Universal_Chevereto_Uploadr
     {
         public static Thread t;
         public static System.Windows.Forms.Timer te;
-
+        private static string dlink;
         public static void StartUpload (byte []upload_byte_array=null, string url=null)
         {
         	/* Starts the upload. Arguments:
@@ -54,8 +54,9 @@ namespace Universal_Chevereto_Uploadr
             //notify the user
             Program.MainClassInstance.resetScreen();
             Program.checker.notify.BalloonTipTitle="Upload done!";
-            Program.checker.notify.BalloonTipText="You can open history window to see the photos you've just upload.";
+            Program.checker.notify.BalloonTipText="Click here to view your image.";
             Program.checker.notify.BalloonTipIcon=ToolTipIcon.Info;
+            
             Program.checker.notify.ShowBalloonTip (1000);
             Program.checker.BuildContextMenu ();
             });
@@ -64,6 +65,7 @@ namespace Universal_Chevereto_Uploadr
             //if the setting is on, copy the DirectUrl to the picture to the clipboard
             if (Sets.CopyAfterUpload)
             {
+                Program.checker.notify.BalloonTipClicked += notifyIcon;
                 te=new System.Windows.Forms.Timer ();
                 te.Interval=100;
                 te.Tick+=delegate
@@ -72,9 +74,10 @@ namespace Universal_Chevereto_Uploadr
                     {
                         te.Stop ();
                         string txt="";
-                        foreach (var v in Program.History) if (v.FromLastUpload) txt+=v.DirectLink+" ";
+                        foreach (var v in Program.History) if (v.FromLastUpload) txt+=v.DirectLink;
                         string correctString = txt.Replace("http://pic.cm/i/", "http://i.pic.cm/");
                         Clipboard.SetText (correctString);
+                        dlink = correctString;
                         if (Sets.Sound)
                         {
                             (new SoundPlayer(Properties.Resources.jingle)).PlaySync();
@@ -85,7 +88,10 @@ namespace Universal_Chevereto_Uploadr
                 te.Start ();
             }
         }
-
+        private static void notifyIcon(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(dlink);
+        }
         private static void VerifyNetworkConnection ()
         {
         	//verify...

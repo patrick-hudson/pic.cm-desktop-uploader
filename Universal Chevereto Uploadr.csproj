@@ -245,10 +245,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="dll\NDDE\NDde.dll" />
-    <None Include="Resources\jingle.wav" />
     <None Include="Resources\newfavicon.ico" />
     <None Include="Resources\newupload.ico" />
     <Content Include="newfavicon.ico" />
+    <None Include="Resources\jingle.wav" />
     <Content Include="Universal Chevereto Uploadr.cd" />
     <None Include="dll\Upload.png" />
     <None Include="dll\favicon.ico" />
