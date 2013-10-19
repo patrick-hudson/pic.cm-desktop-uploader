@@ -120,7 +120,7 @@ namespace Universal_Chevereto_Uploadr
             this.Name = "AboutBox";
             this.Padding = new System.Windows.Forms.Padding(9);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Pic.cm Desktop Uploader v1.3.6";
+            this.Text = "Pic.cm Desktop Uploader v1.3.5";
             this.ResumeLayout(false);
             this.PerformLayout();
 
