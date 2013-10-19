@@ -53,7 +53,7 @@ namespace Universal_Chevereto_Uploadr
             }
             //notify the user
             Program.MainClassInstance.resetScreen();
-            Program.checker.notify.BalloonTipTitle="Upload done!";
+            Program.checker.notify.BalloonTipTitle="Upload completed!";
             Program.checker.notify.BalloonTipText="Click here to view your image.";
             Program.checker.notify.BalloonTipIcon=ToolTipIcon.Info;
             
