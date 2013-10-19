@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2013 Dobrescu Andrei
+* Copyright (c) 2013 Patrick Hudson
 * 
 * This file is part of Universal Chevereto Uploadr.
 * Universal Chevereto Uploadr is a free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
