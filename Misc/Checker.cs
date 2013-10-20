@@ -95,7 +95,7 @@ namespace Universal_Chevereto_Uploadr
             BuildContextMenu ();
             //initialize the notify icon
             notify=new NotifyIcon ();
-            notify.Text = "Pic.cm Desktop Uploader";
+            notify.Text = "Pic.cm";
             notify.ContextMenu = contextmenu;
             notify.Icon=Properties.Resources.newfavicon;
             notify.Visible = true;
