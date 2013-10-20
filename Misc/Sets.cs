@@ -35,6 +35,8 @@ namespace Universal_Chevereto_Uploadr
                 System.IO.File.WriteAllBytes(Environment.ExpandEnvironmentVariables("%AppData%\\imageuploader\\sets"), Properties.Resources.sets);
             }
             s = new Ini(Environment.ExpandEnvironmentVariables("%AppData%\\imageuploader\\sets"));
+            //work around for newly added setting options
+
             if (s.IniRead("General", "sound") == "")
             {
                 s.IniWrite("General", "sound", "true");

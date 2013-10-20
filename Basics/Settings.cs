@@ -31,8 +31,7 @@ namespace Universal_Chevereto_Uploadr
         //public static event EventHandler AutomaticUpdaterOnUpdateAvailable;
         public Settings()
         {
-                // load important files, etc.
-                // LoadFilesEtc();
+
                 InitializeComponent();
                 this.ShowInTaskbar = true;
                 this.Icon = Properties.Resources.newfavicon1;
@@ -113,6 +112,7 @@ namespace Universal_Chevereto_Uploadr
                     }
                 }
             }
+        //event handler for auto updating
         private void AutomaticUpdaterOnUpdateAvailable(object sender, EventArgs eventArgs)
         {
            

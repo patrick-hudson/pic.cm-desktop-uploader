@@ -35,6 +35,7 @@ namespace Universal_Chevereto_Uploadr
             //initializing
             this.pictureBox1.ImageLocation=p.DirectLink;
             this.ShowInTaskbar=true;
+            //again another work around to show the correct CDN link
             string correctString = q.DirectLink.Replace("http://pic.cm/i/", "http://i.pic.cm/");
             this.Icon=Properties.Resources.newfavicon1;
             this.Text=q.LocalName+" - Photo viewer";
