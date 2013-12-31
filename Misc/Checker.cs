@@ -1,12 +1,12 @@
 /*
 * Copyright (c) 2013 Patrick Hudson
 * 
-* This file is part of Universal Chevereto Uploadr.
+* This file is part of Pic.cm Uploader
 * Universal Chevereto Uploadr is a free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
 * as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 * Universal Chevereto Uploadr is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
 * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-* You should have received a copy of the GNU General Public License along with Universal Chevereto Uploadr. If not, see http://www.gnu.org/licenses/.
+* You should have received a copy of the GNU General Public License along with Pic.cm Uploader If not, see http://www.gnu.org/licenses/.
 */
 
 using System;
@@ -15,7 +15,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Diagnostics;
-using Universal_Chevereto_Uploadr.Misc;
+using Piccm_Uploader.Misc;
 
 /* This class is taken from http://www.codeproject.com/Articles/18507/Formless-Notify-Icon-Application
  * Author's quote:
@@ -27,7 +27,7 @@ This formless, useless, notification sample does only chane the icon and balloon
 NOTE:Chacker is a Singleton class so it will only allow to be instantiated once, and therefore only one instance.
 I have done this to prevent more then one icon on the tray and to share data with the form (if any)*/
 
-namespace Universal_Chevereto_Uploadr
+namespace Piccm_Uploader
 {
     public class Checker
     {
@@ -37,40 +37,42 @@ namespace Universal_Chevereto_Uploadr
         public static KeyboardHook croppedScreenShotKeyHook = null;
         public static KeyboardHook activeWindowsScreenShotKeyHook = null;
 
-        public void BuildContextMenu ()
+        public void BuildContextMenu()
         {
-        	//build the main menu
+            //build the main menu
             //RegisterGlobalHotKeys();
-            contextmenu.MenuItems.Clear ();
-            MenuItem item=new MenuItem ("Upload files", new EventHandler (Program.MainClassInstance.uploadFilesToolStripMenuItem_Click));
-            contextmenu.MenuItems.Add (item);
-            item=new MenuItem ("Drag && Drop files", new EventHandler (Program.MainClassInstance.dragDropFilesToolStripMenuItem_Click));
-            contextmenu.MenuItems.Add (item);
-            item=new MenuItem ("Upload from clipboard", new EventHandler (Program.MainClassInstance.uploadFromClipboardToolStripMenuItem_Click));
-            contextmenu.MenuItems.Add (item);
-            item=new MenuItem ("Upload desktop screenshot", new EventHandler (Program.MainClassInstance.uploadDesktopScreenshotToolStripMenuItem_Click));
-            contextmenu.MenuItems.Add (item);
-            item=new MenuItem ("Upload cropped screenshot", new EventHandler (Program.MainClassInstance.uploadCroppedScreenshotToolStripMenuItem_Click));
-            contextmenu.MenuItems.Add (item);
-            item=new MenuItem ("Upload active window screenshot", new EventHandler (Program.MainClassInstance.ScreenshotActiveWindow));
-            contextmenu.MenuItems.Add (item);
-            item=new MenuItem ("Remote upload", new EventHandler (Program.MainClassInstance.UrlUpload));
-            contextmenu.MenuItems.Add (item);
-            item=new MenuItem ("Settings", new EventHandler (Program.MainClassInstance.optionsToolStripMenuItem_Click));
-            contextmenu.MenuItems.Add (item);
-            item=new MenuItem ("History", new EventHandler (Program.MainClassInstance.uploadedPhotosToolStripMenuItem_Click));
-            contextmenu.MenuItems.Add (item);
-            item=new MenuItem ("About", new EventHandler (Program.MainClassInstance.aboutToolStripMenuItem_Click));
-            contextmenu.MenuItems.Add (item);
+            contextmenu.MenuItems.Clear();
+            MenuItem item = new MenuItem("Upload files", new EventHandler(Program.MainClassInstance.uploadFilesToolStripMenuItem_Click));
+            contextmenu.MenuItems.Add(item);
+            item = new MenuItem("Drag && Drop files", new EventHandler(Program.MainClassInstance.dragDropFilesToolStripMenuItem_Click));
+            contextmenu.MenuItems.Add(item);
+            item = new MenuItem("Upload from clipboard", new EventHandler(Program.MainClassInstance.uploadFromClipboardToolStripMenuItem_Click));
+            contextmenu.MenuItems.Add(item);
+            item = new MenuItem("Upload desktop screenshot", new EventHandler(Program.MainClassInstance.uploadDesktopScreenshotToolStripMenuItem_Click));
+            contextmenu.MenuItems.Add(item);
+            item = new MenuItem("Upload cropped screenshot", new EventHandler(Program.MainClassInstance.uploadCroppedScreenshotToolStripMenuItem_Click));
+            contextmenu.MenuItems.Add(item);
+            item = new MenuItem("Upload active window screenshot", new EventHandler(Program.MainClassInstance.ScreenshotActiveWindow));
+            contextmenu.MenuItems.Add(item);
+            item = new MenuItem("Remote upload", new EventHandler(Program.MainClassInstance.UrlUpload));
+            contextmenu.MenuItems.Add(item);
+            item = new MenuItem("Settings", new EventHandler(Program.MainClassInstance.optionsToolStripMenuItem_Click));
+            contextmenu.MenuItems.Add(item);
+            item = new MenuItem("History", new EventHandler(Program.MainClassInstance.uploadedPhotosToolStripMenuItem_Click));
+            contextmenu.MenuItems.Add(item);
+            item = new MenuItem("About", new EventHandler(Program.MainClassInstance.aboutToolStripMenuItem_Click));
+            contextmenu.MenuItems.Add(item);
             item = new MenuItem("Check For Updates", new EventHandler(Program.MainClassInstance.updateToolStripMenuItem_Click));
             contextmenu.MenuItems.Add(item);
-            item=new MenuItem ("Exit", new EventHandler (Menu_OnExit));
-            contextmenu.MenuItems.Add (item);
+            item = new MenuItem("Exit", new EventHandler(Menu_OnExit));
+            contextmenu.MenuItems.Add(item);
             //and set the icon of the NotifyIcon control
-            try {notify.Icon=Properties.Resources.newfavicon;
+            try
+            {
+                notify.Icon = Resources.Resource.default_large;
             }
-            catch {}
-            
+            catch { }
+
         }
 
         public void CancelTheUpload ()
@@ -81,7 +83,7 @@ namespace Universal_Chevereto_Uploadr
             {
                 Program.ApplicationRestart ();
             }));
-            notify.Icon = Properties.Resources.newupload;
+            notify.Icon = Resources.Resource.uploading;
         }
 
         public void ClearMenu ()
@@ -97,7 +99,7 @@ namespace Universal_Chevereto_Uploadr
             notify=new NotifyIcon ();
             notify.Text = "Pic.cm";
             notify.ContextMenu = contextmenu;
-            notify.Icon=Properties.Resources.newfavicon;
+            notify.Icon = Resources.Resource.default_large;
             notify.Visible = true;
         }
 

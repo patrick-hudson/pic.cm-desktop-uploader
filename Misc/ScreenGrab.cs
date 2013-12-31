@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Universal_Chevereto_Uploadr.Misc
+namespace Piccm_Uploader.Misc
 {
     class ScreenGrab
     {

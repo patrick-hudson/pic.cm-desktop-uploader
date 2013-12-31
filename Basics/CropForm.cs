@@ -7,10 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using Universal_Chevereto_Uploadr.Misc;
+using Piccm_Uploader.Misc;
 using System.Diagnostics;
 
-namespace Universal_Chevereto_Uploadr.Basics
+namespace Piccm_Uploader.Basics
 {
     public partial class CropForm : Form
     {

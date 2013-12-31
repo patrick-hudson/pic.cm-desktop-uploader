@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 
-namespace Universal_Chevereto_Uploadr.Misc
+namespace Piccm_Uploader.Misc
 {
     public sealed class KeyboardHook : IDisposable
     {

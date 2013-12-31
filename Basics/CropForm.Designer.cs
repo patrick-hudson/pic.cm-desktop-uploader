@@ -1,4 +1,4 @@
-﻿namespace Universal_Chevereto_Uploadr.Basics
+﻿namespace Piccm_Uploader.Basics
 {
     partial class CropForm
     {

@@ -1,12 +1,12 @@
 ﻿/*
 * Copyright (c) 2013 Patrick Hudson
 * 
-* This file is part of Universal Chevereto Uploadr.
+* This file is part of Pic.cm Uploader
 * Universal Chevereto Uploadr is a free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
 * as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 * Universal Chevereto Uploadr is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
 * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-* You should have received a copy of the GNU General Public License along with Universal Chevereto Uploadr. If not, see http://www.gnu.org/licenses/.
+* You should have received a copy of the GNU General Public License along with Pic.cm Uploader If not, see http://www.gnu.org/licenses/.
  * test
  * 
 */
@@ -20,10 +20,10 @@ using System.Text;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using System.Media;
-using Universal_Chevereto_Uploadr.Misc;
+using Piccm_Uploader.Misc;
 using System.IO;
 
-namespace Universal_Chevereto_Uploadr
+namespace Piccm_Uploader
 {
 	//class dealing with app's settings
     public partial class Settings : Form
@@ -34,7 +34,7 @@ namespace Universal_Chevereto_Uploadr
 
                 InitializeComponent();
                 this.ShowInTaskbar = true;
-                this.Icon = Properties.Resources.newfavicon1;
+                this.Icon = Resources.Resource.default_large;
                 if (Sets.CopyAfterUpload)
                 {
                     checkBox1.Checked = Sets.CopyAfterUpload;
@@ -198,7 +198,7 @@ namespace Universal_Chevereto_Uploadr
             if (e.Modifiers != Keys.None)
             {
                 Keys key = Keys.None;
-                Universal_Chevereto_Uploadr.Misc.ModifierKeys modifiers = Universal_Chevereto_Uploadr.Misc.KeyboardHook.GetModifiers(e.KeyData, out key);
+                Piccm_Uploader.Misc.ModifierKeys modifiers = Piccm_Uploader.Misc.KeyboardHook.GetModifiers(e.KeyData, out key);
 
                 // The pressed key is valid.
                 if (key != Keys.None)
@@ -238,7 +238,7 @@ namespace Universal_Chevereto_Uploadr
             if (e.Modifiers != Keys.None)
             {
                 Keys key = Keys.None;
-                Universal_Chevereto_Uploadr.Misc.ModifierKeys modifiers = Universal_Chevereto_Uploadr.Misc.KeyboardHook.GetModifiers(e.KeyData, out key);
+                Piccm_Uploader.Misc.ModifierKeys modifiers = Piccm_Uploader.Misc.KeyboardHook.GetModifiers(e.KeyData, out key);
 
                 // The pressed key is valid.
                 if (key != Keys.None)
@@ -278,7 +278,7 @@ namespace Universal_Chevereto_Uploadr
             if (e.Modifiers != Keys.None)
             {
                 Keys key = Keys.None;
-                Universal_Chevereto_Uploadr.Misc.ModifierKeys modifiers = Universal_Chevereto_Uploadr.Misc.KeyboardHook.GetModifiers(e.KeyData, out key);
+                Piccm_Uploader.Misc.ModifierKeys modifiers = Piccm_Uploader.Misc.KeyboardHook.GetModifiers(e.KeyData, out key);
 
                 // The pressed key is valid.
                 if (key != Keys.None)

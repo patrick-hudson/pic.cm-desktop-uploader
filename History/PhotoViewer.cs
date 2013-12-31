@@ -1,12 +1,12 @@
 ﻿/*
 * Copyright (c) 2013 Patrick Hudson
 * 
-* This file is part of Universal Chevereto Uploadr.
+* This file is part of Pic.cm Uploader
 * Universal Chevereto Uploadr is a free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
 * as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 * Universal Chevereto Uploadr is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
 * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-* You should have received a copy of the GNU General Public License along with Universal Chevereto Uploadr. If not, see http://www.gnu.org/licenses/.
+* You should have received a copy of the GNU General Public License along with Pic.cm Uploader If not, see http://www.gnu.org/licenses/.
 */
 
 using System;
@@ -21,34 +21,34 @@ using System.Windows.Forms;
 using System.Threading;
 using System.Media;
 
-namespace Universal_Chevereto_Uploadr
+namespace Piccm_Uploader
 {
     public partial class PhotoViewer : Form
     {
     	//q=the photo which this form has to treat
     	UploadedPhoto q;
-    	
-        public PhotoViewer (UploadedPhoto p)
+
+        public PhotoViewer(UploadedPhoto p)
         {
-        	q=p;
-            InitializeComponent ();
+            q = p;
+            InitializeComponent();
             //initializing
-            this.pictureBox1.ImageLocation=p.DirectLink;
-            this.ShowInTaskbar=true;
+            this.pictureBox1.ImageLocation = p.DirectLink;
+            this.ShowInTaskbar = true;
             //again another work around to show the correct CDN link
             string correctString = q.DirectLink.Replace("http://pic.cm/i/", "http://i.pic.cm/");
-            this.Icon=Properties.Resources.newfavicon1;
-            this.Text=q.LocalName+" - Photo viewer";
+            this.Icon = Resources.Resource.default_large;
+            this.Text = q.LocalName + " - Photo viewer";
             textBox1.Text = correctString;
-			textBox2.Text=q.ShortUrl;
-			textBox3.Text=q.Viewer;
+            textBox2.Text = q.ShortUrl;
+            textBox3.Text = q.Viewer;
             textBox4.Text = "<img src=\"" + correctString + "\" alt=\"" + q.ServerName + "\" border=\"0\" />";
             textBox5.Text = "[img]" + correctString + "[/img]";
-			textBox8.Text=q.Miniatura;
-			textBox7.Text="<a href=\""+q.ShortUrl+"\"><img src=\""+q.Miniatura+"\" alt=\""+q.ServerName+"\" border=\"0\" /></a>";
-			textBox6.Text="[url="+q.ShortUrl+"][img]"+q.Miniatura+"[/img][/url]";
-			label2.Text="Local name: "+q.LocalName;
-			label3.Text="Server name: "+q.ServerName;
+            textBox8.Text = q.Miniatura;
+            textBox7.Text = "<a href=\"" + q.ShortUrl + "\"><img src=\"" + q.Miniatura + "\" alt=\"" + q.ServerName + "\" border=\"0\" /></a>";
+            textBox6.Text = "[url=" + q.ShortUrl + "][img]" + q.Miniatura + "[/img][/url]";
+            label2.Text = "Local name: " + q.LocalName;
+            label3.Text = "Server name: " + q.ServerName;
         }
 
         private void groupBox1_Enter (object sender, EventArgs e)
