@@ -18,7 +18,7 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <NoStdLib>False</NoStdLib>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <PublishUrl>C:\Users\Patrick\Desktop\New folder %283%29\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
@@ -37,6 +37,11 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <SignAssembly>False</SignAssembly>
+    <DelaySign>False</DelaySign>
+    <NoWin32Manifest>False</NoWin32Manifest>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -51,9 +56,9 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugType>PdbOnly</DebugType>
-    <Optimize>true</Optimize>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -64,10 +69,12 @@
     <StartupObject>Universal_Chevereto_Uploadr.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>icon_fw.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\Icons\default_large.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+    <StartAction>Project</StartAction>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
     <RegisterForComInterop>False</RegisterForComInterop>
@@ -83,15 +90,12 @@
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
-  <PropertyGroup>
-    <SignManifests>true</SignManifests>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutomaticUpdater">
-      <HintPath>..\..\..\..\..\Program Files (x86)\wyBuild\AutomaticUpdater\Microsoft .NET 4.0\AutomaticUpdater.dll</HintPath>
+      <HintPath>Resources\3rdParty\AutomaticUpdater.dll</HintPath>
     </Reference>
     <Reference Include="NDde">
-      <HintPath>dll\NDDE\NDde.dll</HintPath>
+      <HintPath>Resources\3rdParty\NDde.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -203,16 +207,6 @@
     <EmbeddedResource Include="History\PhotoViewer.resx">
       <DependentUpon>PhotoViewer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -223,8 +217,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\Icons\default.ico" />
+    <None Include="Resources\Icons\favicon.ico" />
+    <None Include="Resources\Icons\default.png" />
+    <None Include="Resources\Icons\uploading.ico" />
+    <None Include="Resources\Media\jingle.wav" />
+    <None Include="Resources\NDde.dll" />
     <None Include="Resources\sets" />
-    <None Include="Universal Chevereto Uploadr_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -244,22 +243,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="dll\NDDE\NDde.dll" />
-    <None Include="Resources\newfavicon.ico" />
-    <None Include="Resources\newupload.ico" />
-    <Content Include="icon_fw.ico" />
-    <Content Include="newfavicon.ico" />
-    <None Include="Resources\jingle.wav" />
-    <None Include="Resources\icon.fw.png" />
-    <None Include="Resources\newfavicon1.ico" />
-    <Content Include="Universal Chevereto Uploadr.cd" />
-    <None Include="dll\Upload.png" />
-    <None Include="dll\favicon.ico" />
-    <None Include="dll\uploadicon.ico" />
-    <Content Include="favicon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="bin\Debug\" />
+    <Folder Include="Resources\Icons" />
+    <Folder Include="Resources\Media" />
   </ItemGroup>
   <ItemGroup>
     <PublishFile Include="Universal Chevereto Uploadr.cd">
