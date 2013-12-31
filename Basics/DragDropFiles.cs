@@ -153,7 +153,7 @@ namespace Piccm_Uploader
         {
             if (File.Exists (s)==false) 
             {
-                Debug.WriteLine ("File "+s+" does not exist");
+                Debug.WriteLine("File " + s + " does not exist");
                 return false;
             }
             FileInfo fi=new FileInfo (s);
@@ -172,7 +172,7 @@ namespace Piccm_Uploader
                 else if (img.RawFormat.Equals (ImageFormat.Gif)) {}
                 else 
                 {
-                    Debug.WriteLine ("Image "+s+" - not recognised the image format");
+                    Debug.WriteLine("Image " + s + " - not recognised the image format");
                     return false;
                 }
                 return true;

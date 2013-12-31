@@ -107,7 +107,7 @@ namespace Piccm_Uploader.Misc
             Image ii = (Image)bmp;
             Graphics gf = Graphics.FromImage(ii);
             IntPtr hdc = gf.GetHdc();
-            BitBlt(hdcDest, 0, 0, wid, hei, (int)hdc, 0, 0, 0x00FF0062); //use whiteness flag to make destination screen white
+            BitBlt(hdcDest, x, y, wid, hei, (int)hdc, 0, 0, 0x00FF0062); //use whiteness flag to make destination screen white
             gf.Dispose();
             ii.Dispose();
             bmp.Dispose();

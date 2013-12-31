@@ -35,6 +35,14 @@ namespace Piccm_Uploader
         [STAThread]
         static void Main ()
         {
+
+            var screens = Screen.AllScreens;
+            foreach (var screen in screens)
+            {
+                Console.WriteLine(screen.DeviceName + ") X: " + screen.Bounds.X + ", Y: " + screen.Bounds.Y);
+                Console.WriteLine(screen.DeviceName + ") Width: " + screen.Bounds.Width + ", Height: " + screen.Bounds.Height);
+            }
+
             Application.EnableVisualStyles ();
             Application.SetCompatibleTextRenderingDefault (false);
             //here we read app's settings, configuration (api key, url) and history
@@ -58,7 +66,7 @@ namespace Piccm_Uploader
             //initializing the formless notify icon and its menu
             checker=new Checker ();
             ReadHotkeysConfig();
-            Application.Run ();
+            Application.Run();
         }
 
         public static void ReadHistory ()

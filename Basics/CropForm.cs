@@ -14,8 +14,8 @@ namespace Piccm_Uploader.Basics
 {
     public partial class CropForm : Form
     {
-        int xMouse = 0, yMouse = 0, newX=0, newY=0, mousedown = 0, penwidth = 3;
-        int screennumber=0; // parameter to save its screen number for easy reference later
+        int xMouse = 0, yMouse = 0, newX = 0, newY = 0, mousedown = 0, penwidth = 3, x = 0, y = 0;
+        int screennumber = 0; // parameter to save its screen number for easy reference later
         int grabmode = 0;
         MainClass mainClass;
 
@@ -28,16 +28,21 @@ namespace Piccm_Uploader.Basics
             public IntPtr hbmColor;
         }
 
-        public CropForm(MainClass mainClass, string cursor_text, int a, int b, int c, int d, int scn)
+        public CropForm(MainClass mainClass, string cursor_text, int xstart, int ystart, int xwidth, int ywidth, int scn)
         {  //(Parent Form2, string for cursor , X bound, Y bound, Width, Height, Screen number)
             this.mainClass = mainClass;
-            InitializeComponent(cursor_text, a, b, c, d, scn);
-            //InitializeComponent();
+            x = xstart;
+            y = ystart;
+            InitializeComponent(cursor_text, xstart, ystart, xwidth, ywidth, scn);
         }
 
         private void InitializeComponent(string cursor_text, int xstart, int ystart, int xwidth, int ywidth, int scn)
         {
             screennumber = scn;
+
+#if DEBUG
+            Console.WriteLine("Initialize Component:\nStart X:" + xstart + ", Start Y: " + ystart + "\nWidth:" + xwidth + ", end Y: " + ywidth);
+#endif
             //Parent = par;
 
             // Set Mouse cursor based on screen grab or Area Grab
@@ -46,11 +51,11 @@ namespace Piccm_Uploader.Basics
                 Bitmap bitmap = new Bitmap(230, 25);
                 Graphics g = Graphics.FromImage(bitmap);
                 using (Font f = new Font("Arial", 15))
-                g.DrawString(cursor_text, f, Brushes.Red, 0, 0);
+                    g.DrawString(cursor_text, f, Brushes.Red, xstart, ystart);
                 Pen pen = new Pen(Color.Red);
-                g.DrawRectangle(pen, 0, 0, bitmap.Width - 1, bitmap.Height - 1);
+                g.DrawRectangle(pen, xstart, ystart, bitmap.Width, bitmap.Height);
                 pen.Dispose();
-                this.Cursor = CreateCursor(bitmap, 0, 0);
+                this.Cursor = CreateCursor(bitmap, xstart, ystart);
                 bitmap.Dispose();
                 grabmode = 0;  //parameter to show if area grab mode or not; 0 is full screen grab
             }
@@ -81,13 +86,14 @@ namespace Piccm_Uploader.Basics
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnMouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnMouseMove);
             this.ResumeLayout(false);
-           
+
         }
-       
+
         private void OnMouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             //if full screen capture is ON, just detect any click and return
-            if (grabmode == 0) { //Call parent funstion to close child window and grab screen
+            if (grabmode == 0)
+            { //Call parent funstion to close child window and grab screen
                 mainClass.Grabwholescreen(screennumber); return;
             }
 
@@ -118,39 +124,39 @@ namespace Piccm_Uploader.Basics
                 default:
                     break;
             }
-            
+
         }
-        
+
         private void OnMouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
         {
 
             if (mousedown == 0) return; //check if the left button is pressed, if not return
-          //  this.Cursor = new Cursor(Cursor.Current.Handle);
-       //     Cursor.Clip = new Rectangle(this.Location, this.ClientSize);  //limit cursor to this screen
+            //this.Cursor = new Cursor(Cursor.Current.Handle);
+            //Cursor.Clip = new Rectangle(this.Location, this.ClientSize);  //limit cursor to this screen
 
-               Graphics gfx = CreateGraphics();
-           
-                 Pen erasePen = new Pen(Color.White);
-                 erasePen.Width = penwidth;
-         
-                 gfx.DrawLine(erasePen, xMouse, yMouse, xMouse, newY); //remove the old rectangle
-                 gfx.DrawLine(erasePen, xMouse, yMouse, newX, yMouse);
-                 gfx.DrawLine(erasePen, newX, newY, newX, yMouse);
-                 gfx.DrawLine(erasePen, newX, newY, xMouse, newY);
-          
-                Pen linePen = new Pen(Color.Black);
-                linePen.Width = penwidth;
-                newX = e.X;
-                newY = e.Y;
-          
-               gfx.DrawLine(linePen, xMouse, yMouse, xMouse, newY); //draw new rectangle on the Form
-               gfx.DrawLine(linePen, xMouse, yMouse, newX, yMouse);
-               gfx.DrawLine(linePen, newX, newY, newX, yMouse);
-               gfx.DrawLine(linePen, newX, newY, xMouse, newY);
+            Graphics gfx = CreateGraphics();
 
-               erasePen.Dispose();
-               linePen.Dispose();
-               gfx.Dispose();
+            Pen erasePen = new Pen(Color.White);
+            erasePen.Width = penwidth;
+
+            gfx.DrawLine(erasePen, xMouse, yMouse, xMouse, newY); //remove the old rectangle
+            gfx.DrawLine(erasePen, xMouse, yMouse, newX, yMouse);
+            gfx.DrawLine(erasePen, newX, newY, newX, yMouse);
+            gfx.DrawLine(erasePen, newX, newY, xMouse, newY);
+
+            Pen linePen = new Pen(Color.Black);
+            linePen.Width = penwidth;
+            newX = e.X;
+            newY = e.Y;
+
+            gfx.DrawLine(linePen, xMouse, yMouse, xMouse, newY); //draw new rectangle on the Form
+            gfx.DrawLine(linePen, xMouse, yMouse, newX, yMouse);
+            gfx.DrawLine(linePen, newX, newY, newX, yMouse);
+            gfx.DrawLine(linePen, newX, newY, xMouse, newY);
+
+            erasePen.Dispose();
+            linePen.Dispose();
+            gfx.Dispose();
 
         }
 
@@ -160,18 +166,15 @@ namespace Piccm_Uploader.Basics
             {
                 case MouseButtons.Left:
                     mousedown = 0;
-                    //call the parent function to close child windows and grab screen
-                    mainClass.Smallscreengrab(screennumber, xMouse, yMouse, newX, newY); 
+                    mainClass.Smallscreengrab(screennumber, xMouse + x, yMouse + y, newX + x, newY + y);
                     break;
-
-                case MouseButtons.None:
                 default:
-                break;
+                    break;
             }
 
         }
 
-        
+
 
         #region Make cursor from bitmap: Use CreateCursor
         [DllImport("user32.dll")]

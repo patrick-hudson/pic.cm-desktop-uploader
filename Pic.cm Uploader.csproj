@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{0812FDC2-72D4-427F-8161-C5D168DFF92C}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Piccm_Uploader</RootNamespace>
     <AssemblyName>Pic.cm Desktop Uploader</AssemblyName>
@@ -21,7 +21,6 @@
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <SignAssembly>False</SignAssembly>
     <DelaySign>False</DelaySign>
-    <NoWin32Manifest>False</NoWin32Manifest>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <RunCodeAnalysis>False</RunCodeAnalysis>
     <PublishUrl>C:\Users\Patrick\Desktop\New folder %283%29\</PublishUrl>
@@ -89,6 +88,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutomaticUpdater">
