@@ -23,6 +23,7 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Reflection;
+using Piccm_Uploader.Core;
 using Piccm_Uploader.Misc;
 using Piccm_Uploader.Basics;
 
@@ -72,87 +73,6 @@ namespace Piccm_Uploader
             t.Start();
         }
 
-        public void uploadFilesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //upload files from local disk
-            Program.checker.CancelTheUpload();
-            ResetArrays();
-            OpenFileDialog ofn = new OpenFileDialog();
-            ofn.Filter = "Images (*.jpg, *.png, *.bmp, *.gif)|*.jpg; *.png; *.bmp; *.gif";
-            ofn.Multiselect = true;
-            if (ofn.ShowDialog() == DialogResult.OK)
-            {
-                int invalids = 0;
-                foreach (string s in ofn.FileNames)
-                {
-                    if (CheckForValidFile(s))
-                    {
-                        if (CheckForValidImage(s))
-                        {
-                            Program.FilesToUpload.Add(s);
-                            continue;
-                        }
-                    }
-                    invalids++;
-                }
-                if (invalids < ofn.FileNames.Length)
-                {
-                    if (invalids > 0) MessageBox.Show("Some files are invalid");
-                    RunUploader();
-                }
-                else
-                {
-                    Program.checker.BuildContextMenu();
-                    if (invalids == 1) MessageBox.Show("Invalid file.");
-                    else if (invalids > 1) MessageBox.Show("All files are invalid.");
-                }
-            }
-            else Program.checker.BuildContextMenu();
-        }
-
-        public void RunUploader()
-        {
-            //upload
-            Uploadr.StartUpload();
-        }
-
-        public bool CheckForValidImage(string s)
-        {
-            //check if the file contains an image
-            try
-            {
-                Image img = Image.FromFile(s);
-                if (img.RawFormat.Equals(ImageFormat.Jpeg)) { }
-                else if (img.RawFormat.Equals(ImageFormat.Png)) { }
-                else if (img.RawFormat.Equals(ImageFormat.Bmp)) { }
-                else if (img.RawFormat.Equals(ImageFormat.Gif)) { }
-                else
-                {
-                    Debug.WriteLine("Image " + s + " - not recognised the image format");
-                    return false;
-                }
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        public bool CheckForValidFile(string s)
-        {
-            //checking if the file really is a file
-            //and checking if the file is not too big in size
-            if (File.Exists(s) == false)
-            {
-                Debug.WriteLine("File " + s + " does not exist");
-                return false;
-            }
-            FileInfo fi = new FileInfo(s);
-            if (fi.Length > 6.291e+6) return false;
-            return true;
-        }
-
         public void uploadFromClipboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //upload from clipboard - upload if the clipboard contains the PATH to a file or a bitmap
@@ -162,9 +82,9 @@ namespace Piccm_Uploader
             if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Text))
             {
                 string s = Clipboard.GetText(TextDataFormat.Text);
-                if (CheckForValidFile(s))
+                if (Validity.CheckFile(s))
                 {
-                    if (CheckForValidImage(s))
+                    if (Validity.CheckImage(s))
                     {
                         //if there is a path to an image file
                         Program.FilesToUpload.Add(s);

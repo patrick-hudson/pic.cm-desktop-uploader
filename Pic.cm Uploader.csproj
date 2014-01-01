@@ -161,6 +161,8 @@
     <Compile Include="Basics\UrlUpload.Designer.cs">
       <DependentUpon>UrlUpload.cs</DependentUpon>
     </Compile>
+    <Compile Include="Core\ToolStripHandlers.cs" />
+    <Compile Include="Core\Validity.cs" />
     <Compile Include="History\History.cs">
       <SubType>Form</SubType>
     </Compile>
