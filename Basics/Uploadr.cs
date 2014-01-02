@@ -78,7 +78,7 @@ namespace Piccm_Uploader
                         foreach (var v in Program.History) if (v.FromLastUpload) txt += v.DirectLink;
                         // correction string workaround for CDN access
                         string correctString = txt.Replace("http://pic.cm/i/", "http://i.pic.cm/");
-                        //Clipboard.SetText(correctString);
+                        Clipboard.SetText(correctString);
                         dlink = correctString;
                         if (Sets.Sound)
                         {
