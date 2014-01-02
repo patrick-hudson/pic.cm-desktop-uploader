@@ -9,7 +9,7 @@
 * You should have received a copy of the GNU General Public License along with Pic.cm Uploader If not, see http://www.gnu.org/licenses/.
 */
 
-namespace Piccm_Uploader
+namespace Piccm_Uploader.Windows
 {
     partial class AboutBox
     {

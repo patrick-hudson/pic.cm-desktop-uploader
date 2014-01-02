@@ -16,6 +16,8 @@ using System.Windows.Forms;
 using System.Media;
 using System.Threading;
 
+using Piccm_Uploader.Core;
+
 namespace Piccm_Uploader
 {
     //this class is probably the most important class of all program,
@@ -53,13 +55,8 @@ namespace Piccm_Uploader
                 }
                 //notify the user
                 Program.MainClassInstance.resetScreen();
-                Program.checker.notify.BalloonTipTitle = "Upload completed!";
-                Program.checker.notify.BalloonTipText = "Click here to view your image.";
-                Program.checker.notify.BalloonTipIcon = ToolTipIcon.Info;
-                Program.checker.notify.ShowBalloonTip(1000);
-                Program.checker.BuildContextMenu();
-                Program.checker.CancelTheUpload();
-                Program.checker.resetIcon();
+                Notifications.NotifyUser("Upload Complete!", "Click here to view your image", 1000, ToolTipIcon.Info, dlink);
+                Core.Notifications.ResetIcon();
             });
             t.Start();
 
@@ -67,7 +64,6 @@ namespace Piccm_Uploader
             if (Sets.CopyAfterUpload)
             {
                 //call Balloon Clicked event to open link in default browser
-                Program.checker.notify.BalloonTipClicked += notifyIcon;
                 te = new System.Windows.Forms.Timer();
                 te.Interval = 100;
                 te.Tick += delegate
@@ -83,28 +79,22 @@ namespace Piccm_Uploader
                         dlink = correctString;
                         if (Sets.Sound)
                         {
-                            (new SoundPlayer(Resources.Resource.jingle)).PlaySync();
+                            Notifications.NotifySound(References.Sound.SOUND_JINGLE);
+                            Console.WriteLine("Calling Sound");
                         }
-
                     }
                 };
                 te.Start();
             }
         }
-        private static void notifyIcon(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start(dlink);
-        }
+
         private static void VerifyNetworkConnection()
         {
             //verify...
-            Program.checker.notify.BalloonTipTitle = "Uploading files...";
-            Program.checker.notify.BalloonTipText = " ";
-            Program.checker.notify.BalloonTipIcon = ToolTipIcon.Info;
-            Program.checker.notify.ShowBalloonTip(1000);
+            Notifications.SetIcon(References.Icon.ICON_UPLOAD);
+            Notifications.NotifyUser("Uploading File!", " ", 1000, ToolTipIcon.Info);
             if (Request.Verify("http://www.google.com/") == false)
             {
-                Program.checker.BuildContextMenu();
                 MessageBox.Show("Unable to connect to the internet. Verify network connection.");
                 Program.ApplicationRestart();
             }
@@ -125,6 +115,8 @@ namespace Piccm_Uploader
         private static void Upload(byte[] array)
         {
             //upload byte array
+
+
             string response = Request.Post(Program.Url, "key=" + Program.Key, "null", array);
             if (response == "{Retry}") Upload(array);
             else if (response == "{Ignore}") { return; }
@@ -148,7 +140,6 @@ namespace Piccm_Uploader
             if (Convert.ToInt32(pe[1]) != 200)
             {
                 //something's wrong
-                Program.checker.BuildContextMenu();
                 DialogResult dr = MessageBox.Show("Error data: " + response, "Error", MessageBoxButtons.AbortRetryIgnore);
                 if (dr == DialogResult.Abort)
                 {

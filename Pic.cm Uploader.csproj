@@ -124,10 +124,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Basics\AboutBox.cs">
+    <Compile Include="Core\Notifications.cs" />
+    <Compile Include="Core\References.cs" />
+    <Compile Include="Windows\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Basics\AboutBox.Designer.cs">
+    <Compile Include="Windows\AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Basics\CropArea.cs">
@@ -155,10 +157,10 @@
       <DependentUpon>DragDropFiles.cs</DependentUpon>
     </Compile>
     <Compile Include="Basics\MainClass.cs" />
-    <Compile Include="Basics\Settings.cs">
+    <Compile Include="Windows\Settings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Basics\Settings.Designer.cs">
+    <Compile Include="Windows\Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
     <Compile Include="Basics\Uploadr.cs" />
@@ -172,16 +174,16 @@
     <Compile Include="Core\ToolStripHandlers.cs" />
     <Compile Include="Core\Upload.cs" />
     <Compile Include="Core\Validity.cs" />
-    <Compile Include="History\History.cs">
+    <Compile Include="Windows\History.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="History\History.Designer.cs">
+    <Compile Include="Windows\History.Designer.cs">
       <DependentUpon>History.cs</DependentUpon>
     </Compile>
-    <Compile Include="History\PhotoViewer.cs">
+    <Compile Include="Windows\PhotoViewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="History\PhotoViewer.Designer.cs">
+    <Compile Include="Windows\PhotoViewer.Designer.cs">
       <DependentUpon>PhotoViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="Misc\Checker.cs" />
@@ -198,7 +200,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Basics\AboutBox.resx">
+    <EmbeddedResource Include="Windows\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Basics\CropArea.resx">
@@ -213,16 +215,16 @@
     <EmbeddedResource Include="Basics\DragDropFiles.resx">
       <DependentUpon>DragDropFiles.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Basics\Settings.resx">
+    <EmbeddedResource Include="Windows\Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Basics\UrlUpload.resx">
       <DependentUpon>UrlUpload.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="History\History.resx">
+    <EmbeddedResource Include="Windows\History.resx">
       <DependentUpon>History.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="History\PhotoViewer.resx">
+    <EmbeddedResource Include="Windows\PhotoViewer.resx">
       <DependentUpon>PhotoViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Resource.resx">
@@ -264,7 +266,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="History\" />
+  </ItemGroup>
   <ItemGroup>
     <PublishFile Include="Universal Chevereto Uploadr.cd">
       <Visible>False</Visible>

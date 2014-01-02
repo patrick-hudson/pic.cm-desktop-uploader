@@ -201,7 +201,7 @@ namespace Piccm_Uploader.Basics
             if (keyData == Keys.Escape)
             {
                 Program.checker.CancelTheUpload();
-                Program.checker.BuildContextMenu();
+                Core.Notifications.ResetIcon();
                 mainClass.resetScreen();
                 this.Close();
                 return true;

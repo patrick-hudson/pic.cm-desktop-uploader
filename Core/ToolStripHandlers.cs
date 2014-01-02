@@ -10,7 +10,7 @@ namespace Piccm_Uploader.Core
 {
     class ToolStripHandlers
     {
-        public static void UploadFile(object sender, EventArgs e)
+        internal static void UploadFile(object sender, EventArgs e)
         {
             // Clear the upload queue
             Program.FilesToUpload.Clear();
@@ -44,11 +44,9 @@ namespace Piccm_Uploader.Core
                 }
                 Uploadr.StartUpload();
             }
-            else
-                Program.checker.BuildContextMenu();
         }
 
-        public static void UploadClipboard(object sender, EventArgs e)
+        internal static void UploadClipboard(object sender, EventArgs e)
         {
             Program.FilesToUpload.Clear();
 
@@ -70,18 +68,77 @@ namespace Piccm_Uploader.Core
                 }
                 else
                 {
-                    Program.checker.BuildContextMenu();
                     MessageBox.Show("Invaild file specified");
                 }
             }
             else if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Bitmap)) // If the data in the clipboard is a bitmap
             {
+
+                /*
+                 * TODO Pass Bitmap over to Core.Upload(bitmap);
+                 */
+
                 Bitmap b = new Bitmap(Clipboard.GetImage()); // Copy the data from the clipboard, and store locally.
                 MemoryStream ms = new MemoryStream(); // Open up a memory stream to save the image too, saves writing temp files
                 b.Save(ms, ImageFormat.Png); // Convert the image to PNG using the memory stream as output
                 Uploadr.StartUpload(ms.ToArray()); // Upload from memory stream
                 ms.Close(); // And then flush the memory stream.
             }
+        }
+
+        internal static void ShowHistory(object sender, EventArgs e)
+        {
+            Windows.History history = new Windows.History(true);
+            history.Show();
+        }
+
+        internal static void ShowSettings(object sender, EventArgs e)
+        {
+            Windows.Settings settings = new Windows.Settings();
+            settings.Show();
+        }
+
+        internal static void CheckForUpdate(object sender, EventArgs e)
+        {
+            Windows.Settings settings = new Windows.Settings();
+            settings.checkForUpdates();
+            settings.Close();
+        }
+
+        internal static void ShowAbout(object sender, EventArgs e)
+        {
+            new Windows.AboutBox().Show();
+        }
+
+        internal static void Close(object sender, EventArgs e)
+        {
+            new Windows.AboutBox().Show();
+        }
+
+        internal static void UploadDesktop(object sender, EventArgs e)
+        {
+            MainClass.DesktopScreenShot();
+        }
+
+        internal static void UploadArea(object sender, EventArgs e)
+        {
+            MainClass.CropScreenshot();
+        }
+
+        internal static void DragDrop(object sender, EventArgs e)
+        {
+            Program.checker.CancelTheUpload();
+            Program.FilesToUpload.Clear();
+
+            DragDropFiles ddf = new DragDropFiles();
+            if (ddf.ShowDialog() == DialogResult.OK)
+                Uploadr.StartUpload();
+        }
+
+        internal static void UploadUrl(object sender, EventArgs e)
+        {
+            UrlUpload uu = new UrlUpload();
+            uu.Show();
         }
     }
 }

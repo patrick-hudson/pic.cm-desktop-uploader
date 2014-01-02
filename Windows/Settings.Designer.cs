@@ -9,7 +9,7 @@
 * You should have received a copy of the GNU General Public License along with Pic.cm Uploader If not, see http://www.gnu.org/licenses/.
 */
 
-namespace Piccm_Uploader
+namespace Piccm_Uploader.Windows
 {
     partial class Settings
     {
@@ -47,7 +47,7 @@ namespace Piccm_Uploader
             this.label1 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.button2 = new System.Windows.Forms.Button();
+            this.buttonCheckForUpdates = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
@@ -135,7 +135,7 @@ namespace Piccm_Uploader
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage1.Controls.Add(this.button2);
+            this.tabPage1.Controls.Add(this.buttonCheckForUpdates);
             this.tabPage1.Controls.Add(this.button1);
             this.tabPage1.Controls.Add(this.checkBox4);
             this.tabPage1.Controls.Add(this.checkBox3);
@@ -149,15 +149,15 @@ namespace Piccm_Uploader
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "General";
             // 
-            // button2
+            // buttonCheckForUpdates
             // 
-            this.button2.Location = new System.Drawing.Point(3, 168);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(116, 25);
-            this.button2.TabIndex = 10;
-            this.button2.Text = "Check for updates";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.buttonCheckForUpdates.Location = new System.Drawing.Point(3, 168);
+            this.buttonCheckForUpdates.Name = "buttonCheckForUpdates";
+            this.buttonCheckForUpdates.Size = new System.Drawing.Size(116, 25);
+            this.buttonCheckForUpdates.TabIndex = 10;
+            this.buttonCheckForUpdates.Text = "Check for updates";
+            this.buttonCheckForUpdates.UseVisualStyleBackColor = true;
+            this.buttonCheckForUpdates.Click += new System.EventHandler(this.ButtonCheckForUpdate_Click);
             // 
             // button1
             // 
@@ -369,6 +369,6 @@ namespace Piccm_Uploader
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox checkBox4;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button buttonCheckForUpdates;
     }
 }
