@@ -53,8 +53,6 @@ namespace Piccm_Uploader
 
             contextmenu.MenuItems.Add(new MenuItem("Exit", new EventHandler(Menu_OnExit)));
             notify.Icon = Resources.Resource.default_small;
-            contextmenu.MenuItems.Add(new MenuItem("Exit", new EventHandler(Menu_OnExit)));
-            notify.Icon = Resources.Resource.default_small;
         }
 
         public void CancelTheUpload()
@@ -84,7 +82,6 @@ namespace Piccm_Uploader
             //here is the constructor of the class
             BuildContextMenu();
             //initialize the notify icon
-            notify = new NotifyIcon();
             notify.Text = "Pic.cm";
             notify.ContextMenu = contextmenu;
             notify.Icon = Resources.Resource.default_small;

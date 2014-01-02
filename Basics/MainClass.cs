@@ -276,40 +276,6 @@ namespace Piccm_Uploader
             }
             cropForm = new CropForm(this, string.Empty, xmin, ymin, xmax, ymax, 0);
             cropForm.Show();
-
-            //CropArea ca = new CropArea();
-            //if (ca.ShowDialog() == DialogResult.OK)
-            //{
-            //    //screenshot
-            //    Bitmap b = Screenshot();
-            //    string filepath = "";
-            //    if (Sets.SaveScreenshots)
-            //    {
-            //        if (Directory.Exists(".\\Screenshots") == false) Directory.CreateDirectory(".\\Screenshots");
-            //        filepath = ".\\Screenshots\\Cropped Screenshot " + DateTime.Now.Day.ToString() + "." + DateTime.Now.Month + "." +
-            //        DateTime.Now.Year + "." + DateTime.Now.Hour + "." + DateTime.Now.Minute + "." + DateTime.Now.Second;
-            //        for (int x = 0; File.Exists(filepath); x++) filepath += x.ToString();
-            //        filepath += ".png";
-            //    }
-            //    //crop it
-            //    Rectangle z = ca.Output;
-            //    Bitmap Output = new Bitmap(z.Width, z.Height);
-            //    Graphics g = Graphics.FromImage(Output);
-            //    g.DrawImage(b, new Rectangle(0, 0, Output.Width, Output.Height), ca.Output, GraphicsUnit.Pixel);
-            //    //and upload it
-            //    if (Sets.SaveScreenshots)
-            //    {
-            //        Output.Save(filepath);
-            //        Program.FilesToUpload.Add(filepath);
-            //        RunUploader();
-            //    }
-            //    else
-            //    {
-            //        MemoryStream ms = new MemoryStream();
-            //        Output.Save(ms, ImageFormat.Png);
-            //        Uploadr.StartUpload(ms.ToArray());
-            //    }
-            //}
         }
 
         public Bitmap Screenshot()
