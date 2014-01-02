@@ -21,7 +21,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.Media;
 
-namespace Piccm_Uploader
+namespace Piccm_Uploader.Windows
 {
     public partial class PhotoViewer : Form
     {

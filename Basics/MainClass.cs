@@ -30,7 +30,7 @@ using Piccm_Uploader.Basics;
 namespace Piccm_Uploader
 {
     //the main class of the program, containing on-click events to context menu's items
-    public partial class MainClass
+    public class MainClass
     {
 
         //some interop used for screenshooting a active window
@@ -43,34 +43,34 @@ namespace Piccm_Uploader
         private static extern bool GetWindowRect(HandleRef hWnd, out RECT lpRect);
         public IntPtr[] Wins;
 
-        private CropForm[] cropForms;
-        public CropForm cropForm;
+        private static CropForm[] cropForms;
+        public static CropForm cropForm;
         public int capd = 0;
 
         public MainClass()
         {
-            var t = new System.Windows.Forms.Timer();
-            t.Interval = 100;
-            t.Tick += delegate
-            {
-                //@ every 100 ms, get the active window
-                IntPtr i = GetForegroundWindow();
-                if (i == IntPtr.Zero) return;
-                if (i != Wins[0])
-                {
-                    //I memorize 3 windows because:
-                    //Wins[2] is the "active" window, the window i want to screenshot, which
-                    //is no more so active, because, by selecting the notif icon and choosing
-                    //an item from the menu, I activate the Windows Desktop window then the
-                    //"virtual" window containing the context menu
-                    Wins[2] = Wins[1];
-                    //Wins[1] is this app's window
-                    Wins[1] = Wins[0];
-                    //Wins[0] is the Destop window
-                    Wins[0] = i;
-                }
-            };
-            t.Start();
+            //var t = new System.Windows.Forms.Timer();
+            //t.Interval = 100;
+            //t.Tick += delegate
+            //{
+            //    //@ every 100 ms, get the active window
+            //    IntPtr i = GetForegroundWindow();
+            //    if (i == IntPtr.Zero) return;
+            //    if (i != Wins[0])
+            //    {
+            //        //I memorize 3 windows because:
+            //        //Wins[2] is the "active" window, the window i want to screenshot, which
+            //        //is no more so active, because, by selecting the notif icon and choosing
+            //        //an item from the menu, I activate the Windows Desktop window then the
+            //        //"virtual" window containing the context menu
+            //        Wins[2] = Wins[1];
+            //        //Wins[1] is this app's window
+            //        Wins[1] = Wins[0];
+            //        //Wins[0] is the Destop window
+            //        Wins[0] = i;
+            //    }
+            //};
+            //t.Start();
         }
 
         public void uploadFromClipboardToolStripMenuItem_Click(object sender, EventArgs e)
@@ -94,14 +94,12 @@ namespace Piccm_Uploader
                     else
                     {
                         //if there is a path, but not to an image file
-                        Program.checker.BuildContextMenu();
                         MessageBox.Show("Invalid image path in url.");
                     }
                 }
                 else
                 {
                     //if there is a text but not a path
-                    Program.checker.BuildContextMenu();
                     MessageBox.Show("Unknown data in clipboard");
                 }
             }
@@ -121,11 +119,6 @@ namespace Piccm_Uploader
             }
         }
 
-        public void uploadDesktopScreenshotToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DesktopScreenShot();
-        }
-
         public void hook_KeyPressed(object sender, KeyPressedEventArgs e)
         {
             if (capd == 0)
@@ -135,11 +128,11 @@ namespace Piccm_Uploader
             }
         }
 
-        private void DesktopScreenShot()
+        public static void DesktopScreenShot()
         {
             //upload a full desktop screenshot
             Program.checker.CancelTheUpload();
-            ResetArrays();
+            Program.FilesToUpload.Clear();
             //screenshot it...
             //Bitmap b = Screenshot();
 
@@ -188,39 +181,6 @@ namespace Piccm_Uploader
             img.Dispose();
         }
 
-        public void uploadedPhotosToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //show hostory
-            Program.checker.ClearMenu();
-            Program.ReadHistory();
-            Program.HistoryForm = new History(true);
-            Program.HistoryForm.ShowDialog();
-        }
-
-        public void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //show about window
-            Program.checker.ClearMenu();
-            new AboutBox().Show();
-        }
-
-        public void optionsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //show settings window
-            Program.checker.ClearMenu();
-            Settings s = new Settings();
-            s.Show();
-        }
-
-        public void updateToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //show settings window
-            Program.checker.ClearMenu();
-            Settings s = new Settings();
-            s.Show();
-            s.checkForUpdates();
-        }
-
         [StructLayout(LayoutKind.Sequential)]
         public struct RECT
         {
@@ -235,11 +195,6 @@ namespace Piccm_Uploader
             Program.FilesToUpload.Clear();
         }
 
-        public void uploadCroppedScreenshotToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CropScreenshot();
-        }
-
         public void CroppedScreenshotHotKeyPressed(object sender, KeyPressedEventArgs e)
         {
             if (capd == 0)
@@ -250,11 +205,11 @@ namespace Piccm_Uploader
 
         }
 
-        private void CropScreenshot()
+        internal static void CropScreenshot()
         {
             //upload a cropped screenshot:
             Program.checker.CancelTheUpload();
-            ResetArrays();
+            Program.FilesToUpload.Clear();
             //open the cropper
 
             cropForms = new CropForm[Screen.AllScreens.Length];
@@ -274,7 +229,7 @@ namespace Piccm_Uploader
                 xmax += screens[i].Bounds.Width;
                 if (ymax < screens[i].Bounds.Height) ymax = screens[i].Bounds.Height;
             }
-            cropForm = new CropForm(this, string.Empty, xmin, ymin, xmax, ymax, 0);
+            cropForm = new CropForm(new MainClass(), string.Empty, xmin, ymin, xmax, ymax, 0);
             cropForm.Show();
         }
 
@@ -286,18 +241,6 @@ namespace Piccm_Uploader
             g.CopyFromScreen(Screen.PrimaryScreen.Bounds.X, Screen.PrimaryScreen.Bounds.Y, 0, 0,
                               Screen.PrimaryScreen.Bounds.Size, CopyPixelOperation.SourceCopy);
             return b;
-        }
-
-        public void dragDropFilesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //opens the drag and drop tool to upload files
-            //useful if ou have to upload photos from different locations
-            // - just drag and drop them from Windows Explorer
-            Program.checker.CancelTheUpload();
-            ResetArrays();
-            DragDropFiles ddf = new DragDropFiles();
-            if (ddf.ShowDialog() == DialogResult.OK)
-                Uploadr.StartUpload();
         }
 
         public void ScreenshotActiveWindow(object sender, EventArgs e)
@@ -344,14 +287,6 @@ namespace Piccm_Uploader
                 Output.Save(ms, ImageFormat.Jpeg);
                 Uploadr.StartUpload(ms.ToArray());
             }
-        }
-
-        public void UrlUpload(object sender, EventArgs e)
-        {
-            //remote upload
-            Program.checker.CancelTheUpload();
-            UrlUpload uu = new UrlUpload();
-            if (uu.ShowDialog() == DialogResult.Cancel) Program.checker.BuildContextMenu();
         }
 
         public void Grabwholescreen(int sc)  // called when ALL screen capture; sc is screen number

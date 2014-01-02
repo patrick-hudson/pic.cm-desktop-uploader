@@ -29,23 +29,25 @@ namespace Piccm_Uploader
         public static List<string> FilesToUpload;
         public static List<UploadedPhoto> History;
         public static string Url, Key;
-        public static History HistoryForm;
         public static MainClass MainClassInstance;
         public static Checker checker;
 
         [STAThread]
         static void Main()
         {
+#if DEBUG
             var screens = Screen.AllScreens;
             foreach (var screen in screens)
             {
                 Console.WriteLine(screen.DeviceName + ") X: " + screen.Bounds.X + ", Y: " + screen.Bounds.Y);
                 Console.WriteLine(screen.DeviceName + ") Width: " + screen.Bounds.Width + ", Height: " + screen.Bounds.Height);
             }
+#endif
 
             Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            //Application.SetCompatibleTextRenderingDefault(false);
             //here we read app's settings, configuration (api key, url) and history
+            Core.Notifications.Initialize();
             Sets.ReadSets();
             ReadConfig();
             ReadHistory();
@@ -69,6 +71,8 @@ namespace Piccm_Uploader
             Application.Run();
         }
 
+        public static NotifyIcon notifyIcon = new NotifyIcon();
+        public static ContextMenuStrip NotifyIconMenu = new ContextMenuStrip();
         public static void ReadHistory()
         {
             /* this function reads the content of history.xml, which contains the links

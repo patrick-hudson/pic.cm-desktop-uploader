@@ -23,99 +23,99 @@ using System.Media;
 using Piccm_Uploader.Misc;
 using System.IO;
 
-namespace Piccm_Uploader
+namespace Piccm_Uploader.Windows
 {
-	//class dealing with app's settings
+    //class dealing with app's settings
     public partial class Settings : Form
     {
         //public static event EventHandler AutomaticUpdaterOnUpdateAvailable;
         public Settings()
         {
 
-                InitializeComponent();
-                this.ShowInTaskbar = true;
-                this.Icon = Resources.Resource.default_large;
-                if (Sets.CopyAfterUpload)
+            InitializeComponent();
+            this.ShowInTaskbar = true;
+            this.Icon = Resources.Resource.default_large;
+            if (Sets.CopyAfterUpload)
+            {
+                checkBox1.Checked = Sets.CopyAfterUpload;
+            }
+            if (Sets.AutoUpdateCheck)
+            {
+                checkBox6.Checked = Sets.AutoUpdateCheck;
+            }
+
+            if (Sets.StartOnStartup)
+            {
+                checkBox2.Checked = Sets.StartOnStartup;
+            }
+            checkBox7.Checked = Sets.ProxyOn;
+            label1.Enabled = Sets.ProxyOn;
+            label2.Enabled = Sets.ProxyOn;
+            textBox1.Enabled = Sets.ProxyOn;
+            numericUpDown1.Enabled = Sets.ProxyOn;
+            textBox1.Text = Sets.ProxyServer;
+            if (Sets.SaveScreenshots)
+            {
+                checkBox3.Checked = Sets.SaveScreenshots;
+            }
+            if (Sets.Sound)
+            {
+                checkBox4.Checked = Sets.Sound;
+            }
+
+            try
+            {
+                numericUpDown1.Value = Convert.ToInt32(Sets.ProxyPort);
+            }
+            catch
+            {
+                numericUpDown1.Value = 0;
+            }
+
+            string hotkeyConfigPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\imageuploader\\hotkeys.ini";
+            if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\imageuploader\\hotkeys.ini"))
+            {
+                Ini i = new Ini(hotkeyConfigPath);
+                var cropped = i.IniRead("hotkey", "cropped");
+                var desktop = i.IniRead("hotkey", "desktop");
+                var window = i.IniRead("hotkey", "window");
+
+                string[] keys = cropped.Split(new char[] { '+' });
+                if (keys != null && keys.Length > 1)
                 {
-                    checkBox1.Checked = Sets.CopyAfterUpload;
+                    var modifierKey = (ModifierKeys)Enum.Parse(typeof(ModifierKeys), keys[0], true);
+                    var key = (Keys)Enum.Parse(typeof(Keys), keys[1], true);
+                    btnCoppedScreenshot.Text = string.Format("{0}+{1}",
+                       modifierKey, key);
                 }
-                if (Sets.AutoUpdateCheck)
-                {
-                    checkBox6.Checked = Sets.AutoUpdateCheck;
-                }    
 
-                if (Sets.StartOnStartup)
+                keys = desktop.Split(new char[] { '+' });
+                if (keys != null && keys.Length > 1)
                 {
-                    checkBox2.Checked = Sets.StartOnStartup;
-                }
-                checkBox7.Checked = Sets.ProxyOn;
-                label1.Enabled = Sets.ProxyOn;
-                label2.Enabled = Sets.ProxyOn;
-                textBox1.Enabled = Sets.ProxyOn;
-                numericUpDown1.Enabled = Sets.ProxyOn;
-                textBox1.Text = Sets.ProxyServer;
-                if (Sets.SaveScreenshots)
-                {
-                    checkBox3.Checked = Sets.SaveScreenshots;
-                }
-                if (Sets.Sound)
-                {
-                    checkBox4.Checked = Sets.Sound;
-                }
-                this.FormClosing += delegate { Program.checker.BuildContextMenu(); };
-                try
-                {
-                    numericUpDown1.Value = Convert.ToInt32(Sets.ProxyPort);
-                }
-                catch
-                {
-                    numericUpDown1.Value = 0;
+                    var modifierKey = (ModifierKeys)Enum.Parse(typeof(ModifierKeys), keys[0], true);
+                    var key = (Keys)Enum.Parse(typeof(Keys), keys[1], true);
+
+                    btnUploadDesktop.Text = string.Format("{0}+{1}",
+                       modifierKey, key);
+
                 }
 
-                string hotkeyConfigPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\imageuploader\\hotkeys.ini";
-                if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\imageuploader\\hotkeys.ini"))
+                keys = window.Split(new char[] { '+' });
+                if (keys != null && keys.Length > 1)
                 {
-                    Ini i = new Ini(hotkeyConfigPath);
-                    var cropped = i.IniRead("hotkey", "cropped");
-                    var desktop = i.IniRead("hotkey", "desktop");
-                    var window = i.IniRead("hotkey", "window");
+                    var modifierKey = (ModifierKeys)Enum.Parse(typeof(ModifierKeys), keys[0], true);
+                    var key = (Keys)Enum.Parse(typeof(Keys), keys[1], true);
 
-                    string[] keys = cropped.Split(new char[] { '+' });
-                    if (keys != null && keys.Length > 1)
-                    {
-                        var modifierKey = (ModifierKeys)Enum.Parse(typeof(ModifierKeys), keys[0], true);
-                        var key = (Keys)Enum.Parse(typeof(Keys), keys[1], true);
-                        btnCoppedScreenshot.Text = string.Format("{0}+{1}",
-                           modifierKey, key);
-                    }
+                    btnUploadWindow.Text = string.Format("{0}+{1}",
+                      modifierKey, key);
 
-                    keys = desktop.Split(new char[] { '+' });
-                    if (keys != null && keys.Length > 1)
-                    {
-                        var modifierKey = (ModifierKeys)Enum.Parse(typeof(ModifierKeys), keys[0], true);
-                        var key = (Keys)Enum.Parse(typeof(Keys), keys[1], true);
-
-                        btnUploadDesktop.Text = string.Format("{0}+{1}",
-                           modifierKey, key);
-
-                    }
-
-                    keys = window.Split(new char[] { '+' });
-                    if (keys != null && keys.Length > 1)
-                    {
-                        var modifierKey = (ModifierKeys)Enum.Parse(typeof(ModifierKeys), keys[0], true);
-                        var key = (Keys)Enum.Parse(typeof(Keys), keys[1], true);
-
-                        btnUploadWindow.Text = string.Format("{0}+{1}",
-                          modifierKey, key);
-
-                    }
                 }
             }
+        }
         //event handler for auto updating
         private void AutomaticUpdaterOnUpdateAvailable(object sender, EventArgs eventArgs)
         {
-           
+
             DialogResult dialogResult = MessageBox.Show("New Update! Would you like to install now?", "Update?", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
@@ -124,7 +124,7 @@ namespace Piccm_Uploader
         }
         private void checkBox6_CheckedChanged(object sender, EventArgs e)
         {
-            Sets.AutoUpdateCheck=checkBox6.Checked;
+            Sets.AutoUpdateCheck = checkBox6.Checked;
             if (checkBox6.Checked)
             {
 
@@ -133,22 +133,22 @@ namespace Piccm_Uploader
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            Sets.CopyAfterUpload=checkBox1.Checked;
+            Sets.CopyAfterUpload = checkBox1.Checked;
         }
 
-        private void checkBox2_CheckedChanged (object sender, EventArgs e)
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
-        	//run @ startup
-            Sets.StartOnStartup=checkBox2.Checked;
-            RegistryKey rk=Registry.CurrentUser.OpenSubKey ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            //run @ startup
+            Sets.StartOnStartup = checkBox2.Checked;
+            RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
             try
             {
-                if (Sets.StartOnStartup) rk.SetValue ("Pic.cm Desktop Uploader", Application.ExecutablePath.ToString ());
+                if (Sets.StartOnStartup) rk.SetValue("Pic.cm Desktop Uploader", Application.ExecutablePath.ToString());
                 else rk.DeleteValue("Pic.cm Desktop Uploader", true);
             }
-            catch 
+            catch
             {
-                MessageBox.Show ("Unexpected error."); 
+                MessageBox.Show("Unexpected error.");
             }
         }
 
@@ -161,21 +161,21 @@ namespace Piccm_Uploader
         }
         private void checkBox7_CheckedChanged(object sender, EventArgs e)
         {
-            Sets.ProxyOn=checkBox7.Checked;
-            label1.Enabled=Sets.ProxyOn;
-            label2.Enabled=Sets.ProxyOn;
-            textBox1.Enabled=Sets.ProxyOn;
-            numericUpDown1.Enabled=Sets.ProxyOn;
+            Sets.ProxyOn = checkBox7.Checked;
+            label1.Enabled = Sets.ProxyOn;
+            label2.Enabled = Sets.ProxyOn;
+            textBox1.Enabled = Sets.ProxyOn;
+            numericUpDown1.Enabled = Sets.ProxyOn;
         }
 
-        private void textBox1_TextChanged (object sender, EventArgs e)
+        private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            Sets.ProxyServer=textBox1.Text;
+            Sets.ProxyServer = textBox1.Text;
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            Sets.ProxyPort=numericUpDown1.Value.ToString ();
+            Sets.ProxyPort = numericUpDown1.Value.ToString();
         }
 
         private void groupBox2_Enter(object sender, EventArgs e)
@@ -183,9 +183,9 @@ namespace Piccm_Uploader
 
         }
 
-        private void checkBox3_CheckedChanged_1 (object sender, EventArgs e)
+        private void checkBox3_CheckedChanged_1(object sender, EventArgs e)
         {
-            Sets.SaveScreenshots=checkBox3.Checked;
+            Sets.SaveScreenshots = checkBox3.Checked;
         }
 
         private void btnCoppedScreenshot_KeyDown(object sender, KeyEventArgs e)
@@ -210,17 +210,17 @@ namespace Piccm_Uploader
                     Checker.croppedScreenShotKeyHook.RegisterHotKey(modifiers,
                         key);
 
-                     string hotkeyConfigPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\imageuploader\\hotkeys.ini";
-                     if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\imageuploader\\hotkeys.ini"))
-                     {
-                         if (!Directory.Exists(hotkeyConfigPath.Replace("hotkeys.ini", string.Empty)))
-                             Directory.CreateDirectory(hotkeyConfigPath.Replace("hotkeys.ini", string.Empty));
-                         var file = File.Create(hotkeyConfigPath);
-                         file.Close();
-                     }
-                    
+                    string hotkeyConfigPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\imageuploader\\hotkeys.ini";
+                    if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\imageuploader\\hotkeys.ini"))
+                    {
+                        if (!Directory.Exists(hotkeyConfigPath.Replace("hotkeys.ini", string.Empty)))
+                            Directory.CreateDirectory(hotkeyConfigPath.Replace("hotkeys.ini", string.Empty));
+                        var file = File.Create(hotkeyConfigPath);
+                        file.Close();
+                    }
+
                     Ini i = new Ini(hotkeyConfigPath);
-                    i.IniWrite("hotkey", "cropped", string.Format("{0}+{1}",modifiers, key));
+                    i.IniWrite("hotkey", "cropped", string.Format("{0}+{1}", modifiers, key));
 
                     btnCoppedScreenshot.Text = string.Format("{0}+{1}",
                        modifiers, key);
@@ -318,20 +318,18 @@ namespace Piccm_Uploader
             }
             else
             {
-                MessageBox.Show("You don't currently have any saved images.","No Images");
+                MessageBox.Show("You don't currently have any saved images.", "No Images");
             }
 
         }
         public void checkForUpdates()
         {
-            // TODO Check for updates
+            MessageBox.Show("NOPE NOT FOUND!");
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void ButtonCheckForUpdate_Click(object sender, System.EventArgs e)
         {
             checkForUpdates();
         }
-
-  
     }
 }

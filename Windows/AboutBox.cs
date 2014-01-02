@@ -17,7 +17,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Diagnostics;
 
-namespace Piccm_Uploader
+namespace Piccm_Uploader.Windows
 {
 	//about
     partial class AboutBox : Form
@@ -25,7 +25,6 @@ namespace Piccm_Uploader
         public AboutBox ()
         {
             InitializeComponent ();
-            this.FormClosing+=delegate {Program.checker.BuildContextMenu ();};
         }
         
         private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
