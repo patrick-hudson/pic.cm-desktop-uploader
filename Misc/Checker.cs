@@ -53,8 +53,6 @@ namespace Piccm_Uploader
 
             contextmenu.MenuItems.Add(new MenuItem("Exit", new EventHandler(Menu_OnExit)));
             notify.Icon = Resources.Resource.default_small;
-            contextmenu.MenuItems.Add(new MenuItem("Exit", new EventHandler(Menu_OnExit)));
-            notify.Icon = Resources.Resource.default_small;
         }
 
         public void CancelTheUpload()

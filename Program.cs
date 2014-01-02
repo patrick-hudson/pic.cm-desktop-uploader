@@ -36,12 +36,14 @@ namespace Piccm_Uploader
         [STAThread]
         static void Main()
         {
+#if DEBUG
             var screens = Screen.AllScreens;
             foreach (var screen in screens)
             {
                 Console.WriteLine(screen.DeviceName + ") X: " + screen.Bounds.X + ", Y: " + screen.Bounds.Y);
                 Console.WriteLine(screen.DeviceName + ") Width: " + screen.Bounds.Width + ", Height: " + screen.Bounds.Height);
             }
+#endif
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
