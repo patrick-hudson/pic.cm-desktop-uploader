@@ -55,8 +55,6 @@ namespace Piccm_Uploader
                 }
                 //notify the user
                 Program.MainClassInstance.resetScreen();
-                Notifications.NotifyUser("Upload Complete!", "Click here to view your image", 1000, ToolTipIcon.Info, dlink);
-                Core.Notifications.ResetIcon();
             });
             t.Start();
 
@@ -77,15 +75,18 @@ namespace Piccm_Uploader
                         string correctString = txt.Replace("http://pic.cm/i/", "http://i.pic.cm/");
                         Clipboard.SetText(correctString);
                         dlink = correctString;
-                        if (Sets.Sound)
-                        {
-                            Notifications.NotifySound(References.Sound.SOUND_JINGLE);
-                            Console.WriteLine("Calling Sound");
-                        }
                     }
                 };
                 te.Start();
             }
+
+            if (Sets.Sound)
+            {
+                Notifications.NotifySound(References.Sound.SOUND_JINGLE);
+            }
+
+            Notifications.NotifyUser("Upload Complete!", "Click here to view your image", 1000, ToolTipIcon.Info, dlink);
+            Core.Notifications.ResetIcon();
         }
 
         private static void VerifyNetworkConnection()
