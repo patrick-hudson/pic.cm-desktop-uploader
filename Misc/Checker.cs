@@ -45,7 +45,7 @@ namespace Piccm_Uploader
             contextmenu.MenuItems.Clear();
 
             contextmenu.MenuItems.Add(new MenuItem("Upload files", new EventHandler(Core.ToolStripHandlers.UploadFile)));
-            contextmenu.MenuItems.Add(new MenuItem("Upload from clipboard", new EventHandler(Program.MainClassInstance.uploadFromClipboardToolStripMenuItem_Click)));
+            contextmenu.MenuItems.Add(new MenuItem("Upload from clipboard", new EventHandler(Core.ToolStripHandlers.UploadClipboard)));
             contextmenu.MenuItems.Add(new MenuItem("Pic desktop", new EventHandler(Program.MainClassInstance.uploadDesktopScreenshotToolStripMenuItem_Click)));
             contextmenu.MenuItems.Add(new MenuItem("Pic area", new EventHandler(Program.MainClassInstance.uploadCroppedScreenshotToolStripMenuItem_Click)));
             contextmenu.MenuItems.Add(new MenuItem("Pic active window", new EventHandler(Program.MainClassInstance.ScreenshotActiveWindow)));
