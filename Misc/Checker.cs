@@ -40,30 +40,36 @@ namespace Piccm_Uploader
 
         public void BuildContextMenu()
         {
-            //build the main menu
-            //RegisterGlobalHotKeys();
-            contextmenu.MenuItems.Clear();
+                //build the main menu
+                //RegisterGlobalHotKeys();
+                contextmenu.MenuItems.Clear();
 
-            contextmenu.MenuItems.Add(new MenuItem("Upload files", new EventHandler(Core.ToolStripHandlers.UploadFile)));
-            contextmenu.MenuItems.Add(new MenuItem("Upload from clipboard", new EventHandler(Core.ToolStripHandlers.UploadClipboard)));
-            contextmenu.MenuItems.Add(new MenuItem("Pic desktop", new EventHandler(Program.MainClassInstance.uploadDesktopScreenshotToolStripMenuItem_Click)));
-            contextmenu.MenuItems.Add(new MenuItem("Pic area", new EventHandler(Program.MainClassInstance.uploadCroppedScreenshotToolStripMenuItem_Click)));
-            contextmenu.MenuItems.Add(new MenuItem("Pic active window", new EventHandler(Program.MainClassInstance.ScreenshotActiveWindow)));
-            contextmenu.MenuItems.Add(new MenuItem("-"));
+                contextmenu.MenuItems.Add(new MenuItem("Upload files", new EventHandler(Core.ToolStripHandlers.UploadFile)));
+                contextmenu.MenuItems.Add(new MenuItem("Upload from clipboard", new EventHandler(Core.ToolStripHandlers.UploadClipboard)));
+                contextmenu.MenuItems.Add(new MenuItem("Pic desktop", new EventHandler(Program.MainClassInstance.uploadDesktopScreenshotToolStripMenuItem_Click)));
+                contextmenu.MenuItems.Add(new MenuItem("Pic area", new EventHandler(Program.MainClassInstance.uploadCroppedScreenshotToolStripMenuItem_Click)));
+                contextmenu.MenuItems.Add(new MenuItem("Pic active window", new EventHandler(Program.MainClassInstance.ScreenshotActiveWindow)));
+                contextmenu.MenuItems.Add(new MenuItem("-"));
 
-            contextmenu.MenuItems.Add(new MenuItem("Drag && Drop files", new EventHandler(Program.MainClassInstance.dragDropFilesToolStripMenuItem_Click)));
-            contextmenu.MenuItems.Add(new MenuItem("Remote upload", new EventHandler(Program.MainClassInstance.UrlUpload)));
-            contextmenu.MenuItems.Add(new MenuItem("-"));
+                contextmenu.MenuItems.Add(new MenuItem("Drag && Drop files", new EventHandler(Program.MainClassInstance.dragDropFilesToolStripMenuItem_Click)));
+                contextmenu.MenuItems.Add(new MenuItem("Remote upload", new EventHandler(Program.MainClassInstance.UrlUpload)));
+                contextmenu.MenuItems.Add(new MenuItem("-"));
 
-            contextmenu.MenuItems.Add(new MenuItem("Settings", new EventHandler(Program.MainClassInstance.optionsToolStripMenuItem_Click)));
-            contextmenu.MenuItems.Add(new MenuItem("History", new EventHandler(Program.MainClassInstance.uploadedPhotosToolStripMenuItem_Click)));
-            contextmenu.MenuItems.Add(new MenuItem("About", new EventHandler(Program.MainClassInstance.aboutToolStripMenuItem_Click)));
-            contextmenu.MenuItems.Add(new MenuItem("Check For Updates", new EventHandler(Program.MainClassInstance.updateToolStripMenuItem_Click)));
-            contextmenu.MenuItems.Add(new MenuItem("-"));
+                contextmenu.MenuItems.Add(new MenuItem("Settings", new EventHandler(Program.MainClassInstance.optionsToolStripMenuItem_Click)));
+                contextmenu.MenuItems.Add(new MenuItem("History", new EventHandler(Program.MainClassInstance.uploadedPhotosToolStripMenuItem_Click)));
+                contextmenu.MenuItems.Add(new MenuItem("About", new EventHandler(Program.MainClassInstance.aboutToolStripMenuItem_Click)));
+                contextmenu.MenuItems.Add(new MenuItem("Check For Updates", new EventHandler(Program.MainClassInstance.updateToolStripMenuItem_Click)));
+                contextmenu.MenuItems.Add(new MenuItem("-"));
 
-            contextmenu.MenuItems.Add(new MenuItem("Exit", new EventHandler(Menu_OnExit)));
-
-            notify.Icon = Resources.Resource.default_small;
+                contextmenu.MenuItems.Add(new MenuItem("Exit", new EventHandler(Menu_OnExit)));
+                try
+                {
+                    notify.Icon = Resources.Resource.default_small;
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine(e);
+                }
         }
 
         public void CancelTheUpload()

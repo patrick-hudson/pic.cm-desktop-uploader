@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -28,10 +26,10 @@ namespace Piccm_Uploader.Core
             {
                 foreach (string fileName in fileDialog.FileNames)
                 {
-                    if (!Validity.CheckImage(fileName) || !Validity.CheckFile(fileName))
-                        invalidFiles.Add(fileName);
-                    else
-                        Program.FilesToUpload.Add(fileName);
+                    if (!Validity.CheckFile(fileName) || !Validity.CheckImage(fileName))
+                            invalidFiles.Add(fileName);
+                        else
+                            Program.FilesToUpload.Add(fileName);
                 }
 
                 if(invalidFiles.Count > 0)
@@ -41,7 +39,7 @@ namespace Piccm_Uploader.Core
                     {
                         invalidFileList += invalidFileName + ", ";
                     }
-                    invalidFileList = invalidFileList.Remove(invalidFileList.Length - 1);
+                    invalidFileList = invalidFileList.Remove(invalidFileList.Length - 2);
                     MessageBox.Show("The following file(s) are not valid and will not be uploaded.\n" + invalidFileList, "Invalid file(s)", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
                 Uploadr.StartUpload();

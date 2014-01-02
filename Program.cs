@@ -36,7 +36,6 @@ namespace Piccm_Uploader
         [STAThread]
         static void Main()
         {
-
             var screens = Screen.AllScreens;
             foreach (var screen in screens)
             {

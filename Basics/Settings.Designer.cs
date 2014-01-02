@@ -50,7 +50,6 @@ namespace Piccm_Uploader
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.automaticUpdater2 = new wyDay.Controls.AutomaticUpdater();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.checkBox6 = new System.Windows.Forms.CheckBox();
@@ -67,7 +66,6 @@ namespace Piccm_Uploader
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.automaticUpdater2)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.SuspendLayout();
@@ -140,7 +138,6 @@ namespace Piccm_Uploader
             this.tabPage1.Controls.Add(this.button2);
             this.tabPage1.Controls.Add(this.button1);
             this.tabPage1.Controls.Add(this.checkBox4);
-            this.tabPage1.Controls.Add(this.automaticUpdater2);
             this.tabPage1.Controls.Add(this.checkBox3);
             this.tabPage1.Controls.Add(this.checkBox1);
             this.tabPage1.Controls.Add(this.checkBox6);
@@ -182,16 +179,6 @@ namespace Piccm_Uploader
             this.checkBox4.Text = "Play Upload Jingle";
             this.checkBox4.UseVisualStyleBackColor = true;
             this.checkBox4.CheckedChanged += new System.EventHandler(this.checkBox4_CheckedChanged);
-            // 
-            // automaticUpdater2
-            // 
-            this.automaticUpdater2.ContainerForm = this;
-            this.automaticUpdater2.GUID = "362cf8b9-8459-43a9-a8c1-9dd1b3d319c6";
-            this.automaticUpdater2.Location = new System.Drawing.Point(3, 127);
-            this.automaticUpdater2.Name = "automaticUpdater2";
-            this.automaticUpdater2.Size = new System.Drawing.Size(16, 16);
-            this.automaticUpdater2.TabIndex = 7;
-            this.automaticUpdater2.wyUpdateCommandline = null;
             // 
             // checkBox3
             // 
@@ -350,7 +337,6 @@ namespace Piccm_Uploader
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.automaticUpdater2)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
@@ -381,7 +367,6 @@ namespace Piccm_Uploader
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button btnCoppedScreenshot;
         private System.Windows.Forms.Label label5;
-        private wyDay.Controls.AutomaticUpdater automaticUpdater2;
         private System.Windows.Forms.CheckBox checkBox4;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;

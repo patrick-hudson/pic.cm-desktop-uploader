@@ -119,7 +119,7 @@ namespace Piccm_Uploader
             DialogResult dialogResult = MessageBox.Show("New Update! Would you like to install now?", "Update?", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                automaticUpdater2.InstallNow();
+                // TODO Alert user to update
             }
         }
         private void checkBox6_CheckedChanged(object sender, EventArgs e)
@@ -127,8 +127,7 @@ namespace Piccm_Uploader
             Sets.AutoUpdateCheck=checkBox6.Checked;
             if (checkBox6.Checked)
             {
-                automaticUpdater2.ReadyToBeInstalled += AutomaticUpdaterOnUpdateAvailable;
-                automaticUpdater2.ForceCheckForUpdate();
+
             }
         }
 
@@ -325,7 +324,7 @@ namespace Piccm_Uploader
         }
         public void checkForUpdates()
         {
-            automaticUpdater2.ForceCheckForUpdate();
+            // TODO Check for updates
         }
 
         private void button2_Click(object sender, EventArgs e)

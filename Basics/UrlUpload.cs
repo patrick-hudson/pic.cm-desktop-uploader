@@ -16,7 +16,6 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using NDde.Client;
 using System.Threading;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
@@ -29,7 +28,6 @@ namespace Piccm_Uploader
     public partial class UrlUpload : Form
     {
         string Clipboardz, Firefox, Opera;
-        DdeClient Firefox_, Opera_;
         bool Is_firefox_alive, Is_opera_alive;
         bool close_mode;
 
@@ -39,8 +37,6 @@ namespace Piccm_Uploader
             //initialize
             close_mode=true;
             Is_firefox_alive=Is_opera_alive=false;
-            Firefox_=new DdeClient ("Firefox", "WWW_GetWindowInfo");
-            Opera_=new DdeClient ("Opera", "WWW_GetWindowInfo");
             var t=new System.Windows.Forms.Timer ();
             t.Interval=500;
             GetInfo ();
@@ -71,8 +67,6 @@ namespace Piccm_Uploader
             t.Start ();
             this.FormClosing+=delegate 
             {
-            	//@ existing, disconnect the DDe from the web browsers
-                DisconnectDde ();
                 if (close_mode) this.DialogResult=DialogResult.Cancel;
                 else this.DialogResult=DialogResult.OK;
             };
@@ -86,78 +80,6 @@ namespace Piccm_Uploader
         	//from clipboard:
             Clipboardz=GetClipboard ();
             CheckForValidUrl (ref Clipboardz);
-            Thread t=new Thread ((ThreadStart)delegate
-            {
-                ConnectDde ();
-                //from Firefox
-                //if the browser is not opened, the "Firefox" string will be null
-                Firefox=GetURL (Firefox_, "Firefox");
-                CheckForValidUrl (ref Firefox);
-                //and from Opera
-                Opera=GetURL (Opera_, "Opera");
-                CheckForValidUrl (ref Opera);
-            });
-            t.Start ();
-        }
-
-        private void ConnectDde ()
-        {
-            try
-            {
-                if (Is_firefox_alive==false) 
-                {
-                	//check if the process exists
-                    Process []prc=Process.GetProcessesByName ("firefox");
-                    if (prc.Length!=0)
-                    {
-                    	//and connect to it
-                        Firefox_.Connect ();
-                        Is_firefox_alive=true;
-                    }
-                }
-                if (Is_opera_alive==false) 
-                {
-                	//check if the process exists
-                    Process []prc=Process.GetProcessesByName ("opera");
-                    if (prc.Length!=0)
-                    {
-                    	//and connect to it
-                        Opera_.Connect ();
-                        Is_opera_alive=true;
-                    }
-                }
-            }
-            catch {}
-        }
-
-        private void DisconnectDde ()
-        {
-        	//disconnect from the browser
-        	//it some or all browsers are not connected to the DDe, the
-        	//Disconnect () function will not raise any exception
-            if (Is_firefox_alive==true) Firefox_.Disconnect ();
-            if (Is_opera_alive==true) Opera_.Disconnect ();
-        }
-
-        private string GetURL (DdeClient dde, string browser)
-        {
-            try 
-            {
-            	//connect to the browsers
-                ConnectDde ();
-                if (browser=="Firefox") if (Is_firefox_alive==false) return "{error#1}";
-                else if (browser=="Opera") if (Is_opera_alive==false) return "{error#1}";
-                //get the url
-                string url=dde.Request ("URL", int.MaxValue);
-                string[] text=url.Split (new string [] {"\",\"", "\""}, StringSplitOptions.RemoveEmptyEntries);
-                return text[0];
-            }
-            catch
-            {
-                if (browser=="Firefox") Is_firefox_alive=false;
-                else if (browser=="Opera") Is_opera_alive=false;
-                return "{error#2}";
-            }
         }
 
         private string GetClipboard ()
