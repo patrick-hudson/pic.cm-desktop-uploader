@@ -59,6 +59,7 @@ namespace Piccm_Uploader
                 Program.checker.notify.ShowBalloonTip(1000);
                 Program.checker.BuildContextMenu();
                 Program.checker.CancelTheUpload();
+                Program.checker.resetIcon();
             });
             t.Start();
 
