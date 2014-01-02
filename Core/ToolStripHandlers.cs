@@ -112,7 +112,7 @@ namespace Piccm_Uploader.Core
 
         internal static void Close(object sender, EventArgs e)
         {
-            new Windows.AboutBox().Show();
+            Environment.Exit(0);
         }
 
         internal static void UploadDesktop(object sender, EventArgs e)

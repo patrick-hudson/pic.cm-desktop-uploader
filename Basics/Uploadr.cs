@@ -54,29 +54,42 @@ namespace Piccm_Uploader
                     Upload(new Uri(url));
                 }
 
-                if (Sets.CopyAfterUpload)
-                {
-                    //call Balloon Clicked event to open link in default browser
-                    te.Stop();
-                    string txt = "";
-                    foreach (var v in Program.History) if (v.FromLastUpload) txt += v.DirectLink;
-                    // correction string workaround for CDN access
-                    string correctString = txt.Replace("http://pic.cm/i/", "http://i.pic.cm/");
-                    Clipboard.SetText(correctString);
-                    dlink = correctString;
-                }
-
                 Program.MainClassInstance.resetScreen();
-
-                if (Sets.Sound)
-                {
-                    Notifications.NotifySound(References.Sound.SOUND_JINGLE);
-                }
-
-                Notifications.NotifyUser("Upload Complete!", "Click here to view your image", 1000, ToolTipIcon.Info, dlink);
-                Core.Notifications.ResetIcon();
             });
             t.Start();
+
+            //if the setting is on, copy the DirectUrl to the picture to the clipboard
+            //call Balloon Clicked event to open link in default browser
+            te = new System.Windows.Forms.Timer();
+            te.Interval = 100;
+            te.Tick += delegate
+            {
+                if (t.IsAlive == false)
+                {
+                    te.Stop();
+                    string txt = "";
+                    foreach (var v in Program.History) 
+                        if (v.FromLastUpload) 
+                            txt += v.DirectLink;
+
+                    // correction string workaround for CDN access
+                    string correctString = txt.Replace("http://pic.cm/i/", "http://i.pic.cm/");
+
+                    Notifications.NotifyUser("Upload Complete!", "Click here to view your image", 1000, ToolTipIcon.Info, correctString);
+                    Core.Notifications.ResetIcon();
+
+                    if (Sets.CopyAfterUpload)
+                    {
+                        Clipboard.SetText(correctString);
+                    }
+
+                    if (Sets.Sound)
+                    {
+                        Notifications.NotifySound(References.Sound.SOUND_JINGLE);
+                    }
+                }
+            };
+            te.Start();
         }
 
         private static void VerifyNetworkConnection()
