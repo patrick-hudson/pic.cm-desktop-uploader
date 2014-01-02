@@ -55,6 +55,14 @@ namespace Piccm_Uploader
                 }
                 //notify the user
                 Program.MainClassInstance.resetScreen();
+
+                if (Sets.Sound)
+                {
+                    Notifications.NotifySound(References.Sound.SOUND_JINGLE);
+                }
+
+                Notifications.NotifyUser("Upload Complete!", "Click here to view your image", 1000, ToolTipIcon.Info, dlink);
+                Core.Notifications.ResetIcon();
             });
             t.Start();
 
@@ -79,14 +87,6 @@ namespace Piccm_Uploader
                 };
                 te.Start();
             }
-
-            if (Sets.Sound)
-            {
-                Notifications.NotifySound(References.Sound.SOUND_JINGLE);
-            }
-
-            Notifications.NotifyUser("Upload Complete!", "Click here to view your image", 1000, ToolTipIcon.Info, dlink);
-            Core.Notifications.ResetIcon();
         }
 
         private static void VerifyNetworkConnection()
