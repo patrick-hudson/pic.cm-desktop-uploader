@@ -53,24 +53,32 @@ namespace Piccm_Uploader
 
             contextmenu.MenuItems.Add(new MenuItem("Exit", new EventHandler(Menu_OnExit)));
             notify.Icon = Resources.Resource.default_small;
+            contextmenu.MenuItems.Add(new MenuItem("Exit", new EventHandler(Menu_OnExit)));
+            notify.Icon = Resources.Resource.default_small;
         }
 
         public void CancelTheUpload()
         {
             //if I choose to cancel...
             contextmenu.MenuItems.Clear();
+            notify.Icon = Resources.Resource.uploading;
             contextmenu.MenuItems.Add(new MenuItem("Cancel the upload?", delegate
             {
                 Program.ApplicationRestart();
             }));
-            notify.Icon = Resources.Resource.uploading;
+
         }
 
         public void ClearMenu()
         {
             contextmenu.MenuItems.Clear();
         }
+        public void resetIcon()
+        {
+            ClearMenu();
+            notify.Icon = Resources.Resource.default_small;
 
+        }
         public Checker()
         {
             //here is the constructor of the class
