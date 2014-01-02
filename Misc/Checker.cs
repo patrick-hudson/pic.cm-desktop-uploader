@@ -32,7 +32,7 @@ namespace Piccm_Uploader
 {
     public class Checker
     {
-        public NotifyIcon notify;
+        public NotifyIcon notify = new NotifyIcon();
         private ContextMenu contextmenu = new ContextMenu();
         public static KeyboardHook desktopScreenShotKeyHook = null;
         public static KeyboardHook croppedScreenShotKeyHook = null;
@@ -62,14 +62,14 @@ namespace Piccm_Uploader
                 contextmenu.MenuItems.Add(new MenuItem("-"));
 
                 contextmenu.MenuItems.Add(new MenuItem("Exit", new EventHandler(Menu_OnExit)));
-                try
-                {
+                //try
+                //{
                     notify.Icon = Resources.Resource.default_small;
-                }
-                catch(Exception e)
-                {
-                    Console.WriteLine(e);
-                }
+                //}
+                //catch(Exception e)
+                //{
+                 //   Console.WriteLine(e);
+                //}
         }
 
         public void CancelTheUpload()
