@@ -89,7 +89,7 @@ namespace Piccm_Uploader
                         //if there is a path to an image file
                         Program.FilesToUpload.Add(s);
                         Program.checker.CancelTheUpload();
-                        RunUploader();
+                        Uploadr.StartUpload();
                     }
                     else
                     {
@@ -172,11 +172,11 @@ namespace Piccm_Uploader
                 for (int x = 0; File.Exists(filepath); x++) filepath += x.ToString();
                 filepath += ".png";
                 img.Save(filepath);
-                if (CheckForValidImage(filepath))
+                if (Validity.CheckFile(filepath))
                 {
                     //...upload it if the above operation is successfull
                     Program.FilesToUpload.Add(filepath);
-                    RunUploader();
+                    Uploadr.StartUpload();
                 }
                 else Uploadr.StartUpload(ms.ToArray());
                 //or upload the memory stream turned into a byte array
@@ -331,7 +331,7 @@ namespace Piccm_Uploader
             ResetArrays();
             DragDropFiles ddf = new DragDropFiles();
             if (ddf.ShowDialog() == DialogResult.OK)
-                RunUploader();
+                Uploadr.StartUpload();
         }
 
         public void ScreenshotActiveWindow(object sender, EventArgs e)
@@ -370,7 +370,7 @@ namespace Piccm_Uploader
             {
                 Output.Save(filepath);
                 Program.FilesToUpload.Add(filepath);
-                RunUploader();
+                Uploadr.StartUpload();
             }
             else
             {
@@ -442,7 +442,7 @@ namespace Piccm_Uploader
             {
                 img.Save(filepath);
                 Program.FilesToUpload.Add(filepath);
-                RunUploader();
+                Uploadr.StartUpload();
             }
             else
             {

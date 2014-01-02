@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 
 namespace Piccm_Uploader.Core
 {
     class ToolStripHandlers
     {
-        public void UploadFile()
+        public static void UploadFile(object sender, EventArgs e)
         {
-            // Cancel and clear the upload queue
-            Program.checker.CancelTheUpload();
+            // Clear the upload queue
             Program.FilesToUpload.Clear();
 
             OpenFileDialog fileDialog = new OpenFileDialog();
@@ -27,9 +29,9 @@ namespace Piccm_Uploader.Core
                 foreach (string fileName in fileDialog.FileNames)
                 {
                     if (!Validity.CheckImage(fileName) || !Validity.CheckFile(fileName))
-                    {
                         invalidFiles.Add(fileName);
-                    }
+                    else
+                        Program.FilesToUpload.Add(fileName);
                 }
 
                 if(invalidFiles.Count > 0)
@@ -46,6 +48,42 @@ namespace Piccm_Uploader.Core
             }
             else
                 Program.checker.BuildContextMenu();
+        }
+
+        public static void UploadClipboard(object sender, EventArgs e)
+        {
+            Program.FilesToUpload.Clear();
+
+            // Check if the clipboard contains text
+            if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Text))
+            {
+                // Store the text in the clipboard locally
+                string s = Clipboard.GetText(TextDataFormat.Text);
+
+                // Check if the text is actually a file path
+                if (Validity.CheckFile(s))
+                {
+                    // If it is a path, check if it is an allowed image type
+                    if (Validity.CheckImage(s))
+                    {
+                        Program.FilesToUpload.Add(s);
+                        Uploadr.StartUpload();
+                    }
+                }
+                else
+                {
+                    Program.checker.BuildContextMenu();
+                    MessageBox.Show("Invaild file specified");
+                }
+            }
+            else if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Bitmap)) // If the data in the clipboard is a bitmap
+            {
+                Bitmap b = new Bitmap(Clipboard.GetImage()); // Copy the data from the clipboard, and store locally.
+                MemoryStream ms = new MemoryStream(); // Open up a memory stream to save the image too, saves writing temp files
+                b.Save(ms, ImageFormat.Png); // Convert the image to PNG using the memory stream as output
+                Uploadr.StartUpload(ms.ToArray()); // Upload from memory stream
+                ms.Close(); // And then flush the memory stream.
+            }
         }
     }
 }

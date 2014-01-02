@@ -58,6 +58,7 @@ namespace Piccm_Uploader
                 Program.checker.notify.BalloonTipIcon = ToolTipIcon.Info;
                 Program.checker.notify.ShowBalloonTip(1000);
                 Program.checker.BuildContextMenu();
+                Program.checker.CancelTheUpload();
             });
             t.Start();
 

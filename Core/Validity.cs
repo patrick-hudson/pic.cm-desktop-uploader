@@ -32,11 +32,17 @@ namespace Piccm_Uploader.Core
         public static Boolean CheckFile(String fileName)
         {
             FileInfo fileInfo = new FileInfo(fileName);
-
-            if(fileInfo.Exists) // Does the file exist
+            try
             {
-                if (fileInfo.Length < 10480000) // If it exists is it smaller than 9.99451 MB (10485760 for 10MB)
-                    return true;
+                if (fileInfo.Exists) // Does the file exist
+                {
+                    if (fileInfo.Length < 10480000) // If it exists is it smaller than 9.99451 MB (10485760 for 10MB)
+                        return true;
+                }
+            }
+            catch(Exception e)
+            {
+                return false;
             }
             return false;
         }

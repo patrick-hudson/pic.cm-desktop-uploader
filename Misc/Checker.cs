@@ -16,6 +16,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Diagnostics;
 using Piccm_Uploader.Misc;
+using Piccm_Uploader.Core;
 
 /* This class is taken from http://www.codeproject.com/Articles/18507/Formless-Notify-Icon-Application
  * Author's quote:
@@ -32,7 +33,7 @@ namespace Piccm_Uploader
     public class Checker
     {
         public NotifyIcon notify;
-        private ContextMenu contextmenu=new ContextMenu ();
+        private ContextMenu contextmenu = new ContextMenu();
         public static KeyboardHook desktopScreenShotKeyHook = null;
         public static KeyboardHook croppedScreenShotKeyHook = null;
         public static KeyboardHook activeWindowsScreenShotKeyHook = null;
@@ -42,73 +43,63 @@ namespace Piccm_Uploader
             //build the main menu
             //RegisterGlobalHotKeys();
             contextmenu.MenuItems.Clear();
-            MenuItem item = new MenuItem("Upload files", new EventHandler(Program.MainClassInstance.uploadFilesToolStripMenuItem_Click));
-            contextmenu.MenuItems.Add(item);
-            item = new MenuItem("Drag && Drop files", new EventHandler(Program.MainClassInstance.dragDropFilesToolStripMenuItem_Click));
-            contextmenu.MenuItems.Add(item);
-            item = new MenuItem("Upload from clipboard", new EventHandler(Program.MainClassInstance.uploadFromClipboardToolStripMenuItem_Click));
-            contextmenu.MenuItems.Add(item);
-            item = new MenuItem("Upload desktop screenshot", new EventHandler(Program.MainClassInstance.uploadDesktopScreenshotToolStripMenuItem_Click));
-            contextmenu.MenuItems.Add(item);
-            item = new MenuItem("Upload cropped screenshot", new EventHandler(Program.MainClassInstance.uploadCroppedScreenshotToolStripMenuItem_Click));
-            contextmenu.MenuItems.Add(item);
-            item = new MenuItem("Upload active window screenshot", new EventHandler(Program.MainClassInstance.ScreenshotActiveWindow));
-            contextmenu.MenuItems.Add(item);
-            item = new MenuItem("Remote upload", new EventHandler(Program.MainClassInstance.UrlUpload));
-            contextmenu.MenuItems.Add(item);
-            item = new MenuItem("Settings", new EventHandler(Program.MainClassInstance.optionsToolStripMenuItem_Click));
-            contextmenu.MenuItems.Add(item);
-            item = new MenuItem("History", new EventHandler(Program.MainClassInstance.uploadedPhotosToolStripMenuItem_Click));
-            contextmenu.MenuItems.Add(item);
-            item = new MenuItem("About", new EventHandler(Program.MainClassInstance.aboutToolStripMenuItem_Click));
-            contextmenu.MenuItems.Add(item);
-            item = new MenuItem("Check For Updates", new EventHandler(Program.MainClassInstance.updateToolStripMenuItem_Click));
-            contextmenu.MenuItems.Add(item);
-            item = new MenuItem("Exit", new EventHandler(Menu_OnExit));
-            contextmenu.MenuItems.Add(item);
-            //and set the icon of the NotifyIcon control
-            try
-            {
-                notify.Icon = Resources.Resource.default_large;
-            }
-            catch { }
 
+            contextmenu.MenuItems.Add(new MenuItem("Upload files", new EventHandler(Core.ToolStripHandlers.UploadFile)));
+            contextmenu.MenuItems.Add(new MenuItem("Upload from clipboard", new EventHandler(Program.MainClassInstance.uploadFromClipboardToolStripMenuItem_Click)));
+            contextmenu.MenuItems.Add(new MenuItem("Pic desktop", new EventHandler(Program.MainClassInstance.uploadDesktopScreenshotToolStripMenuItem_Click)));
+            contextmenu.MenuItems.Add(new MenuItem("Pic area", new EventHandler(Program.MainClassInstance.uploadCroppedScreenshotToolStripMenuItem_Click)));
+            contextmenu.MenuItems.Add(new MenuItem("Pic active window", new EventHandler(Program.MainClassInstance.ScreenshotActiveWindow)));
+            contextmenu.MenuItems.Add(new MenuItem("-"));
+
+            contextmenu.MenuItems.Add(new MenuItem("Drag && Drop files", new EventHandler(Program.MainClassInstance.dragDropFilesToolStripMenuItem_Click)));
+            contextmenu.MenuItems.Add(new MenuItem("Remote upload", new EventHandler(Program.MainClassInstance.UrlUpload)));
+            contextmenu.MenuItems.Add(new MenuItem("-"));
+
+            contextmenu.MenuItems.Add(new MenuItem("Settings", new EventHandler(Program.MainClassInstance.optionsToolStripMenuItem_Click)));
+            contextmenu.MenuItems.Add(new MenuItem("History", new EventHandler(Program.MainClassInstance.uploadedPhotosToolStripMenuItem_Click)));
+            contextmenu.MenuItems.Add(new MenuItem("About", new EventHandler(Program.MainClassInstance.aboutToolStripMenuItem_Click)));
+            contextmenu.MenuItems.Add(new MenuItem("Check For Updates", new EventHandler(Program.MainClassInstance.updateToolStripMenuItem_Click)));
+            contextmenu.MenuItems.Add(new MenuItem("-"));
+
+            contextmenu.MenuItems.Add(new MenuItem("Exit", new EventHandler(Menu_OnExit)));
+
+            notify.Icon = Resources.Resource.default_small;
         }
 
-        public void CancelTheUpload ()
+        public void CancelTheUpload()
         {
-        	//if I choose to cancel...
-            contextmenu.MenuItems.Clear ();
-            contextmenu.MenuItems.Add (new MenuItem ("Cancel the upload?", delegate
+            //if I choose to cancel...
+            contextmenu.MenuItems.Clear();
+            contextmenu.MenuItems.Add(new MenuItem("Cancel the upload?", delegate
             {
-                Program.ApplicationRestart ();
+                Program.ApplicationRestart();
             }));
             notify.Icon = Resources.Resource.uploading;
         }
 
-        public void ClearMenu ()
+        public void ClearMenu()
         {
-            contextmenu.MenuItems.Clear ();
+            contextmenu.MenuItems.Clear();
         }
 
-        public Checker () 
+        public Checker()
         {
-        	//here is the constructor of the class
-            BuildContextMenu ();
+            //here is the constructor of the class
+            BuildContextMenu();
             //initialize the notify icon
-            notify=new NotifyIcon ();
+            notify = new NotifyIcon();
             notify.Text = "Pic.cm";
             notify.ContextMenu = contextmenu;
-            notify.Icon = Resources.Resource.default_large;
+            notify.Icon = Resources.Resource.default_small;
             notify.Visible = true;
         }
 
-        void Menu_OnExit (Object sender, EventArgs e)
+        void Menu_OnExit(Object sender, EventArgs e)
         {
-            Program.checker.contextmenu.Dispose ();
+            Program.checker.contextmenu.Dispose();
             notify.Visible = false;
             notify.Dispose();
-            Application.Exit ();
+            Application.Exit();
         }
 
         public static void RegisterGlobalHotKeys()
@@ -120,7 +111,7 @@ namespace Piccm_Uploader
                 desktopScreenShotKeyHook.KeyPressed +=
                     new EventHandler<KeyPressedEventArgs>(Program.MainClassInstance.hook_KeyPressed);
                 // register the control + 2 combination as hot key.
-                desktopScreenShotKeyHook.RegisterHotKey(ModifierKeys.Control ,
+                desktopScreenShotKeyHook.RegisterHotKey(ModifierKeys.Control,
                     Keys.D2);
             }
 
