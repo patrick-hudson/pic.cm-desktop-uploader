@@ -31,6 +31,7 @@ namespace Piccm_Uploader.Basics
         public CropForm(MainClass mainClass, string cursor_text, int xstart, int ystart, int xwidth, int ywidth, int scn)
         {  //(Parent Form2, string for cursor , X bound, Y bound, Width, Height, Screen number)
             this.mainClass = mainClass;
+            this.KeyUp += new KeyEventHandler(ProcessCmdKey);
             x = xstart;
             y = ystart;
             InitializeComponent(cursor_text, xstart, ystart, xwidth, ywidth, scn);
@@ -196,17 +197,10 @@ namespace Piccm_Uploader.Basics
 
         #endregion
 
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        void ProcessCmdKey(object sender, KeyEventArgs e)
         {
-            if (keyData == Keys.Escape)
-            {
-                Program.checker.CancelTheUpload();
-                Core.Notifications.ResetIcon();
-                mainClass.resetScreen();
+            if (e.KeyCode == Keys.Escape)
                 this.Close();
-                return true;
-            }
-            return base.ProcessCmdKey(ref msg, keyData);
         }
 
 
