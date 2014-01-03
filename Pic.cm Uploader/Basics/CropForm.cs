@@ -76,7 +76,7 @@ namespace Piccm_Uploader.Basics
             this.ControlBox = false;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Child Form";
-            this.Opacity = 0.3;
+            this.Opacity = 0.4;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual; //important in mutiple monitor environment
             this.Location = new Point(xstart, ystart);
             this.Text = "ChildForm";
@@ -198,7 +198,10 @@ namespace Piccm_Uploader.Basics
         void ProcessCmdKey(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
+            {
+                Program.MainClassInstance.resetScreen();
                 this.Close();
+            }
         }
     }
 }

@@ -25,7 +25,6 @@ namespace Piccm_Uploader.Windows
 {
     public partial class PhotoViewer : Form
     {
-    	//q=the photo which this form has to treat
     	UploadedPhoto q;
 
         public PhotoViewer(UploadedPhoto p)

@@ -36,7 +36,7 @@ namespace Piccm_Uploader
             this.FormBorderStyle=FormBorderStyle.None;
             this.ShowInTaskbar=false;
             this.BackColor=Color.Black;
-            this.Opacity=0.3;
+            this.Opacity=0.4;
             this.TransparencyKey=Color.Pink;
             this.KeyUp+= new KeyEventHandler (CropArea_KeyUp);
             this.MouseDown+=new MouseEventHandler (CropArea_MouseDown);

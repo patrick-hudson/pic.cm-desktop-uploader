@@ -21,7 +21,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration ("x86-64")]
 [assembly: AssemblyCompany("Host Solutions LLC")]
 [assembly: AssemblyProduct("Pic.cm Desktop Uploder v1")]
-[assembly: AssemblyCopyright("(c) 2013 Pic.cm (Adapted from Dobrescu Andrei)")]
+[assembly: AssemblyCopyright("(c) 2013 Pic.cm")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]
 

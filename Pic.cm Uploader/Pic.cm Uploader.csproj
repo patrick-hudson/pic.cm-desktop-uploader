@@ -13,19 +13,38 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>true</IsWebBootstrapper>
+    <TargetFrameworkProfile />
+    <SourceAnalysisOverrideSettingsFile>C:\Users\andob\AppData\Roaming\ICSharpCode/SharpDevelop4\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <NoStdLib>False</NoStdLib>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <SignAssembly>False</SignAssembly>
+    <DelaySign>False</DelaySign>
+    <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>false</Optimize>
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>None</DebugType>
     <Optimize>True</Optimize>
     <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>Piccm_Uploader.Program</StartupObject>
@@ -47,13 +66,14 @@
     <ManifestCertificateThumbprint>177EB26B241908B6FEDD5DA708196C11AA303416</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
+    <ManifestKeyFile>Universal Chevereto Uploadr_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
     <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
-    <SignManifests>false</SignManifests>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+    <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -74,16 +94,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Notifications.cs" />
-    <Compile Include="Core\References.cs" />
-    <Compile Include="History\PreviousUpload.cs" />
-    <Compile Include="Update.cs" />
-    <Compile Include="Windows\AboutBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Windows\AboutBox.Designer.cs">
-      <DependentUpon>AboutBox.cs</DependentUpon>
-    </Compile>
     <Compile Include="Basics\CropArea.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -109,12 +119,6 @@
       <DependentUpon>DragDropFiles.cs</DependentUpon>
     </Compile>
     <Compile Include="Basics\MainClass.cs" />
-    <Compile Include="Windows\Settings.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Windows\Settings.Designer.cs">
-      <DependentUpon>Settings.cs</DependentUpon>
-    </Compile>
     <Compile Include="Basics\UrlUpload.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -122,9 +126,37 @@
       <DependentUpon>UrlUpload.cs</DependentUpon>
     </Compile>
     <Compile Include="Core\Capture.cs" />
+    <Compile Include="Core\Notifications.cs" />
+    <Compile Include="Core\References.cs" />
     <Compile Include="Core\ToolStripHandlers.cs" />
     <Compile Include="Core\Upload.cs" />
     <Compile Include="Core\Validity.cs" />
+    <Compile Include="History\PreviousUpload.cs" />
+    <Compile Include="Misc\Checker.cs" />
+    <Compile Include="Misc\Ini.cs" />
+    <Compile Include="Misc\KeyboardHook.cs" />
+    <Compile Include="Misc\ScreenGrab.cs" />
+    <Compile Include="Misc\Sets.cs" />
+    <Compile Include="Misc\UploadedPhoto.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Update.cs" />
+    <Compile Include="Windows\AboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\AboutBox.Designer.cs">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Windows\History.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -137,22 +169,12 @@
     <Compile Include="Windows\PhotoViewer.Designer.cs">
       <DependentUpon>PhotoViewer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Misc\Checker.cs" />
-    <Compile Include="Misc\Ini.cs" />
-    <Compile Include="Misc\KeyboardHook.cs" />
-    <Compile Include="Misc\ScreenGrab.cs" />
-    <Compile Include="Misc\Sets.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Misc\UploadedPhoto.cs" />
-    <Compile Include="Resources\Resource.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resource.resx</DependentUpon>
+    <Compile Include="Windows\Settings.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <EmbeddedResource Include="Windows\AboutBox.resx">
-      <DependentUpon>AboutBox.cs</DependentUpon>
-    </EmbeddedResource>
+    <Compile Include="Windows\Settings.Designer.cs">
+      <DependentUpon>Settings.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Basics\CropArea.resx">
       <DependentUpon>CropArea.cs</DependentUpon>
     </EmbeddedResource>
@@ -165,11 +187,19 @@
     <EmbeddedResource Include="Basics\DragDropFiles.resx">
       <DependentUpon>DragDropFiles.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Windows\Settings.resx">
-      <DependentUpon>Settings.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Basics\UrlUpload.resx">
       <DependentUpon>UrlUpload.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\AboutBox.resx">
+      <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Windows\History.resx">
       <DependentUpon>History.cs</DependentUpon>
@@ -177,9 +207,8 @@
     <EmbeddedResource Include="Windows\PhotoViewer.resx">
       <DependentUpon>PhotoViewer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Resource.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    <EmbeddedResource Include="Windows\Settings.resx">
+      <DependentUpon>Settings.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Properties\app.manifest" />
@@ -192,11 +221,36 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Resources\Icons\default_small.ico" />
+    <None Include="Resources\Icons\default.ico" />
     <None Include="Resources\Icons\favicon.ico" />
     <None Include="Resources\Icons\default.png" />
     <None Include="Resources\Icons\uploading.ico" />
     <None Include="Resources\Media\jingle.wav" />
     <None Include="Resources\Text\default_sets" />
   </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>
