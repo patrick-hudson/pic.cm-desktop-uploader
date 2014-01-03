@@ -175,8 +175,6 @@ namespace Piccm_Uploader.Basics
 
         }
 
-
-
         #region Make cursor from bitmap: Use CreateCursor
         [DllImport("user32.dll")]
         public static extern IntPtr CreateIconIndirect(ref IconInfo icon);
@@ -202,8 +200,5 @@ namespace Piccm_Uploader.Basics
             if (e.KeyCode == Keys.Escape)
                 this.Close();
         }
-
-
-
     }
 }
