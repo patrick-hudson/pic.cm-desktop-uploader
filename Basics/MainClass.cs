@@ -271,6 +271,7 @@ namespace Piccm_Uploader
 
             Core.Upload.UploadBitmap(ScreenGrab.CaptureScreen(finalx, finaly, finalwidth, finalheight));
         }
+
         public void resetScreen()
         {
             capd = 0;

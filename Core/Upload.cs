@@ -30,8 +30,8 @@ namespace Piccm_Uploader.Core
             EncoderParameter myEncoderParameter = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 90L);
             myEncoderParameters.Param[0] = myEncoderParameter;
 
-            bitmap.Save(pngstream, GetEncoderInfo("image/jpeg"), myEncoderParameters);
-            bitmap.Save(jpgstream, ImageFormat.Png);
+            bitmap.Save(jpgstream, GetEncoderInfo("image/jpeg"), myEncoderParameters);
+            bitmap.Save(pngstream, ImageFormat.Png);
 
             if (pngstream.Length > jpgstream.Length)
             {
@@ -62,7 +62,21 @@ namespace Piccm_Uploader.Core
 
         private static void SaveLocal(Image image)
         {
-            // TODO Save local image
+            string picturePath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            string piccmPath = "\\Pic.cm";
+
+            if (!Directory.Exists(picturePath + piccmPath))
+            {
+                Directory.CreateDirectory(picturePath + piccmPath);
+            }
+
+            /*
+             * TODO Check config for save location
+             * TODO Match file extention to type
+             */
+
+            string filepath = picturePath + piccmPath + "\\" + image.GetHashCode() + "-" + DateTime.Now.Day.ToString() + "." + DateTime.Now.Month + "." + DateTime.Now.Year + "." + DateTime.Now.Hour + "." + DateTime.Now.Minute + "." + DateTime.Now.Second + ".png";
+            image.Save(filepath);
         }
 
         private static void SendRequest(byte[] img = null, String remoteUrl = null)
@@ -135,6 +149,7 @@ namespace Piccm_Uploader.Core
                     Notifications.NotifySound(References.Sound.SOUND_JINGLE);
                 }
             }
+            Program.MainClassInstance.resetScreen();
         }
 
         private static byte[] ToByteArray(this Stream stream)
@@ -148,10 +163,8 @@ namespace Piccm_Uploader.Core
 
         private static string ToBase64(byte[] s)
         {
-            //convert a byte array to a base64 string
-            string k = Convert.ToBase64String(s, Base64FormattingOptions.None);
-            //url encodes the string - because in the url you don't need " " instead of "%20" 
-            string str = HttpUtility.UrlEncode(k);
+            string k = Convert.ToBase64String(s, Base64FormattingOptions.None); // Convert to base64
+            string str = HttpUtility.UrlEncode(k); // Make sure there are no spaces " ", make sure they are %20
             return str;
         }
 
