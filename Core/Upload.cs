@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
+using System.Web;
 using System.Text;
 using System.Xml;
+
+using Piccm_Uploader;
+using Piccm_Uploader.History;
+using System.Windows.Forms;
 
 namespace Piccm_Uploader.Core
 {
@@ -20,14 +26,29 @@ namespace Piccm_Uploader.Core
             MemoryStream pngstream = new MemoryStream();
             MemoryStream jpgstream = new MemoryStream();
 
-            bitmap.Save(pngstream, System.Drawing.Imaging.ImageFormat.Jpeg);
-            bitmap.Save(jpgstream, System.Drawing.Imaging.ImageFormat.Png);
+            EncoderParameters myEncoderParameters = new EncoderParameters(1);
+            EncoderParameter myEncoderParameter = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 90L);
+            myEncoderParameters.Param[0] = myEncoderParameter;
+
+            bitmap.Save(pngstream, GetEncoderInfo("image/jpeg"), myEncoderParameters);
+            bitmap.Save(jpgstream, ImageFormat.Png);
+
+            if (pngstream.Length > jpgstream.Length)
+            {
+                data = ToByteArray(jpgstream);
+            }
+            else
+            {
+                data = ToByteArray(pngstream);
+            }
 
             Console.WriteLine("PNG Size: " + (pngstream.Length / 1024));
             Console.WriteLine("JPEG Size: " + (jpgstream.Length / 1024));
 
             jpgstream.Close();
             pngstream.Close();
+
+            SendRequest(data);
 
             // Check if we need to save locally
             if (Sets.SaveScreenshots)
@@ -44,40 +65,75 @@ namespace Piccm_Uploader.Core
             // TODO Save local image
         }
 
-        private static void SendRequest(byte[] bytes = null, String remoteUrl = null)
+        private static void SendRequest(byte[] img = null, String remoteUrl = null)
         {
-            HttpWebRequest request = WebRequest.Create(References.URL_UPLOAD + "?") as HttpWebRequest;
-            request.Timeout = 600000;
-            request.Method = "POST";  // POS
+            Notifications.SetIcon(References.Icon.ICON_UPLOAD);
+            HttpWebRequest request = WebRequest.Create(References.URL_UPLOAD) as HttpWebRequest;
+            request.Timeout = 600000; // Nice long timeout, should upload most files
+            request.Method = "POST";
 
-            if (bytes != null)
+            if (img != null)
             {
-                request.ContentType = "text/xml";
-                request.ContentLength = bytes.Length;
-
-                // Here is where I need to compress the above byte array using GZipStream
-                using (Stream postStream = request.GetRequestStream())
+                try
                 {
-                    using (var zipStream = new GZipStream(postStream, CompressionMode.Compress))
-                    {
-                        zipStream.Write(bytes, 0, bytes.Length);
-                    }
+                    byte[] dataBuffer = Encoding.ASCII.GetBytes("format=xml&key=" + References.APIKey + "&upload=" + ToBase64(img));
+                    request.ContentType = "application/x-www-form-urlencoded";
+                    request.ContentLength = dataBuffer.Length;
+
+                    // Here is where I need to compress the above byte array using GZipStream
+                    Stream postStream = request.GetRequestStream();
+                    postStream.Write(dataBuffer, 0, dataBuffer.Length);
+                    //using (GZipStream zipStream = new GZipStream(postStream, CompressionMode.Compress))
+                    //{
+                    //    zipStream.Write(dataBuffer, 0, dataBuffer.Length);
+                    //}
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    Console.WriteLine(e.StackTrace);
                 }
             }
 
             XmlDocument xmlDoc = new XmlDocument();
             HttpWebResponse response = null;
             StreamReader reader = null;
-            try
+
+            response = request.GetResponse() as HttpWebResponse;
+            reader = new StreamReader(response.GetResponseStream());
+            xmlDoc.LoadXml(reader.ReadToEnd());
+
+            XmlNodeList xmlStatus = xmlDoc.GetElementsByTagName("status_txt");
+
+            if (xmlStatus[0].InnerText == "OK")
             {
-                response = request.GetResponse() as HttpWebResponse;
-                reader = new StreamReader(response.GetResponseStream());
-                //xmlDoc.LoadXml(reader.ReadToEnd());
-                Console.WriteLine(reader.ReadToEnd());
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e.StackTrace);
+                XmlNodeList image_name = xmlDoc.GetElementsByTagName("image_name");
+                XmlNodeList image_type = xmlDoc.GetElementsByTagName("image_type");
+                XmlNodeList image_width = xmlDoc.GetElementsByTagName("image_width");
+                XmlNodeList image_height = xmlDoc.GetElementsByTagName("image_height");
+                XmlNodeList image_bytes = xmlDoc.GetElementsByTagName("image_bytes");
+                XmlNodeList image_id_public = xmlDoc.GetElementsByTagName("image_id_public");
+                XmlNodeList image_delete_hash = xmlDoc.GetElementsByTagName("image_delete_hash");
+                XmlNodeList image_date = xmlDoc.GetElementsByTagName("image_date");
+
+                PreviousUpload.image_name = image_name[0].InnerText;
+                PreviousUpload.image_type = image_type[0].InnerText;
+
+                string url = References.URL_VIEW + PreviousUpload.image_name + "." + PreviousUpload.image_type;
+
+                Notifications.ResetIcon();
+                Notifications.NotifyUser("Upload Complete!", "Click here to view your image", 1000, ToolTipIcon.Info, url);
+                Core.Notifications.ResetIcon();
+
+                if (Sets.CopyAfterUpload)
+                {
+                    Clipboard.SetText(url);
+                }
+
+                if (Sets.Sound)
+                {
+                    Notifications.NotifySound(References.Sound.SOUND_JINGLE);
+                }
             }
         }
 
@@ -88,6 +144,28 @@ namespace Piccm_Uploader.Core
             for (int totalBytesCopied = 0; totalBytesCopied < stream.Length; )
                 totalBytesCopied += stream.Read(buffer, totalBytesCopied, Convert.ToInt32(stream.Length) - totalBytesCopied);
             return buffer;
+        }
+
+        private static string ToBase64(byte[] s)
+        {
+            //convert a byte array to a base64 string
+            string k = Convert.ToBase64String(s, Base64FormattingOptions.None);
+            //url encodes the string - because in the url you don't need " " instead of "%20" 
+            string str = HttpUtility.UrlEncode(k);
+            return str;
+        }
+
+        private static ImageCodecInfo GetEncoderInfo(String mimeType)
+        {
+            int j;
+            ImageCodecInfo[] encoders;
+            encoders = ImageCodecInfo.GetImageEncoders();
+            for (j = 0; j < encoders.Length; ++j)
+            {
+                if (encoders[j].MimeType == mimeType)
+                    return encoders[j];
+            }
+            return null;
         }
     }
 }

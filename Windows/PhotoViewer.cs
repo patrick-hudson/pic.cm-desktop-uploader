@@ -114,8 +114,8 @@ namespace Piccm_Uploader.Windows
             string response="";
             Thread t=new Thread ((ThreadStart)delegate
             {
-                //make the request to the photo's delete url
-                response=Request.Post (q.Delete, "", "null", null);
+                // TODO Delete images
+
                 //verify if 200 status code was returned
                 string []p=response.Split (new string [] {"\"status_code\":", ","}, StringSplitOptions.None);
                 if (Convert.ToInt32 (p[1])!=200) 

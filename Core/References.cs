@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Piccm_Uploader.Core
 {
-    class References
+    public class References
     {
 
         private static string _url_upload = "http://pic.cm/api.php", _url_view = "http://i.pic.cm/";
@@ -34,6 +34,6 @@ namespace Piccm_Uploader.Core
             set { _url_view = value; }
         }
 
-        internal string APIKey = "thisismyapikeynooneshouldknowmyapikey";
+        internal static string APIKey = "thisismyapikeynooneshouldknowmyapikey";
     }
 }

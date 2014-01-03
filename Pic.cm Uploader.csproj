@@ -126,6 +126,7 @@
   <ItemGroup>
     <Compile Include="Core\Notifications.cs" />
     <Compile Include="Core\References.cs" />
+    <Compile Include="History\PreviousUpload.cs" />
     <Compile Include="Windows\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -188,7 +189,6 @@
     <Compile Include="Misc\Checker.cs" />
     <Compile Include="Misc\Ini.cs" />
     <Compile Include="Misc\KeyboardHook.cs" />
-    <Compile Include="Misc\Request.cs" />
     <Compile Include="Misc\ScreenGrab.cs" />
     <Compile Include="Misc\Sets.cs" />
     <Compile Include="Program.cs" />
@@ -265,9 +265,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="History\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <PublishFile Include="Universal Chevereto Uploadr.cd">
       <Visible>False</Visible>
