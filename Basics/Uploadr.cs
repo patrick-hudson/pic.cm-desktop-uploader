@@ -26,7 +26,6 @@ namespace Piccm_Uploader
     {
         public static Thread t;
         public static System.Windows.Forms.Timer te;
-        private static string dlink;
         public static void StartUpload(byte[] upload_byte_array = null, string url = null)
         {
             /* Starts the upload. Arguments:

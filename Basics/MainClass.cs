@@ -14,8 +14,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Text;
+using System.Drawing.Imaging;
 using System.IO;
+using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Drawing.Imaging;
@@ -323,14 +324,18 @@ namespace Piccm_Uploader
             capd = 0;
         }
 
-        private void SaveCroppedScreenshot(Image img)
+        private void SaveCroppedScreenshot(Bitmap img)
         {
             string filepath = "";
-            ImageCodecInfo jgpEncoder = GetEncoder(ImageFormat.Jpeg);
+            ImageCodecInfo jpegInfo = GetEncoder(ImageFormat.Jpeg), pngInfo = GetEncoder(ImageFormat.Png);
             System.Drawing.Imaging.Encoder myEncoder = System.Drawing.Imaging.Encoder.Quality;
+            EncoderParameter myEncoderParameter;
             EncoderParameters myEncoderParameters = new EncoderParameters(1);
-            EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, 150L);
+
+
+            myEncoderParameter = new EncoderParameter(myEncoder, 85L);
             myEncoderParameters.Param[0] = myEncoderParameter;
+
             if (Sets.SaveScreenshots)
             {
                 if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "\\Pic.cm\\Screenshots") == false) Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "\\Pic.cm\\Screenshots");
@@ -338,18 +343,22 @@ namespace Piccm_Uploader
                     DateTime.Now.Year + "." + DateTime.Now.Hour + "." + DateTime.Now.Minute + "." + DateTime.Now.Second;
                 for (int x = 0; File.Exists(filepath); x++) filepath += x.ToString();
                 filepath += ".png";
-            }
-            if (Sets.SaveScreenshots)
-            {
                 img.Save(filepath);
                 Program.FilesToUpload.Add(filepath);
                 Uploadr.StartUpload();
             }
             else
             {
-                MemoryStream ms = new MemoryStream();
-                img.Save(ms, jgpEncoder, myEncoderParameters);
-                Uploadr.StartUpload(ms.ToArray());
+                MemoryStream msj = new MemoryStream();
+                MemoryStream msp = new MemoryStream();
+
+                img.Save(msj, jpegInfo, myEncoderParameters);
+                img.Save(msp, pngInfo, myEncoderParameters);
+                Console.WriteLine("Jpeg: " + msj.Length + "\nPNG: " + msp.Length);
+                if (msj.Length > msp.Length)
+                    Uploadr.StartUpload(msp.ToArray());
+                else
+                    Uploadr.StartUpload(msj.ToArray());
             }
 
             img.Dispose();
