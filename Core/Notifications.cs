@@ -67,7 +67,7 @@ namespace Piccm_Uploader.Core
             windowSettings.Name = "windowSettings";
             windowSettings.Text = "&Settings";
             windowSettings.Enabled = true;
-            windowSettings.Click += new System.EventHandler(ToolStripHandlers.ShowSettings); 
+            windowSettings.Click += new System.EventHandler(ToolStripHandlers.ShowSettings);
 
             windowHistory = new ToolStripMenuItem();
             windowHistory.Name = "windowHistory";
@@ -143,7 +143,8 @@ namespace Piccm_Uploader.Core
             }
         }
 
-        public static void NotifySound(References.Sound sound = References.Sound.WIN_ASTERISK){
+        public static void NotifySound(References.Sound sound = References.Sound.WIN_ASTERISK)
+        {
             switch (sound)
             {
                 case References.Sound.SOUND_JINGLE:
@@ -159,7 +160,7 @@ namespace Piccm_Uploader.Core
         {
             if (UriToOpen != null)
             {
-                System.Diagnostics.Process.Start(UriToOpen);
+                notifyIcon.BalloonTipClicked += (sender, eventArgs) => { System.Diagnostics.Process.Start(UriToOpen); };
             }
 
             notifyIcon.BalloonTipTitle = Title;

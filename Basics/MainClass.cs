@@ -19,7 +19,6 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
-using System.Drawing.Imaging;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Threading;
