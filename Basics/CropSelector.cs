@@ -47,7 +47,8 @@ namespace Piccm_Uploader
 
 		void CropSelector_KeyUp (object sender, KeyEventArgs e)
 		{
-			if (e.KeyCode==Keys.Escape) Program.ApplicationRestart ();
+            // TODO Reset Screen.
+			// if (e.KeyCode==Keys.Escape)
 		}
 
 		public int Absolute (int x)

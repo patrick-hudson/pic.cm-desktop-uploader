@@ -163,7 +163,6 @@
     <Compile Include="Windows\Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Basics\Uploadr.cs" />
     <Compile Include="Basics\UrlUpload.cs">
       <SubType>Form</SubType>
     </Compile>

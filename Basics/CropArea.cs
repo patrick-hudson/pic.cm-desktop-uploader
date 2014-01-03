@@ -144,7 +144,8 @@ namespace Piccm_Uploader
 
         void CropArea_KeyUp (object sender, KeyEventArgs e)
         {
-        	if (e.KeyCode==Keys.Escape) Program.ApplicationRestart ();
+            // TODO Reset Screen
+        	// if (e.KeyCode==Keys.Escape)
         }
     }
 }

@@ -77,8 +77,7 @@ namespace Piccm_Uploader
         {
             //upload from clipboard - upload if the clipboard contains the PATH to a file or a bitmap
             //if the clipboard contains a URL, see the UrlUpload class
-            Program.checker.CancelTheUpload();
-            ResetArrays();
+            // TODO Check if currently uploading
             if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Text))
             {
                 string s = Clipboard.GetText(TextDataFormat.Text);
@@ -87,9 +86,7 @@ namespace Piccm_Uploader
                     if (Validity.CheckImage(s))
                     {
                         //if there is a path to an image file
-                        Program.FilesToUpload.Add(s);
-                        Program.checker.CancelTheUpload();
-                        Uploadr.StartUpload();
+                        Upload.uploadQueue.Enqueue(s);
                     }
                     else
                     {
@@ -105,17 +102,7 @@ namespace Piccm_Uploader
             }
             else if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Bitmap))
             {
-                //if threre is a bitmap
-                Image img = Clipboard.GetImage();
-                Bitmap b = new Bitmap(img);
-                MemoryStream ms = new MemoryStream();
-                //"burn" the image to the memory - just like saving it as a file,
-                //the bitmap contains the same data if I save it to a local disk or to memory
-                b.Save(ms, ImageFormat.Png);
-                //and upload it as a bte array
-                Uploadr.StartUpload(ms.ToArray());
-                //CancelTheUpload ()=the context menu is replaced by a menu in which you can choose to cancel your upload
-                Program.checker.CancelTheUpload();
+                Core.Upload.UploadBitmap(new Bitmap(Clipboard.GetImage()));
             }
         }
 
@@ -130,11 +117,7 @@ namespace Piccm_Uploader
 
         public static void DesktopScreenShot()
         {
-            //upload a full desktop screenshot
-            Program.checker.CancelTheUpload();
-            Program.FilesToUpload.Clear();
-            //screenshot it...
-            //Bitmap b = Screenshot();
+            // TODO Check if currently uploading
 
             int xmin = 0, xmax = 0;
             int ymin = 0, ymax = 0;
@@ -151,34 +134,7 @@ namespace Piccm_Uploader
                 if (ymax < screens[i].Bounds.Height) ymax = screens[i].Bounds.Height;
             }
 
-            Image img = ScreenGrab.CaptureScreen(xmin, ymin, xmax, ymax);
-            string filepath = "";
-            //...save it to memory...
-            MemoryStream ms = new MemoryStream();
-            img.Save(ms, ImageFormat.Jpeg);
-            if (Sets.SaveScreenshots)
-            {
-                //..if the picture must be saved to the disk, do it...
-                if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "\\Pic.cm\\Screenshots") == false) Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "\\Pic.cm\\Screenshots");
-                filepath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "\\Pic.cm\\Screenshots\\Desktop " + DateTime.Now.Day.ToString() + "." + DateTime.Now.Month + "." +
-                    DateTime.Now.Year + "." + DateTime.Now.Hour + "." + DateTime.Now.Minute + "." + DateTime.Now.Second;
-                for (int x = 0; File.Exists(filepath); x++) filepath += x.ToString();
-                filepath += ".png";
-                img.Save(filepath);
-                if (Validity.CheckFile(filepath))
-                {
-                    //...upload it if the above operation is successfull
-                    Program.FilesToUpload.Add(filepath);
-                    Uploadr.StartUpload();
-                }
-                else Uploadr.StartUpload(ms.ToArray());
-                //or upload the memory stream turned into a byte array
-            }
-
-            else Uploadr.StartUpload(ms.ToArray());
-            //upload as a byte array
-            Program.checker.CancelTheUpload();
-            img.Dispose();
+            Upload.UploadBitmap(ScreenGrab.CaptureScreen(xmin, ymin, xmax, ymax));
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -188,11 +144,6 @@ namespace Piccm_Uploader
             public int Top;
             public int Right;
             public int Bottom;
-        }
-
-        private void ResetArrays()
-        {
-            Program.FilesToUpload.Clear();
         }
 
         public void CroppedScreenshotHotKeyPressed(object sender, KeyPressedEventArgs e)
@@ -207,10 +158,8 @@ namespace Piccm_Uploader
 
         internal static void CropScreenshot()
         {
-            //upload a cropped screenshot:
-            Program.checker.CancelTheUpload();
-            Program.FilesToUpload.Clear();
-            //open the cropper
+            // TODO Check if currently uploading
+
 
             cropForms = new CropForm[Screen.AllScreens.Length];
             int i = 0;
@@ -247,54 +196,59 @@ namespace Piccm_Uploader
         {
             CaptureActiveWindow();
         }
+
         public void ScreenshotActiveWindowHotKeyPressed(object sender, KeyPressedEventArgs e)
         {
             CaptureActiveWindow();
         }
+
         private void CaptureActiveWindow()
         {
-            //get the window handle
-            RECT r = new RECT();
-            GetWindowRect(new HandleRef(this, Wins[2]), out r);
-            ResetArrays();
-            //screenshot
-            Bitmap b = Screenshot();
-            string filepath = "";
-            if (Sets.SaveScreenshots)
-            {
-                if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "\\Pic.cm\\Screenshots") == false) Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "\\Pic.cm\\Screenshots");
-                filepath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "\\Pic.cm\\Screenshots\\Active " + DateTime.Now.Day.ToString() + "." + DateTime.Now.Month + "." +
-                    DateTime.Now.Year + "." + DateTime.Now.Hour + "." + DateTime.Now.Minute + "." + DateTime.Now.Second;
-                for (int x = 0; File.Exists(filepath); x++) filepath += x.ToString();
-                filepath += ".png";
-            }
-            //crop it
-            Rectangle z = new Rectangle(r.Left, r.Top, r.Right - r.Left + 1, r.Bottom - r.Top + 1);
-            Bitmap Output = new Bitmap(z.Width, z.Height);
-            Graphics g = Graphics.FromImage(Output);
-            g.DrawImage(b, new Rectangle(0, 0, Output.Width, Output.Height), z, GraphicsUnit.Pixel);
-            Program.checker.CancelTheUpload();
-            //and upload it
-            if (Sets.SaveScreenshots)
-            {
-                Output.Save(filepath);
-                Program.FilesToUpload.Add(filepath);
-                Uploadr.StartUpload();
-            }
-            else
-            {
-                MemoryStream ms = new MemoryStream();
-                Output.Save(ms, ImageFormat.Jpeg);
-                Uploadr.StartUpload(ms.ToArray());
-            }
+            // TODO Rewrite This Class
+            ////get the window handle
+            //RECT r = new RECT();
+            //GetWindowRect(new HandleRef(this, Wins[2]), out r);
+            ////screenshot
+            //Bitmap b = Screenshot();
+            //string filepath = "";
+            //if (Sets.SaveScreenshots)
+            //{
+            //    if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "\\Pic.cm\\Screenshots") == false) Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "\\Pic.cm\\Screenshots");
+            //    filepath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "\\Pic.cm\\Screenshots\\Active " + DateTime.Now.Day.ToString() + "." + DateTime.Now.Month + "." +
+            //        DateTime.Now.Year + "." + DateTime.Now.Hour + "." + DateTime.Now.Minute + "." + DateTime.Now.Second;
+            //    for (int x = 0; File.Exists(filepath); x++) filepath += x.ToString();
+            //    filepath += ".png";
+            //}
+            ////crop it
+            //Rectangle z = new Rectangle(r.Left, r.Top, r.Right - r.Left + 1, r.Bottom - r.Top + 1);
+            //Bitmap Output = new Bitmap(z.Width, z.Height);
+            //Graphics g = Graphics.FromImage(Output);
+            //g.DrawImage(b, new Rectangle(0, 0, Output.Width, Output.Height), z, GraphicsUnit.Pixel);
+            //Program.checker.CancelTheUpload();
+            ////and upload it
+            //if (Sets.SaveScreenshots)
+            //{
+            //    Output.Save(filepath);
+            //    Program.FilesToUpload.Add(filepath);
+            //    Uploadr.StartUpload();
+            //}
+            //else
+            //{
+            //    MemoryStream ms = new MemoryStream();
+            //    Output.Save(ms, ImageFormat.Jpeg);
+            //    Uploadr.StartUpload(ms.ToArray());
+            //}
         }
 
         public void Grabwholescreen(int sc)  // called when ALL screen capture; sc is screen number
         {
             var screens = Screen.AllScreens;
-            for (int j = 0; j < Screen.AllScreens.Length; j++) { cropForms[j].Close(); cropForms[j].Dispose(); }
-            var screen = ScreenGrab.CaptureScreen(screens[sc].Bounds.X, screens[sc].Bounds.Y, screens[sc].Bounds.Width, screens[sc].Bounds.Height);
-            SaveCroppedScreenshot(screen);
+            for (int i = 0; i < Screen.AllScreens.Length; i++)
+            {
+                cropForms[i].Close();
+                cropForms[i].Dispose();
+            }
+            Core.Upload.UploadBitmap(ScreenGrab.CaptureScreen(screens[sc].Bounds.X, screens[sc].Bounds.Y, screens[sc].Bounds.Width, screens[sc].Bounds.Height));
         }
 
         public void Smallscreengrab(int sc, int x, int y, int x1, int y1) // grab part of screen
@@ -314,54 +268,14 @@ namespace Piccm_Uploader
             finaly = Y1 + screens[sc].Bounds.Y;
             finalwidth = X2 - X1 + 1;
             finalheight = Y2 - Y1 + 1;
-            var screen = ScreenGrab.CaptureScreen(finalx, finaly, finalwidth, finalheight);
-            SaveCroppedScreenshot(screen);
 
+            Core.Upload.UploadBitmap(ScreenGrab.CaptureScreen(finalx, finaly, finalwidth, finalheight));
         }
         public void resetScreen()
         {
             capd = 0;
         }
 
-        private void SaveCroppedScreenshot(Bitmap img)
-        {
-            string filepath = "";
-            ImageCodecInfo jpegInfo = GetEncoder(ImageFormat.Jpeg), pngInfo = GetEncoder(ImageFormat.Png);
-            System.Drawing.Imaging.Encoder myEncoder = System.Drawing.Imaging.Encoder.Quality;
-            EncoderParameter myEncoderParameter;
-            EncoderParameters myEncoderParameters = new EncoderParameters(1);
-
-
-            myEncoderParameter = new EncoderParameter(myEncoder, 85L);
-            myEncoderParameters.Param[0] = myEncoderParameter;
-
-            if (Sets.SaveScreenshots)
-            {
-                if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "\\Pic.cm\\Screenshots") == false) Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "\\Pic.cm\\Screenshots");
-                filepath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "\\Pic.cm\\Screenshots\\Cropped " + DateTime.Now.Day.ToString() + "." + DateTime.Now.Month + "." +
-                    DateTime.Now.Year + "." + DateTime.Now.Hour + "." + DateTime.Now.Minute + "." + DateTime.Now.Second;
-                for (int x = 0; File.Exists(filepath); x++) filepath += x.ToString();
-                filepath += ".png";
-                img.Save(filepath);
-                Program.FilesToUpload.Add(filepath);
-                Uploadr.StartUpload();
-            }
-            else
-            {
-                MemoryStream msj = new MemoryStream();
-                MemoryStream msp = new MemoryStream();
-
-                img.Save(msj, jpegInfo, myEncoderParameters);
-                img.Save(msp, pngInfo, myEncoderParameters);
-                Console.WriteLine("Jpeg: " + msj.Length + "\nPNG: " + msp.Length);
-                if (msj.Length > msp.Length)
-                    Uploadr.StartUpload(msp.ToArray());
-                else
-                    Uploadr.StartUpload(msj.ToArray());
-            }
-
-            img.Dispose();
-        }
         private ImageCodecInfo GetEncoder(ImageFormat format)
         {
 

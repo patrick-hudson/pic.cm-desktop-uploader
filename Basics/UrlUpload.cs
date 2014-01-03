@@ -2,12 +2,11 @@
 using System.Text;
 using System.Windows.Forms;
 
+using Piccm_Uploader.Core;
+
 /*
  * Temporary Patch
- * TODO Rewrite URL upload class, Possible merge into Capture.cs
  */
-
-
 namespace Piccm_Uploader
 {
     public partial class UrlUpload : Form
@@ -23,9 +22,20 @@ namespace Piccm_Uploader
             {
                 Uri uriResult = null;
                 bool result = Uri.TryCreate(textBox1.Text, UriKind.Absolute, out uriResult) && uriResult.Scheme == Uri.UriSchemeHttp;
+                if (result)
+                {
+                    Upload.UploadURL(textBox1.Text);
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("The URL you provided is not valid.", "Invalid URL", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            this.Close();
-            Uploadr.StartUpload(null, textBox1.Text);
+            else
+            {
+                MessageBox.Show("Please provide a URL to upload.", "Invalid URL", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

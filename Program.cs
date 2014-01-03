@@ -26,9 +26,7 @@ namespace Piccm_Uploader
         //some globals
         [DllImport("user32.dll")]
         public static extern IntPtr GetForegroundWindow();
-        public static List<string> FilesToUpload;
         public static List<UploadedPhoto> History;
-        public static string Url, Key;
         public static MainClass MainClassInstance;
         public static Checker checker;
 
@@ -49,7 +47,6 @@ namespace Piccm_Uploader
             //here we read app's settings, configuration (api key, url) and history
             Core.Notifications.Initialize();
             Sets.ReadSets();
-            ReadConfig();
             ReadHistory();
             //a strange bug's fix
             if (Sets.Bug563Fix) Sets.Bug563Fix = false;
@@ -59,7 +56,6 @@ namespace Piccm_Uploader
                 if (p.Length > 1) Process.GetCurrentProcess().Kill();
             }
             //some init
-            FilesToUpload = new List<string>();
             MainClassInstance = new MainClass();
             MainClassInstance.Wins = new IntPtr[3];
             MainClassInstance.Wins[0] = GetForegroundWindow();
@@ -71,8 +67,6 @@ namespace Piccm_Uploader
             Application.Run();
         }
 
-        public static NotifyIcon notifyIcon = new NotifyIcon();
-        public static ContextMenuStrip NotifyIconMenu = new ContextMenuStrip();
         public static void ReadHistory()
         {
             /* this function reads the content of history.xml, which contains the links
@@ -146,30 +140,7 @@ namespace Piccm_Uploader
             sw.WriteLine("</files></xml>");
             sw.Close();
         }
-
-        public static void ApplicationRestart()
-        {
-            /*funtion which correctly restarts the app (Application.Restart () didn't worked so well here).
-              It is called each time the upload is done*/
-            Sets.Bug563Fix = true;
-            Process.Start(Application.ExecutablePath);
-            Process.GetCurrentProcess().Kill();
-        }
-
-        public static void ReadConfig()
-        {
-            //read config
-            /*if (File.Exists (".\\config.ini")==false) -- We don't need this We're awesome
-            {
-            	MessageBox.Show ("config.ini file do not exist");
-            	Application.Exit ();
-            }
-             */
-            //remember to set your url to api and the api key in config.ini!
-            Url = "http://pic.cm/api.php";
-            Key = "thisismyapikeynooneshouldknowmyapikey";
-        }
-
+        
         public static void ReadHotkeysConfig()
         {
             //read config

@@ -17,7 +17,7 @@ namespace Piccm_Uploader
 
         public void CancelTheUpload()
         {
-            // TODO Allow Canceling   
+            // TODO Calcel Upload   
         }
 
         public static void RegisterGlobalHotKeys()
