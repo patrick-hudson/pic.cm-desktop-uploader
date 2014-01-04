@@ -27,7 +27,7 @@ namespace Piccm_Uploader
                 XmlDocument xdoc = new XmlDocument();
 
 #if DEBUG
-                xdoc.Load("http://10.0.0.250/pic.cm/Version.xml");
+                xdoc.Load("http://pic.cm/releases/dev/Version.xml");
 #else
                 xdoc.Load("http://pic.cm/releases/live/Version.xml");
 #endif
