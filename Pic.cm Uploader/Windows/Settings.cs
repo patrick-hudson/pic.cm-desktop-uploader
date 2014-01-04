@@ -23,6 +23,9 @@ using System.Media;
 using Piccm_Uploader.Misc;
 using System.IO;
 
+using Piccm_Uploader;
+using Piccm_Uploader.Core;
+
 namespace Piccm_Uploader.Windows
 {
     //class dealing with app's settings
@@ -326,7 +329,6 @@ namespace Piccm_Uploader.Windows
         }
         public void checkForUpdates()
         {
-            Piccm_Uploader.Update.InitUpdate();
         }
 
         private void ButtonCheckForUpdate_Click(object sender, System.EventArgs e)

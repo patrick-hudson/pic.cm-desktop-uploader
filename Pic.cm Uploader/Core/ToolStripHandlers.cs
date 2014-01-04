@@ -30,7 +30,7 @@ namespace Piccm_Uploader.Core
                         Upload.uploadQueue.Enqueue(fileName);
                 }
 
-                if(invalidFiles.Count > 0)
+                if (invalidFiles.Count > 0)
                 {
                     String invalidFileList = String.Empty;
                     foreach (String invalidFileName in invalidFiles)
@@ -52,30 +52,38 @@ namespace Piccm_Uploader.Core
                 // Store the text in the clipboard locally
                 string s = Clipboard.GetText(TextDataFormat.Text);
 
-                // Check if the text is actually a file path
-                if (Validity.CheckFile(s))
+                // Check if text is a HTTP or HTTPS url first to prevent mscorlib errors
+                if (Validity.CheckURL(s))
                 {
-                    // If it is a path, check if it is an allowed image type
-                    if (Validity.CheckImage(s))
-                    {
-                        Upload.uploadQueue.Enqueue(s);
-                    }
+                    Upload.uploadQueue.Enqueue(s);
+                    Console.WriteLine("URL Added " + s);
                 }
                 else
                 {
-                    MessageBox.Show("Invaild file specified");
+                    // Check if the file exists
+                    if (Validity.CheckFile(s))
+                    {
+                        // Check if the file is a valid image type
+                        if (Validity.CheckImage(s))
+                        {
+                            Upload.uploadQueue.Enqueue(s);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invaild file specified\n" + Validity.CheckURL(s).ToString());
+                    }
                 }
             }
             else if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Bitmap)) // If the data in the clipboard is a bitmap
             {
-                Upload.UploadBitmap(new Bitmap(Clipboard.GetImage()));
+                Upload.UploadBitmap(new Bitmap(Clipboard.GetImage())); // Upload the bitmap
             }
         }
 
         internal static void ShowHistory(object sender, EventArgs e)
         {
-            Windows.History history = new Windows.History(true);
-            history.Show();
+            // TODO Reprogram history (Issue #6)
         }
 
         internal static void ShowSettings(object sender, EventArgs e)

@@ -75,15 +75,7 @@ namespace Piccm_Uploader.Windows
 
         void DeleteFromHistory ()
         {
-        	foreach (UploadedPhoto k in Program.History)
-        	if (k.Id==q.Id)
-        	{
-                Program.History.Remove (k);
-	        	break;
-            }
-        	Program.WriteHistory ();
-            this.DialogResult=DialogResult.Cancel;
-            this.Close ();
+
         }
         
         void Button1Click(object sender, EventArgs e)

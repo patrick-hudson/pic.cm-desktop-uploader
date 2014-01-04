@@ -79,6 +79,18 @@ namespace Piccm_Uploader.Core
             image.Save(filepath);
         }
 
+        internal static void ProcessQueue()
+        {
+            while (true)
+            {
+                if (uploadQueue.Count > 0)
+                {
+
+                }
+                System.Threading.Thread.Sleep(1000);
+            }
+        }
+
         private static void SendRequest(byte[] img = null, String remoteUrl = null)
         {
             Notifications.SetIcon(References.Icon.ICON_UPLOAD);
@@ -154,7 +166,7 @@ namespace Piccm_Uploader.Core
             }
             catch (Exception e)
             {
-#if DEBUG 
+#if DEBUG
                 Console.WriteLine(e.Message);
                 Console.WriteLine(e.StackTrace);
 #endif

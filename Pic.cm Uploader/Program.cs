@@ -19,6 +19,8 @@ using System.Threading;
 using System.Runtime.InteropServices;
 using Piccm_Uploader.Misc;
 
+using Piccm_Uploader.Core;
+
 namespace Piccm_Uploader
 {
     static class Program
@@ -26,7 +28,6 @@ namespace Piccm_Uploader
         //some globals
         [DllImport("user32.dll")]
         public static extern IntPtr GetForegroundWindow();
-        public static List<UploadedPhoto> History;
         public static MainClass MainClassInstance;
         public static Checker checker;
 
@@ -42,13 +43,20 @@ namespace Piccm_Uploader
             }
 #endif
 
-            Update.InitUpdate();
+            Update workerUpdate = new Update();
+            Thread threadUpdate = new Thread(workerUpdate.InitUpdate);
+            Thread threadUpload = new Thread(Upload.ProcessQueue);
+
+            threadUpdate.Start();
+            threadUpload.Start();
+
             Application.EnableVisualStyles();
+
+
             //Application.SetCompatibleTextRenderingDefault(false);
             //here we read app's settings, configuration (api key, url) and history
             Core.Notifications.Initialize();
             Sets.ReadSets();
-            ReadHistory();
             //a strange bug's fix
             if (Sets.Bug563Fix) Sets.Bug563Fix = false;
             else
@@ -66,80 +74,6 @@ namespace Piccm_Uploader
             checker = new Checker();
             ReadHotkeysConfig();
             Application.Run();
-        }
-
-        public static void ReadHistory()
-        {
-            /* this function reads the content of history.xml, which contains the links
-             * to the photos you have uploaded in the past.*/
-            History = new List<UploadedPhoto>();
-            if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\imageuploader\\history.xml") == false)
-            {
-                StreamWriter sw = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\imageuploader\\history.xml");
-                sw.WriteLine("<xml><nr-of-files>0</nr-of-files><files></files></xml>");
-                sw.Close();
-            }
-            XmlTextReader reader = new XmlTextReader(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\imageuploader\\history.xml");
-            int n = 0;
-            string ReadedNode = "";
-            UploadedPhoto aux = new UploadedPhoto();
-            while (reader.Read())
-            {
-                switch (reader.NodeType)
-                {
-                    case XmlNodeType.Element:
-                        ReadedNode = reader.Name;
-                        if (reader.Name == "file") aux = new UploadedPhoto();
-                        break;
-                    case XmlNodeType.Text:
-                        //parse the content of a "photo"...
-                        string s = reader.Value;
-                        switch (ReadedNode)
-                        {
-                            case "nr-of-files": n = Convert.ToInt32(s); break;
-                            case "id": aux.Id = Convert.ToInt32(s); break;
-                            case "local-name": aux.LocalName = s; break;
-                            case "server-name": aux.ServerName = s; break;
-                            case "direct-link": aux.DirectLink = s; break;
-                            case "short-url": aux.ShortUrl = s; break;
-                            case "viewer": aux.Viewer = s; break;
-                            case "mini": aux.Miniatura = s; break;
-                            case "from-last-upload": aux.FromLastUpload = Convert.ToBoolean(s); break;
-                            case "delete-link": aux.Delete = s; break;
-                            default: break;
-                        }
-                        break;
-                    case XmlNodeType.EndElement:
-                        //...and add that "photo" to the "history"
-                        if (reader.Name == "file") History.Add(aux);
-                        break;
-                }
-            }
-            reader.Close();
-        }
-
-        public static void WriteHistory()
-        {
-            /* this funtion writes the content of history.xml with the content of the history list*/
-            StreamWriter sw = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\imageuploader\\history.xml");
-            sw.WriteLine("<xml><nr-of-files>" + History.Count.ToString());
-            sw.WriteLine("</nr-of-files><files>");
-            foreach (UploadedPhoto p in History)
-            {
-                sw.WriteLine("<file>");
-                sw.WriteLine("<id>" + p.Id + "</id>");
-                sw.WriteLine("<local-name>" + p.LocalName + "</local-name>");
-                sw.WriteLine("<server-name>" + p.ServerName + "</server-name>");
-                sw.WriteLine("<direct-link>" + p.DirectLink + "</direct-link>");
-                sw.WriteLine("<short-url>" + p.ShortUrl + "</short-url>");
-                sw.WriteLine("<viewer>" + p.Viewer + "</viewer>");
-                sw.WriteLine("<mini>" + p.Miniatura + "</mini>");
-                sw.WriteLine("<from-last-upload>" + p.FromLastUpload.ToString() + "</from-last-upload>");
-                sw.WriteLine("<delete-link>" + p.Delete + "</delete-link>");
-                sw.WriteLine("</file>");
-            }
-            sw.WriteLine("</files></xml>");
-            sw.Close();
         }
         
         public static void ReadHotkeysConfig()

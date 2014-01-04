@@ -15,7 +15,7 @@ namespace Piccm_Uploader
 {
     class Update
     {
-        public static void InitUpdate()
+        public void InitUpdate()
         {
             if (File.Exists("update.bat"))
                 File.Delete("update.bat");
