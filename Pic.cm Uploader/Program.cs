@@ -48,6 +48,8 @@ namespace Piccm_Uploader
             Thread threadUpload = new Thread(Upload.ProcessQueue);
 
             threadUpdate.Start();
+
+            threadUpload.SetApartmentState(ApartmentState.STA);
             threadUpload.Start();
 
             Application.EnableVisualStyles();

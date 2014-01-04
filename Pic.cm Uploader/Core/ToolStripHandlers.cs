@@ -83,7 +83,8 @@ namespace Piccm_Uploader.Core
 
         internal static void ShowHistory(object sender, EventArgs e)
         {
-            // TODO Reprogram history (Issue #6)
+            Windows.History history = new Windows.History();
+            history.Show();
         }
 
         internal static void ShowSettings(object sender, EventArgs e)

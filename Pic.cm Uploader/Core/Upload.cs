@@ -85,7 +85,16 @@ namespace Piccm_Uploader.Core
             {
                 if (uploadQueue.Count > 0)
                 {
-
+                    string path = uploadQueue.Dequeue();
+                    if (Validity.CheckURL(path))
+                    {
+                        SendRequest(null, path);
+                    }
+                    else
+                    {
+                        byte[] data = File.ReadAllBytes(path);
+                        SendRequest(data);
+                    }
                 }
                 System.Threading.Thread.Sleep(1000);
             }
@@ -106,9 +115,9 @@ namespace Piccm_Uploader.Core
                     request.ContentType = "application/x-www-form-urlencoded";
                     request.ContentLength = dataBuffer.Length;
 
-                    // Here is where I need to compress the above byte array using GZipStream
                     Stream postStream = request.GetRequestStream();
                     postStream.Write(dataBuffer, 0, dataBuffer.Length);
+
                     //using (GZipStream zipStream = new GZipStream(postStream, CompressionMode.Compress))
                     //{
                     //    zipStream.Write(dataBuffer, 0, dataBuffer.Length);
@@ -119,6 +128,17 @@ namespace Piccm_Uploader.Core
                     Console.WriteLine(e.Message);
                     Console.WriteLine(e.StackTrace);
                 }
+            }
+
+            if (remoteUrl != null)
+            {
+                byte[] dataBuffer = Encoding.ASCII.GetBytes("format=xml&key=" + References.APIKey + "&upload=" + HttpUtility.UrlEncode(remoteUrl));
+                request.ContentType = "application/x-www-form-urlencoded";
+                request.ContentLength = dataBuffer.Length;
+
+                Stream postStream = request.GetRequestStream();
+                postStream.Write(dataBuffer, 0, dataBuffer.Length);
+
             }
 
 
@@ -145,10 +165,10 @@ namespace Piccm_Uploader.Core
                     XmlNodeList image_delete_hash = xmlDoc.GetElementsByTagName("image_delete_hash");
                     XmlNodeList image_date = xmlDoc.GetElementsByTagName("image_date");
 
-                    PreviousUpload.image_name = image_name[0].InnerText;
-                    PreviousUpload.image_type = image_type[0].InnerText;
+                    ImageData.image_name = image_name[0].InnerText;
+                    ImageData.image_type = image_type[0].InnerText;
 
-                    string url = References.URL_VIEW + PreviousUpload.image_name + "." + PreviousUpload.image_type;
+                    string url = References.URL_VIEW + ImageData.image_name + "." + ImageData.image_type;
 
                     Notifications.ResetIcon();
                     Notifications.NotifyUser("Upload Complete!", "Click here to view your image", 1000, ToolTipIcon.Info, url);

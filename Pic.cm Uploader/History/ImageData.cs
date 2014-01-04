@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Piccm_Uploader.History
 {
-    public class PreviousUpload
+    public class ImageData
     {
         public static string image_name;
         public static string image_type;

@@ -84,6 +84,9 @@
     <Reference Include="System.Data.DataSetExtensions">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data.SQLite">
+      <HintPath>Resources\3rd Party\System.Data.SQLite.DLL</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -132,13 +135,13 @@
     <Compile Include="Core\ToolStripHandlers.cs" />
     <Compile Include="Core\Upload.cs" />
     <Compile Include="Core\Validity.cs" />
-    <Compile Include="History\PreviousUpload.cs" />
+    <Compile Include="History\ImageData.cs" />
+    <Compile Include="History\SQLiteDatabase.cs" />
     <Compile Include="Misc\Checker.cs" />
     <Compile Include="Misc\Ini.cs" />
     <Compile Include="Misc\KeyboardHook.cs" />
     <Compile Include="Misc\ScreenGrab.cs" />
     <Compile Include="Misc\Sets.cs" />
-    <Compile Include="Misc\UploadedPhoto.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -158,11 +161,11 @@
     <Compile Include="Windows\AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Windows\PhotoViewer.cs">
+    <Compile Include="Windows\History.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Windows\PhotoViewer.Designer.cs">
-      <DependentUpon>PhotoViewer.cs</DependentUpon>
+    <Compile Include="Windows\History.Designer.cs">
+      <DependentUpon>History.cs</DependentUpon>
     </Compile>
     <Compile Include="Windows\Settings.cs">
       <SubType>Form</SubType>
@@ -196,8 +199,8 @@
     <EmbeddedResource Include="Windows\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Windows\PhotoViewer.resx">
-      <DependentUpon>PhotoViewer.cs</DependentUpon>
+    <EmbeddedResource Include="Windows\History.resx">
+      <DependentUpon>History.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Windows\Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
@@ -213,6 +216,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\Media\history.db" />
     <None Include="Resources\Icons\default.ico" />
     <None Include="Resources\Icons\favicon.ico" />
     <None Include="Resources\Icons\default.png" />

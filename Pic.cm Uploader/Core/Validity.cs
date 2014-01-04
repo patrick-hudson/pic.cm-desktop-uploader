@@ -45,7 +45,14 @@ namespace Piccm_Uploader.Core
         internal static bool CheckURL(string s)
         {
             Uri uriResult;
-            return Uri.TryCreate(s, UriKind.Absolute, out uriResult) && uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps;
+            try
+            {
+                return Uri.TryCreate(s, UriKind.Absolute, out uriResult) && uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
