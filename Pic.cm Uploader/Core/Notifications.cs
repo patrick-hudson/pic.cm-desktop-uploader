@@ -122,14 +122,17 @@ namespace Piccm_Uploader.Core
             notifyIcon.Visible = true;
         }
 
-        public static void ClickHandler(References.ClickAction action){
-            switch(action){
+        public static void ClickHandler(References.ClickAction action)
+        {
+            switch (action)
+            {
                 case References.ClickAction.CANCEL_UPLOAD:
-                notifyIcon.Click += (sender, eventArgs) => { Upload.CancelUpload(); };
-                break;
+                    notifyIcon.Click += new System.EventHandler(Upload.CancelUpload);
+                    break;
+                case References.ClickAction.NOTHING:
                 default:
-                notifyIcon.Click += (sender, eventArgs) => { DoNothing(); };
-                break;
+                    notifyIcon.Click -= new System.EventHandler(Upload.CancelUpload); // TODO Track the currently assigned handler (sender, eventArgs) => { DoNothing(); };
+                    break;
             }
         }
 
@@ -186,6 +189,7 @@ namespace Piccm_Uploader.Core
 
         private static void DoNothing() {
             // HACK Easy way to "Unsubscribe" events
+            Console.WriteLine("Registering click to do nothing");
         }
     }
 }

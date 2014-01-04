@@ -23,14 +23,6 @@ namespace Piccm_Uploader.Core
 
         private static HttpWebRequest request;
 
-        internal static void CancelUpload()
-        {
-            if (MessageBox.Show("Are you sure you want to cancel the upload?", "Cancel upload", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                request.Abort();
-            }
-        }
-
         internal static void UploadBitmap(Bitmap bitmap)
         {
             byte[] data;
@@ -237,6 +229,14 @@ namespace Piccm_Uploader.Core
                     return encoders[j];
             }
             return null;
+        }
+
+        internal static void CancelUpload(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to cancel the upload?", "Cancel upload", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                request.Abort();
+            }
         }
     }
 }
