@@ -120,6 +120,25 @@ namespace Piccm_Uploader.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to @echo off
+        ///
+        ///setlocal enabledelayedexpansion
+        ///
+        ///echo ----------------------------------------------------------------------------
+        ///echo  _______  _____   ______      ______  ____    ____ 
+        ///echo ^|_   __ \^|_   _^|.&apos; ___  ^|   .&apos; ___  ^|^|_   \  /   _^|
+        ///echo   ^| ^|__) ^| ^| ^| / .&apos;   \_^|  / .&apos;   \_^|  ^|   \/   ^|  
+        ///echo   ^|  ___/  ^| ^| ^| ^|         ^| ^|         ^| ^|\  /^| ^|  
+        ///echo  _^| ^|_    _^| ^|_\ `.___.&apos;\ _\ `.___.&apos;\ _^| ^|_\/_^| ^|_ 
+        ///echo ^|_____^|  ^|_____^|`.____ .&apos;(_)`.____ .&apos;^|_____^|^ [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string update {
+            get {
+                return ResourceManager.GetString("update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon uploading {

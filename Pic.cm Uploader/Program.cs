@@ -41,7 +41,7 @@ namespace Piccm_Uploader
                 Console.WriteLine(screen.DeviceName + ") Width: " + screen.Bounds.Width + ", Height: " + screen.Bounds.Height);
             }
 #endif
-
+            Update.InitUpdate();
             Application.EnableVisualStyles();
             //Application.SetCompatibleTextRenderingDefault(false);
             //here we read app's settings, configuration (api key, url) and history

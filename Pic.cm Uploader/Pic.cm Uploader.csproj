@@ -227,6 +227,7 @@
     <None Include="Resources\Icons\uploading.ico" />
     <None Include="Resources\Media\jingle.wav" />
     <None Include="Resources\Text\default_sets" />
+    <None Include="Resources\Text\update.bat" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
