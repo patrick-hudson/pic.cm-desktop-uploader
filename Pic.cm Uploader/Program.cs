@@ -30,7 +30,7 @@ namespace Piccm_Uploader
         public static extern IntPtr GetForegroundWindow();
         public static MainClass MainClassInstance;
         public static Checker checker;
-
+        
         [STAThread]
         static void Main()
         {
@@ -84,7 +84,9 @@ namespace Piccm_Uploader
 
         private static void OnExit(object sender, EventArgs e)
         {
+            Notifications.notifyIcon.Visible = false;
             Notifications.notifyIcon.Dispose();
+            Environment.Exit(0);
         }
 
         public static void ReadHotkeysConfig()

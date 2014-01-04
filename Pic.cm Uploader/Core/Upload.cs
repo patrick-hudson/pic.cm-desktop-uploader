@@ -8,11 +8,11 @@ using System.Net;
 using System.Web;
 using System.Text;
 using System.Threading;
+using System.Windows.Forms;
 using System.Xml;
 
 using Piccm_Uploader;
 using Piccm_Uploader.History;
-using System.Windows.Forms;
 
 namespace Piccm_Uploader.Core
 {
@@ -20,8 +20,9 @@ namespace Piccm_Uploader.Core
     {
 
         internal static Queue<String> uploadQueue = new Queue<string>();
-
-        private static HttpWebRequest request;
+        internal static Queue<String> clipboardHack = new Queue<string>();
+        private static WebClient uploadClient = new WebClient();
+        private static Boolean _uploadLock = false;
 
         internal static void UploadBitmap(Bitmap bitmap)
         {
@@ -83,7 +84,22 @@ namespace Piccm_Uploader.Core
         {
             while (true)
             {
-                if (uploadQueue.Count > 0)
+                if (clipboardHack.Count > 0)
+                {
+                    string url = clipboardHack.Dequeue();
+                    if (Sets.CopyAfterUpload)
+                    {
+                        System.Windows.Forms.Clipboard.SetText(url);
+                    }
+
+                    if (Sets.Sound)
+                    {
+                        Notifications.NotifySound(References.Sound.SOUND_JINGLE);
+                    }
+                    clipboardHack.Clear();
+                }
+
+                if (uploadQueue.Count > 0 && !_uploadLock)
                 {
                     string path = uploadQueue.Dequeue();
                     if (Validity.CheckURL(path))
@@ -96,63 +112,54 @@ namespace Piccm_Uploader.Core
                         SendRequest(data);
                     }
                 }
-                System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(200);
             }
         }
 
         private static void SendRequest(byte[] img = null, String remoteUrl = null)
         {
+            _uploadLock = true;
             Notifications.SetIcon(References.Icon.ICON_UPLOAD);
             Notifications.ClickHandler(References.ClickAction.CANCEL_UPLOAD);
-            request = WebRequest.Create(References.URL_UPLOAD) as HttpWebRequest;
-            request.Timeout = 600000; // Nice long timeout, should upload most files
-            request.Method = "POST";
-
-            if (img != null)
-            {
-                try
-                {
-                    byte[] dataBuffer = Encoding.ASCII.GetBytes("format=xml&key=" + References.APIKey + "&upload=" + ToBase64(img));
-                    request.ContentType = "application/x-www-form-urlencoded";
-                    request.ContentLength = dataBuffer.Length;
-
-                    Stream postStream = request.GetRequestStream();
-
-                    postStream.Write(dataBuffer, 0, dataBuffer.Length);
-
-                    //using (GZipStream zipStream = new GZipStream(postStream, CompressionMode.Compress))
-                    //{
-                    //    zipStream.Write(dataBuffer, 0, dataBuffer.Length);
-                    //}
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                    Console.WriteLine(e.StackTrace);
-                }
-            }
-
-            if (remoteUrl != null)
-            {
-                byte[] dataBuffer = Encoding.ASCII.GetBytes("format=xml&key=" + References.APIKey + "&upload=" + HttpUtility.UrlEncode(remoteUrl));
-                request.ContentType = "application/x-www-form-urlencoded";
-                request.ContentLength = dataBuffer.Length;
-
-                Stream postStream = request.GetRequestStream();
-                postStream.Write(dataBuffer, 0, dataBuffer.Length);
-
-            }
-
-
+            uploadClient.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+            uploadClient.UploadProgressChanged += new UploadProgressChangedEventHandler(uploadProgressChanged);
+            uploadClient.UploadDataCompleted += new UploadDataCompletedEventHandler(uploadComplete);
             try
             {
-                XmlDocument xmlDoc = new XmlDocument();
-                HttpWebResponse response = null;
-                StreamReader reader = null;
+                string response = String.Empty;
+                if (img != null)
+                {
+                    byte[] dataBuffer = Encoding.ASCII.GetBytes("format=xml&key=" + References.APIKey + "&upload=" + ToBase64(img));
+                    uploadClient.UploadDataAsync(new Uri(References.URL_UPLOAD), dataBuffer);
+                }
 
-                response = request.GetResponse() as HttpWebResponse;
-                reader = new StreamReader(response.GetResponseStream());
-                xmlDoc.LoadXml(reader.ReadToEnd());
+                if (remoteUrl != null)
+                {
+                    byte[] dataBuffer = Encoding.ASCII.GetBytes("format=xml&key=" + References.APIKey + "&upload=" + HttpUtility.UrlEncode(remoteUrl));
+                    uploadClient.UploadDataAsync(new Uri(References.URL_UPLOAD), dataBuffer);
+                }
+            }
+            catch (WebException e)
+            {
+#if DEBUG
+                Console.WriteLine(e.Message);
+                Console.WriteLine(e.StackTrace);
+#endif
+                Notifications.ResetIcon();
+                if (e.Status == WebExceptionStatus.RequestCanceled)
+                    Notifications.NotifyUser("Upload Canceled", "Your upload was canceled before it was completed", 1000, ToolTipIcon.Warning);
+                else
+                    Notifications.NotifyUser("Upload Failed", "An error occuring during the upload process", 1000, ToolTipIcon.Error);
+            }
+        }
+
+        private static void uploadComplete(object sender, UploadDataCompletedEventArgs e)
+        {
+            _uploadLock = false;
+            if (!e.Cancelled)
+            {
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.LoadXml(Encoding.UTF8.GetString(e.Result));
 
                 XmlNodeList xmlStatus = xmlDoc.GetElementsByTagName("status_txt");
 
@@ -183,31 +190,22 @@ namespace Piccm_Uploader.Core
                     Notifications.ResetIcon();
                     Notifications.NotifyUser("Upload Complete!", "Click here to view your image", 1000, ToolTipIcon.Info, url);
 
-                    if (Sets.CopyAfterUpload)
-                    {
-                        Clipboard.SetText(url);
-                    }
-
-                    if (Sets.Sound)
-                    {
-                        Notifications.NotifySound(References.Sound.SOUND_JINGLE);
-                    }
+                    clipboardHack.Enqueue(url);
                 }
             }
-            catch (WebException e)
-            {
-#if DEBUG
-                Console.WriteLine(e.Message);
-                Console.WriteLine(e.StackTrace);
-#endif
-                Notifications.ResetIcon();
-                if (e.Status == WebExceptionStatus.RequestCanceled)
-                    Notifications.NotifyUser("Upload Canceled", "Your upload was canceled before it was completed", 1000, ToolTipIcon.Warning);
-                else
-                    Notifications.NotifyUser("Upload Failed", "An error occuring during the upload process", 1000, ToolTipIcon.Error);
-            }
             Program.MainClassInstance.resetScreen();
+
             Notifications.ClickHandler(References.ClickAction.NOTHING);
+            Notifications.uploadPercent.Enabled = false;
+            Notifications.uploadPercent.Text = "No current uploads";
+        }
+
+        private static void uploadProgressChanged(object sender, UploadProgressChangedEventArgs e)
+        {
+            double uploadProgress = Math.Round(((double)e.BytesSent / e.TotalBytesToSend)*100, 2);
+            Notifications.uploadPercent.Text = "Uploading: " + uploadProgress + "%";
+                if (!Notifications.uploadPercent.Enabled)
+                    Notifications.uploadPercent.Enabled = true;
         }
 
         private static byte[] ToByteArray(this Stream stream)
@@ -239,11 +237,15 @@ namespace Piccm_Uploader.Core
             return null;
         }
 
-        internal static void CancelUpload(object sender, EventArgs e)
+        internal static void CancelUpload(object sender, MouseEventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to cancel the upload?", "Cancel upload", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
-                request.Abort();
+                Notifications.NotifySound();
+                if (MessageBox.Show("Are you sure you want to cancel the upload?", "Cancel upload", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    uploadClient.CancelAsync();
+                }
             }
         }
     }

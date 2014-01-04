@@ -4,16 +4,14 @@ using System.Windows.Forms;
 
 using Piccm_Uploader.Core;
 
-/*
- * Temporary Patch
- */
-namespace Piccm_Uploader
+
+namespace Piccm_Uploader.Windows
 {
     public partial class UrlUpload : Form
     {
-        private void button2_Click(object sender, EventArgs e)
+        public UrlUpload()
         {
-            this.Close();
+            InitializeComponent();
         }
 
         private void button1_Click(object sender, EventArgs e)

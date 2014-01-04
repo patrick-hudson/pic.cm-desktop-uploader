@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Imaging;
 
+using Piccm_Uploader.Windows;
 
 namespace Piccm_Uploader.Core
 {
@@ -125,6 +126,7 @@ namespace Piccm_Uploader.Core
             // TODO Check if currently uploading
 
             DragDropFiles ddf = new DragDropFiles();
+            ddf.ShowDialog();
         }
 
         internal static void UploadUrl(object sender, EventArgs e)

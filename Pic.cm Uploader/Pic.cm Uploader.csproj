@@ -123,12 +123,6 @@
       <DependentUpon>DragDropFiles.cs</DependentUpon>
     </Compile>
     <Compile Include="Basics\MainClass.cs" />
-    <Compile Include="Basics\UrlUpload.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Basics\UrlUpload.Designer.cs">
-      <DependentUpon>UrlUpload.cs</DependentUpon>
-    </Compile>
     <Compile Include="Core\Capture.cs" />
     <Compile Include="Core\Notifications.cs" />
     <Compile Include="Core\References.cs" />
@@ -179,6 +173,12 @@
     <Compile Include="Windows\Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Windows\UrlUpload.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\UrlUpload.Designer.cs">
+      <DependentUpon>UrlUpload.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Basics\CropArea.resx">
       <DependentUpon>CropArea.cs</DependentUpon>
     </EmbeddedResource>
@@ -190,9 +190,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Basics\DragDropFiles.resx">
       <DependentUpon>DragDropFiles.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Basics\UrlUpload.resx">
-      <DependentUpon>UrlUpload.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -214,6 +211,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Windows\Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\UrlUpload.resx">
+      <DependentUpon>UrlUpload.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Properties\app.manifest" />
