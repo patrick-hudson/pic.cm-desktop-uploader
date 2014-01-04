@@ -63,8 +63,7 @@ namespace Piccm_Uploader
                             DownloadFile(downloadurl, file);
                         }
 
-                        string batch = Resources.Resource.update.ToString();
-                        File.WriteAllText("update.bat", batch);
+                        File.WriteAllText("update.bat", Resources.Resource.update);
                         Process.Start("update.bat");
                         Application.Exit();
                     }

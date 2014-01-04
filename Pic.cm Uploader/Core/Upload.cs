@@ -169,6 +169,14 @@ namespace Piccm_Uploader.Core
 
                     ImageData.image_name = image_name[0].InnerText;
                     ImageData.image_type = image_type[0].InnerText;
+                    ImageData.image_bytes = Convert.ToInt32(image_bytes[0].InnerText);
+                    ImageData.image_height = Convert.ToInt32(image_height[0].InnerText);
+                    ImageData.image_width = Convert.ToInt32(image_width[0].InnerText);
+                    ImageData.image_id_public = image_id_public[0].InnerText;
+                    ImageData.image_delete_hash = image_delete_hash[0].InnerText;
+                    ImageData.image_date = image_date[0].InnerText;
+
+                    ImageData.Save();
 
                     string url = References.URL_VIEW + ImageData.image_name + "." + ImageData.image_type;
 

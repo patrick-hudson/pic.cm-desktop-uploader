@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SQLite;
 using System.Windows.Forms;
 
+using Piccm_Uploader.Core;
 
 namespace Piccm_Uploader.History
 {
@@ -16,7 +17,7 @@ namespace Piccm_Uploader.History
         /// </summary>
         public SQLiteDatabase()
         {
-            dbConnection = "Data Source=history.db";
+            dbConnection = "Data Source=" + References.APPDATA + "history.db";
         }
 
         /// <summary>

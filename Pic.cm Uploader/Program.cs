@@ -34,6 +34,8 @@ namespace Piccm_Uploader
         [STAThread]
         static void Main()
         {
+            Application.ApplicationExit += new EventHandler(OnExit);
+
 #if DEBUG
             var screens = Screen.AllScreens;
             foreach (var screen in screens)
@@ -54,6 +56,8 @@ namespace Piccm_Uploader
 
             Application.EnableVisualStyles();
 
+            if (!File.Exists(References.APPDATA + "history.db"))
+                System.IO.File.WriteAllBytes(References.APPDATA + "history.db", Resources.Resource.history);
 
             //Application.SetCompatibleTextRenderingDefault(false);
             //here we read app's settings, configuration (api key, url) and history
@@ -77,12 +81,17 @@ namespace Piccm_Uploader
             ReadHotkeysConfig();
             Application.Run();
         }
-        
+
+        private static void OnExit(object sender, EventArgs e)
+        {
+            Notifications.notifyIcon.Dispose();
+        }
+
         public static void ReadHotkeysConfig()
         {
             //read config
-            string hotkeyConfigPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\imageuploader\\hotkeys.ini";
-            if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\imageuploader\\hotkeys.ini"))
+            string hotkeyConfigPath = References.APPDATA + "hotkeys.ini";
+            if (File.Exists(References.APPDATA + "hotkeys.ini"))
             {
                 Ini i = new Ini(hotkeyConfigPath);
                 var cropped = i.IniRead("hotkey", "cropped");

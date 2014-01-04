@@ -75,8 +75,8 @@ namespace Piccm_Uploader.Windows
                 numericUpDown1.Value = 0;
             }
 
-            string hotkeyConfigPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\imageuploader\\hotkeys.ini";
-            if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\imageuploader\\hotkeys.ini"))
+            string hotkeyConfigPath = References.APPDATA + "hotkeys.ini";
+            if (File.Exists(References.APPDATA + "hotkeys.ini"))
             {
                 Ini i = new Ini(hotkeyConfigPath);
                 var cropped = i.IniRead("hotkey", "cropped");
@@ -215,8 +215,8 @@ namespace Piccm_Uploader.Windows
                     Checker.croppedScreenShotKeyHook.RegisterHotKey(modifiers,
                         key);
 
-                    string hotkeyConfigPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\imageuploader\\hotkeys.ini";
-                    if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\imageuploader\\hotkeys.ini"))
+                    string hotkeyConfigPath = References.APPDATA + "hotkeys.ini";
+                    if (!File.Exists(References.APPDATA + "hotkeys.ini"))
                     {
                         if (!Directory.Exists(hotkeyConfigPath.Replace("hotkeys.ini", string.Empty)))
                             Directory.CreateDirectory(hotkeyConfigPath.Replace("hotkeys.ini", string.Empty));
@@ -255,8 +255,8 @@ namespace Piccm_Uploader.Windows
                     Checker.activeWindowsScreenShotKeyHook.RegisterHotKey(modifiers,
                         key);
 
-                    string hotkeyConfigPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\imageuploader\\hotkeys.ini";
-                    if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\imageuploader\\hotkeys.ini"))
+                    string hotkeyConfigPath = References.APPDATA + "hotkeys.ini";
+                    if (!File.Exists(References.APPDATA + "hotkeys.ini"))
                     {
                         if (!Directory.Exists(hotkeyConfigPath.Replace("hotkeys.ini", string.Empty)))
                             Directory.CreateDirectory(hotkeyConfigPath.Replace("hotkeys.ini", string.Empty));
@@ -295,8 +295,8 @@ namespace Piccm_Uploader.Windows
                     Checker.desktopScreenShotKeyHook.RegisterHotKey(modifiers,
                         key);
 
-                    string hotkeyConfigPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\imageuploader\\hotkeys.ini";
-                    if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\imageuploader\\hotkeys.ini"))
+                    string hotkeyConfigPath = References.APPDATA + "hotkeys.ini";
+                    if (!File.Exists(References.APPDATA + "hotkeys.ini"))
                     {
                         if (!Directory.Exists(hotkeyConfigPath.Replace("hotkeys.ini", string.Empty)))
                             Directory.CreateDirectory(hotkeyConfigPath.Replace("hotkeys.ini", string.Empty));
