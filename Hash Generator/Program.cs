@@ -18,12 +18,16 @@ namespace Hash_Generator
                 xml.AppendChild(root);
                 foreach (String file in filePaths)
                 {
+                    FileInfo f = new FileInfo(file);
+                    if (f.Name.Contains("Generator") || f.Name.Contains("Version"))
+                        continue;
+
                     XmlElement child = xml.CreateElement("file");
                     child.SetAttribute("name", file.Remove(0, AppDomain.CurrentDomain.BaseDirectory.Length));
                     child.SetAttribute("hash", MD5.GetMd5HashFromFile(file));
                     root.AppendChild(child);
                 }
-                xml.Save("C:\\Users\\Connor\\Desktop\\Version.xml");
+                xml.Save("Version.xml");
             }
             catch (Exception Err)
             {

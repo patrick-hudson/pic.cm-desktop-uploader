@@ -324,7 +324,7 @@ namespace Piccm_Uploader.Windows
         }
         public void checkForUpdates()
         {
-            MessageBox.Show("NOPE NOT FOUND!");
+            Piccm_Uploader.Update.InitUpdate();
         }
 
         private void ButtonCheckForUpdate_Click(object sender, System.EventArgs e)

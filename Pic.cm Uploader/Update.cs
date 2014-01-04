@@ -25,8 +25,14 @@ namespace Piccm_Uploader
                 string message = String.Empty, downloadurl = String.Empty;
 
                 XmlDocument xdoc = new XmlDocument();
+
+#if DEBUG
                 xdoc.Load("http://10.0.0.250/pic.cm/Version.xml");
-                XmlNode root = xdoc.SelectSingleNode("//children");
+#else
+                xdoc.Load("http://pic.cm/releases/live/Version.xml");
+#endif
+
+                XmlNode root = xdoc.SelectSingleNode("//root");
                 XmlNodeList nodeList = root.SelectNodes("file");
 
                 downloadurl = root.Attributes["update_server"].Value;
