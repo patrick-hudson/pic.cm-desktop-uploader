@@ -109,45 +109,57 @@ namespace Piccm_Uploader.Core
                 }
             }
 
-            XmlDocument xmlDoc = new XmlDocument();
-            HttpWebResponse response = null;
-            StreamReader reader = null;
 
-            response = request.GetResponse() as HttpWebResponse;
-            reader = new StreamReader(response.GetResponseStream());
-            xmlDoc.LoadXml(reader.ReadToEnd());
-
-            XmlNodeList xmlStatus = xmlDoc.GetElementsByTagName("status_txt");
-
-            if (xmlStatus[0].InnerText == "OK")
+            try
             {
-                XmlNodeList image_name = xmlDoc.GetElementsByTagName("image_name");
-                XmlNodeList image_type = xmlDoc.GetElementsByTagName("image_type");
-                XmlNodeList image_width = xmlDoc.GetElementsByTagName("image_width");
-                XmlNodeList image_height = xmlDoc.GetElementsByTagName("image_height");
-                XmlNodeList image_bytes = xmlDoc.GetElementsByTagName("image_bytes");
-                XmlNodeList image_id_public = xmlDoc.GetElementsByTagName("image_id_public");
-                XmlNodeList image_delete_hash = xmlDoc.GetElementsByTagName("image_delete_hash");
-                XmlNodeList image_date = xmlDoc.GetElementsByTagName("image_date");
+                XmlDocument xmlDoc = new XmlDocument();
+                HttpWebResponse response = null;
+                StreamReader reader = null;
 
-                PreviousUpload.image_name = image_name[0].InnerText;
-                PreviousUpload.image_type = image_type[0].InnerText;
+                response = request.GetResponse() as HttpWebResponse;
+                reader = new StreamReader(response.GetResponseStream());
+                xmlDoc.LoadXml(reader.ReadToEnd());
 
-                string url = References.URL_VIEW + PreviousUpload.image_name + "." + PreviousUpload.image_type;
+                XmlNodeList xmlStatus = xmlDoc.GetElementsByTagName("status_txt");
 
+                if (xmlStatus[0].InnerText == "OK")
+                {
+                    XmlNodeList image_name = xmlDoc.GetElementsByTagName("image_name");
+                    XmlNodeList image_type = xmlDoc.GetElementsByTagName("image_type");
+                    XmlNodeList image_width = xmlDoc.GetElementsByTagName("image_width");
+                    XmlNodeList image_height = xmlDoc.GetElementsByTagName("image_height");
+                    XmlNodeList image_bytes = xmlDoc.GetElementsByTagName("image_bytes");
+                    XmlNodeList image_id_public = xmlDoc.GetElementsByTagName("image_id_public");
+                    XmlNodeList image_delete_hash = xmlDoc.GetElementsByTagName("image_delete_hash");
+                    XmlNodeList image_date = xmlDoc.GetElementsByTagName("image_date");
+
+                    PreviousUpload.image_name = image_name[0].InnerText;
+                    PreviousUpload.image_type = image_type[0].InnerText;
+
+                    string url = References.URL_VIEW + PreviousUpload.image_name + "." + PreviousUpload.image_type;
+
+                    Notifications.ResetIcon();
+                    Notifications.NotifyUser("Upload Complete!", "Click here to view your image", 1000, ToolTipIcon.Info, url);
+
+                    if (Sets.CopyAfterUpload)
+                    {
+                        Clipboard.SetText(url);
+                    }
+
+                    if (Sets.Sound)
+                    {
+                        Notifications.NotifySound(References.Sound.SOUND_JINGLE);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+#if DEBUG 
+                Console.WriteLine(e.Message);
+                Console.WriteLine(e.StackTrace);
+#endif
                 Notifications.ResetIcon();
-                Notifications.NotifyUser("Upload Complete!", "Click here to view your image", 1000, ToolTipIcon.Info, url);
-                Core.Notifications.ResetIcon();
-
-                if (Sets.CopyAfterUpload)
-                {
-                    Clipboard.SetText(url);
-                }
-
-                if (Sets.Sound)
-                {
-                    Notifications.NotifySound(References.Sound.SOUND_JINGLE);
-                }
+                Notifications.NotifyUser("Upload Failed", "An error occuring during the upload process", 1000, ToolTipIcon.Error);
             }
             Program.MainClassInstance.resetScreen();
         }

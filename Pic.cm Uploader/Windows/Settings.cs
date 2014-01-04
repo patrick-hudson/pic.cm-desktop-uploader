@@ -32,10 +32,9 @@ namespace Piccm_Uploader.Windows
         public Settings()
         {
             InitializeComponent();
-            private KonamiSequence sequence = new KonamiSequence();
             this.ShowInTaskbar = true;
             this.Icon = Resources.Resource.default_large;
-            this.KeyUp+= new KeyEventHandler (Sequence_KeyUp);
+
             if (Sets.CopyAfterUpload)
             {
                 checkBox1.Checked = Sets.CopyAfterUpload;
@@ -113,13 +112,7 @@ namespace Piccm_Uploader.Windows
                 }
             }
         }
-        
-        private void Sequence_KeyUp(object sender, KeyEventArgs e) {
-            if (sequence.IsCompletedBy(e.KeyCode)) {
-                MessageBox.Show("Scrappy is a nigger");
-            }
-        }
-        
+
         //event handler for auto updating
         private void AutomaticUpdaterOnUpdateAvailable(object sender, EventArgs eventArgs)
         {
@@ -130,7 +123,7 @@ namespace Piccm_Uploader.Windows
                 // TODO Alert user to update
             }
         }
-        
+
         private void checkBox6_CheckedChanged(object sender, EventArgs e)
         {
             Sets.AutoUpdateCheck = checkBox6.Checked;
@@ -339,46 +332,6 @@ namespace Piccm_Uploader.Windows
         private void ButtonCheckForUpdate_Click(object sender, System.EventArgs e)
         {
             checkForUpdates();
-        }
-    }
-    private class KonamiSequence {
-
-        List<Keys> Keys = new List<Keys>{System.Windows.Forms.Keys.Up, System.Windows.Forms.Keys.Up, 
-                                       System.Windows.Forms.Keys.Down, System.Windows.Forms.Keys.Down, 
-                                       System.Windows.Forms.Keys.Left, System.Windows.Forms.Keys.Right, 
-                                       System.Windows.Forms.Keys.Left, System.Windows.Forms.Keys.Right, 
-                                       System.Windows.Forms.Keys.B, System.Windows.Forms.Keys.A};
-        private int mPosition = -1;
-
-        public int Position {
-            get { return mPosition; }
-            private set { mPosition = value; }
-        }
-
-        public bool IsCompletedBy(Keys key) {
-
-            if (Keys[Position + 1] == key) {
-                // move to next
-                Position++;
-            }
-            else if (Position == 1 && key == System.Windows.Forms.Keys.Up) {
-                // stay where we are
-            }
-            else if (Keys[0] == key) {
-                // restart at 1st
-                Position = 0;
-            }
-            else {
-                // no match in sequence
-                Position = -1;
-            }
-
-            if (Position == Keys.Count - 1) {
-                Position = -1;
-                return true;
-            }
-
-            return false;
         }
     }
 }
