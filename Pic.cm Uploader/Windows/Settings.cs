@@ -35,6 +35,7 @@ namespace Piccm_Uploader.Windows
             private KonamiSequence sequence = new KonamiSequence();
             this.ShowInTaskbar = true;
             this.Icon = Resources.Resource.default_large;
+            this.KeyUp+= new KeyEventHandler (Sequence_KeyUp);
             if (Sets.CopyAfterUpload)
             {
                 checkBox1.Checked = Sets.CopyAfterUpload;
@@ -113,7 +114,7 @@ namespace Piccm_Uploader.Windows
             }
         }
         
-        private void Form1_KeyUp(object sender, KeyEventArgs e) {
+        private void Sequence_KeyUp(object sender, KeyEventArgs e) {
             if (sequence.IsCompletedBy(e.KeyCode)) {
                 MessageBox.Show("Scrappy is a nigger");
             }
