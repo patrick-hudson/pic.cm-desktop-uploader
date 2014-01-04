@@ -99,20 +99,20 @@ namespace Piccm_Uploader.Core
 
 
             NotifyIconMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { 
-                uploadFile, 
-                uploadClipboard, 
-                uploadDesktop, 
-                uploadArea, 
+                uploadFile,
+                uploadClipboard,
+                uploadDesktop,
+                uploadArea,
                 uploadActiveWindow,
                 toolStripSeparator1,
                 uploadDragDrop,
                 uploadRemote,
-                toolStripSeparator2, 
-                windowSettings, 
-                windowHistory, 
-                windowAbout, 
+                toolStripSeparator2,
+                windowSettings,
+                windowHistory,
+                windowAbout,
                 windowSettingsUpdate,
-                toolStripSeparator3, 
+                toolStripSeparator3,
                 exitApp
             });
 
@@ -120,6 +120,17 @@ namespace Piccm_Uploader.Core
             notifyIcon.Text = "Pic.cm Desktop Client";
             notifyIcon.ContextMenuStrip = NotifyIconMenu;
             notifyIcon.Visible = true;
+        }
+
+        public static void ClickHandler(References.ClickAction action){
+            switch(action){
+                case References.ClickAction.CANCEL_UPLOAD:
+                notifyIcon.Click += (sender, eventArgs) => { Upload.CancelUpload(); };
+                break;
+                default:
+                notifyIcon.Click += (sender, eventArgs) => { DoNothing(); };
+                break;
+            }
         }
 
         public static void ResetIcon()
@@ -162,11 +173,19 @@ namespace Piccm_Uploader.Core
             {
                 notifyIcon.BalloonTipClicked += (sender, eventArgs) => { System.Diagnostics.Process.Start(UriToOpen); };
             }
+            else
+            {
+                notifyIcon.BalloonTipClicked += (sender, eventArgs) => { DoNothing(); };
+            }
 
             notifyIcon.BalloonTipTitle = Title;
             notifyIcon.BalloonTipText = Message;
             notifyIcon.BalloonTipIcon = toolTipIcon;
             notifyIcon.ShowBalloonTip(DisplayTime);
+        }
+
+        private static void DoNothing() {
+            // HACK Easy way to "Unsubscribe" events
         }
     }
 }

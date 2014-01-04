@@ -20,11 +20,9 @@ namespace Piccm_Uploader
         {
             if (textBox1.Text.Length > 0)
             {
-                Uri uriResult = null;
-                bool result = Uri.TryCreate(textBox1.Text, UriKind.Absolute, out uriResult) && uriResult.Scheme == Uri.UriSchemeHttp;
-                if (result)
+                if (Validity.CheckURL(textBox1.Text))
                 {
-                    Upload.UploadURL(textBox1.Text);
+                    Upload.uploadQueue.Enqueue(textBox1.Text);
                     this.Close();
                 }
                 else

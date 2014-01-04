@@ -22,6 +22,12 @@ namespace Piccm_Uploader.Core
             WIN_ASTERISK
         }
 
+        internal enum ClickAction
+        {
+            NOTHING,
+            CANCEL_UPLOAD
+        }
+
         internal static string URL_UPLOAD
         {
             get { return _url_upload; }

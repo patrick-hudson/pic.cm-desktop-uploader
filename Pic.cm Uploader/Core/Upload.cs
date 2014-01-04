@@ -7,6 +7,7 @@ using System.IO.Compression;
 using System.Net;
 using System.Web;
 using System.Text;
+using System.Threading;
 using System.Xml;
 
 using Piccm_Uploader;
@@ -18,9 +19,19 @@ namespace Piccm_Uploader.Core
     public static class Upload
     {
 
-        public static Queue<String> uploadQueue = new Queue<string>();
+        internal static Queue<String> uploadQueue = new Queue<string>();
 
-        public static void UploadBitmap(Bitmap bitmap)
+        private static HttpWebRequest request;
+
+        internal static void CancelUpload()
+        {
+            if (MessageBox.Show("Are you sure you want to cancel the upload?", "Cancel upload", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                request.Abort();
+            }
+        }
+
+        internal static void UploadBitmap(Bitmap bitmap)
         {
             byte[] data;
             MemoryStream pngstream = new MemoryStream();
@@ -48,16 +59,13 @@ namespace Piccm_Uploader.Core
             jpgstream.Close();
             pngstream.Close();
 
-            SendRequest(data);
+            var t = new Thread(() => SendRequest(data, null));
+            t.SetApartmentState(ApartmentState.STA);
+            t.Start();
 
             // Check if we need to save locally
             if (Sets.SaveScreenshots)
                 SaveLocal((Image)bitmap);
-        }
-
-        public static void UploadURL(String url)
-        {
-            SendRequest(null, url);
         }
 
         private static void SaveLocal(Image image)
@@ -103,7 +111,8 @@ namespace Piccm_Uploader.Core
         private static void SendRequest(byte[] img = null, String remoteUrl = null)
         {
             Notifications.SetIcon(References.Icon.ICON_UPLOAD);
-            HttpWebRequest request = WebRequest.Create(References.URL_UPLOAD) as HttpWebRequest;
+            Notifications.ClickHandler(References.ClickAction.CANCEL_UPLOAD);
+            request = WebRequest.Create(References.URL_UPLOAD) as HttpWebRequest;
             request.Timeout = 600000; // Nice long timeout, should upload most files
             request.Method = "POST";
 
@@ -116,6 +125,7 @@ namespace Piccm_Uploader.Core
                     request.ContentLength = dataBuffer.Length;
 
                     Stream postStream = request.GetRequestStream();
+
                     postStream.Write(dataBuffer, 0, dataBuffer.Length);
 
                     //using (GZipStream zipStream = new GZipStream(postStream, CompressionMode.Compress))
@@ -184,16 +194,20 @@ namespace Piccm_Uploader.Core
                     }
                 }
             }
-            catch (Exception e)
+            catch (WebException e)
             {
 #if DEBUG
                 Console.WriteLine(e.Message);
                 Console.WriteLine(e.StackTrace);
 #endif
                 Notifications.ResetIcon();
-                Notifications.NotifyUser("Upload Failed", "An error occuring during the upload process", 1000, ToolTipIcon.Error);
+                if (e.Status == WebExceptionStatus.RequestCanceled)
+                    Notifications.NotifyUser("Upload Canceled", "Your upload was canceled before it was completed", 1000, ToolTipIcon.Warning);
+                else
+                    Notifications.NotifyUser("Upload Failed", "An error occuring during the upload process", 1000, ToolTipIcon.Error);
             }
             Program.MainClassInstance.resetScreen();
+            Notifications.ClickHandler(References.ClickAction.NOTHING);
         }
 
         private static byte[] ToByteArray(this Stream stream)
