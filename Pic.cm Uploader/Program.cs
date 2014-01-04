@@ -30,7 +30,7 @@ namespace Piccm_Uploader
         public static extern IntPtr GetForegroundWindow();
         public static MainClass MainClassInstance;
         public static Checker checker;
-
+        
         [STAThread]
         static void Main()
         {

@@ -7,37 +7,47 @@ namespace Piccm_Uploader.Core
 {
     class Notifications
     {
-        public static NotifyIcon notifyIcon = new NotifyIcon();
-        public static ContextMenuStrip NotifyIconMenu = new ContextMenuStrip();
+        internal static NotifyIcon notifyIcon = new NotifyIcon();
+        internal static ContextMenuStrip NotifyIconMenu = new ContextMenuStrip();
+        internal static ToolStripMenuItem uploadPercent = new ToolStripMenuItem();
 
         private static ToolStripMenuItem uploadFile, uploadClipboard, uploadDesktop, uploadArea, uploadActiveWindow, uploadDragDrop, uploadRemote, windowSettings, windowHistory, windowAbout, windowSettingsUpdate, exitApp;
-        private static ToolStripSeparator toolStripSeparator1, toolStripSeparator2, toolStripSeparator3;
+        private static ToolStripSeparator toolStripSeparator1, toolStripSeparator2, toolStripSeparator3, toolStripSeparator4;
 
         internal static void Initialize()
         {
+            Control.CheckForIllegalCrossThreadCalls = false;
+            uploadPercent.Name = "uploadPercent";
+            uploadPercent.Text = "No current uploads";
+            uploadPercent.Enabled = false;
+            uploadPercent.MouseDown += new MouseEventHandler(Upload.CancelUpload);
+
+            toolStripSeparator4 = new ToolStripSeparator();
+            toolStripSeparator4.Name = "toolStripSeparator4";
+
             uploadFile = new ToolStripMenuItem();
             uploadFile.Name = "uploadFile";
             uploadFile.Text = "Upload &file";
             uploadFile.Enabled = true;
-            uploadFile.Click += new System.EventHandler(ToolStripHandlers.UploadFile);
+            uploadFile.Click += new EventHandler(ToolStripHandlers.UploadFile);
 
             uploadClipboard = new ToolStripMenuItem();
             uploadClipboard.Name = "uploadClipboard";
             uploadClipboard.Text = "Upload from &clipboard";
             uploadClipboard.Enabled = true;
-            uploadClipboard.Click += new System.EventHandler(ToolStripHandlers.UploadClipboard);
+            uploadClipboard.Click += new EventHandler(ToolStripHandlers.UploadClipboard);
 
             uploadDesktop = new ToolStripMenuItem();
             uploadDesktop.Name = "uploadDesktop";
             uploadDesktop.Text = "Pic &desktop";
             uploadDesktop.Enabled = true;
-            uploadDesktop.Click += new System.EventHandler(ToolStripHandlers.UploadDesktop);
+            uploadDesktop.Click += new EventHandler(ToolStripHandlers.UploadDesktop);
 
             uploadArea = new ToolStripMenuItem();
             uploadArea.Name = "uploadArea";
             uploadArea.Text = "Pic &area";
             uploadArea.Enabled = true;
-            uploadArea.Click += new System.EventHandler(ToolStripHandlers.UploadArea);
+            uploadArea.Click += new EventHandler(ToolStripHandlers.UploadArea);
 
             uploadActiveWindow = new ToolStripMenuItem();
             uploadActiveWindow.Name = "uploadActiveWindow";
@@ -52,13 +62,13 @@ namespace Piccm_Uploader.Core
             uploadDragDrop.Name = "uploadDragDrop";
             uploadDragDrop.Text = "Drag and Dro&p";
             uploadDragDrop.Enabled = true;
-            uploadDragDrop.Click += new System.EventHandler(ToolStripHandlers.DragDrop);
+            uploadDragDrop.Click += new EventHandler(ToolStripHandlers.DragDrop);
 
             uploadRemote = new ToolStripMenuItem();
             uploadRemote.Name = "uploadRemote";
             uploadRemote.Text = "Upload from &URL";
             uploadRemote.Enabled = true;
-            uploadRemote.Click += new System.EventHandler(ToolStripHandlers.UploadUrl);
+            uploadRemote.Click += new EventHandler(ToolStripHandlers.UploadUrl);
 
             toolStripSeparator2 = new ToolStripSeparator();
             toolStripSeparator2.Name = "toolStripSeparator2";
@@ -67,25 +77,25 @@ namespace Piccm_Uploader.Core
             windowSettings.Name = "windowSettings";
             windowSettings.Text = "&Settings";
             windowSettings.Enabled = true;
-            windowSettings.Click += new System.EventHandler(ToolStripHandlers.ShowSettings);
+            windowSettings.Click += new EventHandler(ToolStripHandlers.ShowSettings);
 
             windowHistory = new ToolStripMenuItem();
             windowHistory.Name = "windowHistory";
             windowHistory.Text = "&History";
             windowHistory.Enabled = true;
-            windowHistory.Click += new System.EventHandler(ToolStripHandlers.ShowHistory);
+            windowHistory.Click += new EventHandler(ToolStripHandlers.ShowHistory);
 
             windowAbout = new ToolStripMenuItem();
             windowAbout.Name = "windowAbout";
             windowAbout.Text = "A&bout";
             windowAbout.Enabled = true;
-            windowAbout.Click += new System.EventHandler(ToolStripHandlers.ShowAbout);
+            windowAbout.Click += new EventHandler(ToolStripHandlers.ShowAbout);
 
             windowSettingsUpdate = new ToolStripMenuItem();
             windowSettingsUpdate.Name = "windowSettingsUpdate";
             windowSettingsUpdate.Text = "Chec&k for updates";
             windowSettingsUpdate.Enabled = true;
-            windowSettingsUpdate.Click += new System.EventHandler(ToolStripHandlers.CheckForUpdate);
+            windowSettingsUpdate.Click += new EventHandler(ToolStripHandlers.CheckForUpdate);
 
             toolStripSeparator3 = new ToolStripSeparator();
             toolStripSeparator3.Name = "toolStripSeparator3";
@@ -94,11 +104,13 @@ namespace Piccm_Uploader.Core
             exitApp.Name = "exitApp";
             exitApp.Text = "E&xit";
             exitApp.Enabled = true;
-            exitApp.Click += new System.EventHandler(ToolStripHandlers.Close);
+            exitApp.Click += new EventHandler(ToolStripHandlers.Close);
             exitApp.Image = Resources.Resource.default_png;
 
 
             NotifyIconMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { 
+                uploadPercent,
+                toolStripSeparator4,
                 uploadFile,
                 uploadClipboard,
                 uploadDesktop,
@@ -127,11 +139,11 @@ namespace Piccm_Uploader.Core
             switch (action)
             {
                 case References.ClickAction.CANCEL_UPLOAD:
-                    notifyIcon.Click += new System.EventHandler(Upload.CancelUpload);
+                    notifyIcon.MouseClick += new MouseEventHandler(Upload.CancelUpload);
                     break;
                 case References.ClickAction.NOTHING:
                 default:
-                    notifyIcon.Click -= new System.EventHandler(Upload.CancelUpload); // TODO Track the currently assigned handler (sender, eventArgs) => { DoNothing(); };
+                    notifyIcon.MouseClick -= new MouseEventHandler(Upload.CancelUpload);
                     break;
             }
         }
