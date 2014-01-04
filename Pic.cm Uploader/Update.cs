@@ -42,7 +42,7 @@ namespace Piccm_Uploader
                     string fileName = node.Attributes["name"].Value;
                     if (File.Exists(fileName))
                     {
-                        if (!GetMd5HashFromFile(fileName).Equals(node.Attributes["hash"].Value))
+                        if (!GetMd5HashFromFile(fileName).ToUpper().Equals(node.Attributes["hash"].Value))
                         {
                             downloadList.Enqueue(fileName);
                         }
@@ -66,7 +66,7 @@ namespace Piccm_Uploader
                         string batch = Resources.Resource.update.ToString();
                         File.WriteAllText("update.bat", batch);
                         Process.Start("update.bat");
-                        Environment.Exit(0);
+                        Application.Exit();
                     }
                 }
 

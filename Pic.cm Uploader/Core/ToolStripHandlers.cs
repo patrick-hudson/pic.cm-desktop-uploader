@@ -98,7 +98,7 @@ namespace Piccm_Uploader.Core
 
         internal static void Close(object sender, EventArgs e)
         {
-            Environment.Exit(0);
+            Application.Exit();
         }
 
         internal static void UploadDesktop(object sender, EventArgs e)

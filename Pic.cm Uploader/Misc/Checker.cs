@@ -15,11 +15,6 @@ namespace Piccm_Uploader
         public static KeyboardHook croppedScreenShotKeyHook = null;
         public static KeyboardHook activeWindowsScreenShotKeyHook = null;
 
-        public void CancelTheUpload()
-        {
-            // TODO Calcel Upload   
-        }
-
         public static void RegisterGlobalHotKeys()
         {
             if (desktopScreenShotKeyHook == null)
