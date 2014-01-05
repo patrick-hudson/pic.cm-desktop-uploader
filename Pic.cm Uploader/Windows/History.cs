@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -27,19 +28,41 @@ namespace Piccm_Uploader.Windows
             {
                 SQLiteDatabase sqldb = new SQLiteDatabase();
                 DataTable history;
-                String query = "SELECT id, image_name, image_type, image_width, image_height, image_bytes, image_id_public, image_delete_hash, image_date FROM history;";
+                String query = "SELECT id, image_name, image_type, image_width, image_height, image_bytes, image_id_public, image_delete_hash, image_date, image_data FROM history;";
                 history = sqldb.GetDataTable(query);
                 ImageList imgList = new ImageList();
 
-                //listView1.LargeImageList = imgList;
-                //listView1.LargeImageList.ImageSize = new Size(100, 90);
+                listView1.LargeImageList = imgList;
+                listView1.LargeImageList.ImageSize = new Size(100, 90);
 
                 for (int i = 0; i < history.Rows.Count; i++)
                 {
                     ListViewItem item = new ListViewItem();
                     item.Text = history.Rows[i]["image_name"].ToString();
                     item.Name = "lvi-id:" + history.Rows[i]["id"].ToString();
-                    //imgList.Images.Add(LoadImage(References.URL_VIEW + history.Rows[i]["image_name"].ToString() + ".th." + history.Rows[i]["image_type"].ToString()));
+                    if (history.Rows[i]["image_data"].ToString().Length > 10)
+                    {
+                        string data = Encoding.Default.GetString((byte[])history.Rows[i]["image_data"]);
+                        byte[] bytes =Convert.FromBase64String(data);
+                        Image image;
+                        using (MemoryStream ms = new MemoryStream(bytes))
+                        {
+                            image = Image.FromStream(ms);
+                        }
+                        imgList.Images.Add(image);
+                    }
+                    else
+                    {
+                        Console.WriteLine("No data for image " + history.Rows[i]["image_name"]);
+                        Image tmp = LoadImage(References.URL_VIEW + history.Rows[i]["image_name"].ToString() + ".th." + history.Rows[i]["image_type"].ToString());
+                        MemoryStream ms = new MemoryStream();
+                        tmp.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                        Dictionary<string, string> data = new Dictionary<string, string>();
+                        data.Add("image_data", Convert.ToBase64String(ms.ToArray(), Base64FormattingOptions.None));
+                        ms.Dispose();
+                        sqldb.Update("history", data, String.Format("id = {0}", history.Rows[i]["id"]));
+                        imgList.Images.Add(tmp);
+                    }
                     item.ImageIndex = i + 1;
                     listView1.Items.Add(item);
                 }
@@ -47,9 +70,8 @@ namespace Piccm_Uploader.Windows
             }
             catch (Exception fail)
             {
-                String error = "The following error has occurred:\n\n";
-                error += fail.Message.ToString() + "\n\n";
-                MessageBox.Show(error);
+                Console.WriteLine("Database error: {0}\n{1}", fail.Message, fail.StackTrace);
+                MessageBox.Show("Unable to load history, a database error occured.");
                 this.Close();
             }
         }

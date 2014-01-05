@@ -42,9 +42,7 @@ namespace Piccm_Uploader.Core
 
         internal static string APIKey = "thisismyapikeynooneshouldknowmyapikey";
 
-        internal static string VERSIONNUMBER = "1.0";
-        internal static string BUILDNUMER = "%JENKINS_BUILD_NUMER%";
-        internal static string BUILDDATE = "%JENKINS_BUILD_DATE%";
+        internal static int DBVERSION = 1;
         internal static string APPDATA = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Pic.cm\\";
     }
 }

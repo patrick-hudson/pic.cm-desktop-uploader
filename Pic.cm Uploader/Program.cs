@@ -45,6 +45,9 @@ namespace Piccm_Uploader
             }
 #endif
 
+            if (!File.Exists(References.APPDATA + "history.db"))
+                System.IO.File.WriteAllBytes(References.APPDATA + "history.db", Resources.Resource.history);
+
             Update workerUpdate = new Update();
             Thread threadUpdate = new Thread(workerUpdate.InitUpdate);
             Thread threadUpload = new Thread(Upload.ProcessQueue);
@@ -55,9 +58,6 @@ namespace Piccm_Uploader
             threadUpload.Start();
 
             Application.EnableVisualStyles();
-
-            if (!File.Exists(References.APPDATA + "history.db"))
-                System.IO.File.WriteAllBytes(References.APPDATA + "history.db", Resources.Resource.history);
 
             //Application.SetCompatibleTextRenderingDefault(false);
             //here we read app's settings, configuration (api key, url) and history

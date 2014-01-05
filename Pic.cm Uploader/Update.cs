@@ -11,14 +11,38 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Security.Cryptography;
 
+using Piccm_Uploader.Core;
+
 namespace Piccm_Uploader
 {
     class Update
     {
         public void InitUpdate()
         {
+
+            History.SQLiteDatabase sqldb = new History.SQLiteDatabase();
+
+            System.Data.DataTable db = sqldb.GetDataTable("PRAGMA user_version;");
+            int dbversion = Convert.ToInt16(db.Rows[0][0]);
+            if (dbversion < References.DBVERSION)
+            {
+#if DEBUG
+                Console.WriteLine("Found database version: " + dbversion);
+#endif
+                if (dbversion == 0)
+                    sqldb.ExecuteNonQuery("ALTER TABLE history ADD COLUMN image_data BLOB;" +
+                                          "DELETE FROM history WHERE id NOT IN (SELECT MAX(id) FROM history GROUP BY image_name);" +
+                                          "PRAGMA user_version = 1;");
+            }
+        }
+
+        public void BackInitUpdate()
+        {
+
             if (File.Exists("update.bat"))
                 File.Delete("update.bat");
+
+
             try
             {
                 Queue<String> downloadList = new Queue<String>();
