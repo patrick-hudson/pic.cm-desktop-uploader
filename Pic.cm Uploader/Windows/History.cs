@@ -31,15 +31,15 @@ namespace Piccm_Uploader.Windows
                 history = sqldb.GetDataTable(query);
                 ImageList imgList = new ImageList();
 
-                listView1.LargeImageList = imgList;
-                listView1.LargeImageList.ImageSize = new Size(100, 90);
+                //listView1.LargeImageList = imgList;
+                //listView1.LargeImageList.ImageSize = new Size(100, 90);
 
                 for (int i = 0; i < history.Rows.Count; i++)
                 {
                     ListViewItem item = new ListViewItem();
                     item.Text = history.Rows[i]["image_name"].ToString();
                     item.Name = "lvi-id:" + history.Rows[i]["id"].ToString();
-                    imgList.Images.Add(LoadImage(References.URL_VIEW + history.Rows[i]["image_name"].ToString() + ".th." + history.Rows[i]["image_type"].ToString()));
+                    //imgList.Images.Add(LoadImage(References.URL_VIEW + history.Rows[i]["image_name"].ToString() + ".th." + history.Rows[i]["image_type"].ToString()));
                     item.ImageIndex = i + 1;
                     listView1.Items.Add(item);
                 }

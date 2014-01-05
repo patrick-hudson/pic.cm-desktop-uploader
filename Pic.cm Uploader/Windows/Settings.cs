@@ -10,21 +10,22 @@
  * test
  * 
 */
+using Microsoft.Win32;
 
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using Microsoft.Win32;
-using System.Media;
-using Piccm_Uploader.Misc;
 using System.IO;
+using System.Media;
+using System.Windows.Forms;
+using System.Text;
+using System.Threading;
 
 using Piccm_Uploader;
 using Piccm_Uploader.Core;
+using Piccm_Uploader.Misc;
 
 namespace Piccm_Uploader.Windows
 {
@@ -329,6 +330,8 @@ namespace Piccm_Uploader.Windows
         }
         public void checkForUpdates()
         {
+            Update workerUpdate = new Update();
+            Thread threadUpdate = new Thread(workerUpdate.InitUpdate);
         }
 
         private void ButtonCheckForUpdate_Click(object sender, System.EventArgs e)

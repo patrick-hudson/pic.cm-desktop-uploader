@@ -98,7 +98,6 @@ namespace Piccm_Uploader.Core
         {
             Windows.Settings settings = new Windows.Settings();
             settings.checkForUpdates();
-            settings.Close();
         }
 
         internal static void ShowAbout(object sender, EventArgs e)

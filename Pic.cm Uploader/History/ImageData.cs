@@ -29,7 +29,9 @@ namespace Piccm_Uploader.History
             data.Add("image_id_public", image_id_public);
             data.Add("image_delete_hash", image_delete_hash);
             data.Add("image_date", image_date);
-
+#if DEBUG
+            Console.WriteLine("Saving image data for " + image_name);
+#endif
             try
             {
                 sqldb.Insert("history", data);
@@ -38,6 +40,8 @@ namespace Piccm_Uploader.History
             {
                 Console.WriteLine(crap.Message);
             }
+
+            data.Clear();
         }
     }
 }

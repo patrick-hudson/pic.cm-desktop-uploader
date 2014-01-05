@@ -10,6 +10,8 @@ namespace Piccm_Uploader.Core
         internal static NotifyIcon notifyIcon = new NotifyIcon();
         internal static ContextMenuStrip NotifyIconMenu = new ContextMenuStrip();
         internal static ToolStripMenuItem uploadPercent = new ToolStripMenuItem();
+        internal static String URL = String.Empty;
+
 
         private static ToolStripMenuItem uploadFile, uploadClipboard, uploadDesktop, uploadArea, uploadActiveWindow, uploadDragDrop, uploadRemote, windowSettings, windowHistory, windowAbout, windowSettingsUpdate, exitApp;
         private static ToolStripSeparator toolStripSeparator1, toolStripSeparator2, toolStripSeparator3, toolStripSeparator4;
@@ -132,6 +134,7 @@ namespace Piccm_Uploader.Core
             notifyIcon.Text = "Pic.cm Desktop Client";
             notifyIcon.ContextMenuStrip = NotifyIconMenu;
             notifyIcon.Visible = true;
+            notifyIcon.BalloonTipClicked += new EventHandler(BalloonTipClicked);
         }
 
         public static void ClickHandler(References.ClickAction action)
@@ -184,24 +187,21 @@ namespace Piccm_Uploader.Core
 
         public static void NotifyUser(String Title, String Message, int DisplayTime = 1000, ToolTipIcon toolTipIcon = ToolTipIcon.None, String UriToOpen = null)
         {
-            if (UriToOpen != null)
-            {
-                notifyIcon.BalloonTipClicked += (sender, eventArgs) => { System.Diagnostics.Process.Start(UriToOpen); };
-            }
-            else
-            {
-                notifyIcon.BalloonTipClicked += (sender, eventArgs) => { DoNothing(); };
-            }
-
+            URL = UriToOpen;
             notifyIcon.BalloonTipTitle = Title;
             notifyIcon.BalloonTipText = Message;
             notifyIcon.BalloonTipIcon = toolTipIcon;
             notifyIcon.ShowBalloonTip(DisplayTime);
         }
 
+        private static void BalloonTipClicked(object s, EventArgs e)
+        {
+            if(URL.Length > 10)
+                System.Diagnostics.Process.Start(URL);
+        }
+
         private static void DoNothing() {
-            // HACK Easy way to "Unsubscribe" events
-            Console.WriteLine("Registering click to do nothing");
+
         }
     }
 }

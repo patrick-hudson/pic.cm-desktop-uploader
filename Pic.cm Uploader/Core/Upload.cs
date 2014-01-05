@@ -89,6 +89,7 @@ namespace Piccm_Uploader.Core
                     string url = clipboardHack.Dequeue();
                     if (Sets.CopyAfterUpload)
                     {
+                        System.Windows.Forms.Clipboard.Clear();
                         System.Windows.Forms.Clipboard.SetText(url);
                     }
 
@@ -139,18 +140,8 @@ namespace Piccm_Uploader.Core
                     uploadClient.UploadDataAsync(new Uri(References.URL_UPLOAD), dataBuffer);
                 }
             }
-            catch (WebException e)
-            {
-#if DEBUG
-                Console.WriteLine(e.Message);
-                Console.WriteLine(e.StackTrace);
-#endif
-                Notifications.ResetIcon();
-                if (e.Status == WebExceptionStatus.RequestCanceled)
-                    Notifications.NotifyUser("Upload Canceled", "Your upload was canceled before it was completed", 1000, ToolTipIcon.Warning);
-                else
-                    Notifications.NotifyUser("Upload Failed", "An error occuring during the upload process", 1000, ToolTipIcon.Error);
-            }
+            catch
+            {}
         }
 
         private static void uploadComplete(object sender, UploadDataCompletedEventArgs e)
@@ -174,6 +165,7 @@ namespace Piccm_Uploader.Core
                     XmlNodeList image_delete_hash = xmlDoc.GetElementsByTagName("image_delete_hash");
                     XmlNodeList image_date = xmlDoc.GetElementsByTagName("image_date");
 
+
                     ImageData.image_name = image_name[0].InnerText;
                     ImageData.image_type = image_type[0].InnerText;
                     ImageData.image_bytes = Convert.ToInt32(image_bytes[0].InnerText);
@@ -193,6 +185,17 @@ namespace Piccm_Uploader.Core
                     clipboardHack.Enqueue(url);
                 }
             }
+
+            if (e.Cancelled)
+            {
+                    Notifications.NotifyUser("Upload Canceled", "Your upload was canceled before it was completed", 1000, ToolTipIcon.Warning);
+            }
+
+            if (e.Error != null)
+            {
+                Notifications.NotifyUser("Upload Failed", "An error occuring during the upload process", 1000, ToolTipIcon.Error);
+            }
+
             Program.MainClassInstance.resetScreen();
 
             Notifications.ClickHandler(References.ClickAction.NOTHING);
