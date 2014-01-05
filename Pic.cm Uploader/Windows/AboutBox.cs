@@ -31,8 +31,9 @@ namespace Piccm_Uploader.Windows
 
         private void AboutBox_Load(object sender, EventArgs e)
         {
-            labelVersionData.Text = References.VERSIONNUMBER + "." + References.BUILDNUMER;
-            labelBuildDateData.Text = References.BUILDDATE;
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+            labelVersionData.Text = fvi.FileVersion;
         }
 
         private void labelCopyRight_Click(object sender, EventArgs e)
