@@ -21,7 +21,7 @@ namespace Piccm_Uploader.Core
 
         internal static Queue<String> uploadQueue = new Queue<string>();
         internal static Queue<String> clipboardHack = new Queue<string>();
-        private static WebClient uploadClient = new WebClient();
+        private static WebClient uploadClient;
         private static Boolean _uploadLock = false;
 
         internal static void UploadBitmap(Bitmap bitmap)
@@ -122,6 +122,7 @@ namespace Piccm_Uploader.Core
             _uploadLock = true;
             Notifications.SetIcon(References.Icon.ICON_UPLOAD);
             Notifications.ClickHandler(References.ClickAction.CANCEL_UPLOAD);
+            uploadClient = new WebClient();
             uploadClient.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
             uploadClient.UploadProgressChanged += new UploadProgressChangedEventHandler(uploadProgressChanged);
             uploadClient.UploadDataCompleted += new UploadDataCompletedEventHandler(uploadComplete);
@@ -165,39 +166,32 @@ namespace Piccm_Uploader.Core
                     XmlNodeList image_delete_hash = xmlDoc.GetElementsByTagName("image_delete_hash");
                     XmlNodeList image_date = xmlDoc.GetElementsByTagName("image_date");
 
+                    ImageData.Save(image_name[0].InnerText, image_type[0].InnerText, Convert.ToInt32(image_bytes[0].InnerText), Convert.ToInt32(image_height[0].InnerText),
+                         Convert.ToInt32(image_width[0].InnerText), image_id_public[0].InnerText, image_delete_hash[0].InnerText, image_date[0].InnerText);
 
-                    ImageData.image_name = image_name[0].InnerText;
-                    ImageData.image_type = image_type[0].InnerText;
-                    ImageData.image_bytes = Convert.ToInt32(image_bytes[0].InnerText);
-                    ImageData.image_height = Convert.ToInt32(image_height[0].InnerText);
-                    ImageData.image_width = Convert.ToInt32(image_width[0].InnerText);
-                    ImageData.image_id_public = image_id_public[0].InnerText;
-                    ImageData.image_delete_hash = image_delete_hash[0].InnerText;
-                    ImageData.image_date = image_date[0].InnerText;
-
-                    ImageData.Save();
-
-                    string url = References.URL_VIEW + ImageData.image_name + "." + ImageData.image_type;
-
-                    Notifications.ResetIcon();
+                    string url = References.URL_VIEW + image_name[0].InnerText + "." + image_type[0].InnerText;
                     Notifications.NotifyUser("Upload Complete!", "Click here to view your image", 1000, ToolTipIcon.Info, url);
 
                     clipboardHack.Enqueue(url);
                 }
             }
 
-            if (e.Cancelled)
-            {
-                    Notifications.NotifyUser("Upload Canceled", "Your upload was canceled before it was completed", 1000, ToolTipIcon.Warning);
-            }
-
             if (e.Error != null)
             {
-                Notifications.NotifyUser("Upload Failed", "An error occuring during the upload process", 1000, ToolTipIcon.Error);
+
+                if (e.Cancelled)
+                {
+                    Notifications.NotifyUser("Upload Canceled", "Your upload was canceled before it was completed", 1000, ToolTipIcon.Warning);
+                }
+                else
+                {
+                    Notifications.NotifyUser("Upload Failed", "An error occuring during the upload process", 1000, ToolTipIcon.Error);
+                }
             }
 
             Program.MainClassInstance.resetScreen();
 
+            Notifications.ResetIcon();
             Notifications.ClickHandler(References.ClickAction.NOTHING);
             Notifications.uploadPercent.Enabled = false;
             Notifications.uploadPercent.Text = "No current uploads";

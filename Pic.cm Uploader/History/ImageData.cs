@@ -7,16 +7,7 @@ namespace Piccm_Uploader.History
 {
     public class ImageData
     {
-        public static string image_name;
-        public static string image_type;
-        public static int image_width;
-        public static int image_height;
-        public static int image_bytes;
-        public static string image_id_public;
-        public static string image_delete_hash;
-        public static string image_date;
-
-        internal static void Save()
+        internal static void Save(string image_name, string image_type, int image_width, int image_height, int image_bytes, string image_id_public, string image_delete_hash, string image_date)
         {
             SQLiteDatabase sqldb = new SQLiteDatabase();
 
