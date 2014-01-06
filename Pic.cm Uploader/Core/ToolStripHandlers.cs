@@ -82,21 +82,25 @@ namespace Piccm_Uploader.Core
             }
         }
 
+        static Windows.History history = new Windows.History();
+        static Windows.Settings settings = new Windows.Settings();
+        static Windows.AboutBox about = new Windows.AboutBox();
         internal static void ShowHistory(object sender, EventArgs e)
-        {
-            Windows.History history = new Windows.History();
+        {   
             history.Show();
+            history.BringToFront();
         }
 
         internal static void ShowSettings(object sender, EventArgs e)
         {
-            Windows.Settings settings = new Windows.Settings();
             settings.Show();
+            settings.BringToFront();
         }
 
         internal static void ShowAbout(object sender, EventArgs e)
         {
-            new Windows.AboutBox().Show();
+            about.Show();
+            about.BringToFront();
         }
 
         internal static void Close(object sender, EventArgs e)
