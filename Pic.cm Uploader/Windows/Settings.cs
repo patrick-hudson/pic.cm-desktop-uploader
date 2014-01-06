@@ -328,15 +328,12 @@ namespace Piccm_Uploader.Windows
             }
 
         }
-        public void checkForUpdates()
-        {
-            Update workerUpdate = new Update();
-            Thread threadUpdate = new Thread(workerUpdate.InitUpdate);
-        }
 
         private void ButtonCheckForUpdate_Click(object sender, System.EventArgs e)
         {
-            checkForUpdates();
+            Update workerUpdate = new Update();
+            Thread threadUpdate = new Thread(workerUpdate.InitUpdate);
+            threadUpdate.Start();
         }
     }
 }

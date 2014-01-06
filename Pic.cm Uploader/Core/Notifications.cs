@@ -13,7 +13,7 @@ namespace Piccm_Uploader.Core
         internal static String URL = String.Empty;
 
 
-        private static ToolStripMenuItem uploadFile, uploadClipboard, uploadDesktop, uploadArea, uploadActiveWindow, uploadDragDrop, uploadRemote, windowSettings, windowHistory, windowAbout, windowSettingsUpdate, exitApp;
+        private static ToolStripMenuItem uploadFile, uploadClipboard, uploadDesktop, uploadArea, uploadActiveWindow, uploadDragDrop, uploadRemote, windowSettings, windowHistory, windowAbout, exitApp;
         private static ToolStripSeparator toolStripSeparator1, toolStripSeparator2, toolStripSeparator3, toolStripSeparator4;
 
         internal static void Initialize()
@@ -93,12 +93,6 @@ namespace Piccm_Uploader.Core
             windowAbout.Enabled = true;
             windowAbout.Click += new EventHandler(ToolStripHandlers.ShowAbout);
 
-            windowSettingsUpdate = new ToolStripMenuItem();
-            windowSettingsUpdate.Name = "windowSettingsUpdate";
-            windowSettingsUpdate.Text = "Chec&k for updates";
-            windowSettingsUpdate.Enabled = true;
-            windowSettingsUpdate.Click += new EventHandler(ToolStripHandlers.CheckForUpdate);
-
             toolStripSeparator3 = new ToolStripSeparator();
             toolStripSeparator3.Name = "toolStripSeparator3";
 
@@ -122,10 +116,9 @@ namespace Piccm_Uploader.Core
                 uploadDragDrop,
                 uploadRemote,
                 toolStripSeparator2,
-                windowSettings,
                 windowHistory,
+                windowSettings,
                 windowAbout,
-                windowSettingsUpdate,
                 toolStripSeparator3,
                 exitApp
             });

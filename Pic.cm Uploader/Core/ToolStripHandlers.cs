@@ -72,7 +72,7 @@ namespace Piccm_Uploader.Core
                     }
                     else
                     {
-                        MessageBox.Show("Invaild file specified\n" + Validity.CheckURL(s).ToString());
+                        MessageBox.Show("Invaild file specified");
                     }
                 }
             }
@@ -92,12 +92,6 @@ namespace Piccm_Uploader.Core
         {
             Windows.Settings settings = new Windows.Settings();
             settings.Show();
-        }
-
-        internal static void CheckForUpdate(object sender, EventArgs e)
-        {
-            Windows.Settings settings = new Windows.Settings();
-            settings.checkForUpdates();
         }
 
         internal static void ShowAbout(object sender, EventArgs e)

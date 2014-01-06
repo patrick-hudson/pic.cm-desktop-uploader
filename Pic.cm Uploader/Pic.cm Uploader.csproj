@@ -130,6 +130,7 @@
     <Compile Include="Core\ToolStripHandlers.cs" />
     <Compile Include="Core\Upload.cs" />
     <Compile Include="Core\Validity.cs" />
+    <Compile Include="History\DBSaveImage.cs" />
     <Compile Include="History\ImageData.cs" />
     <Compile Include="History\SQLiteDatabase.cs" />
     <Compile Include="Misc\Checker.cs" />

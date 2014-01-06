@@ -7,7 +7,7 @@ namespace Piccm_Uploader.History
 {
     public class ImageData
     {
-        internal static void Save(string image_name, string image_type, int image_width, int image_height, int image_bytes, string image_id_public, string image_delete_hash, string image_date)
+        internal static void Save(string image_name, string image_type, int image_width, int image_height, int image_bytes, string image_id_public, string image_delete_hash, string image_date, string image_data)
         {
             SQLiteDatabase sqldb = new SQLiteDatabase();
 
@@ -20,9 +20,8 @@ namespace Piccm_Uploader.History
             data.Add("image_id_public", image_id_public);
             data.Add("image_delete_hash", image_delete_hash);
             data.Add("image_date", image_date);
-#if DEBUG
-            Console.WriteLine("Saving image data for " + image_name);
-#endif
+            data.Add("image_data", image_data);
+
             try
             {
                 sqldb.Insert("history", data);

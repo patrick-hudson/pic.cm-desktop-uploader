@@ -34,10 +34,6 @@ namespace Piccm_Uploader
                                           "DELETE FROM history WHERE id NOT IN (SELECT MAX(id) FROM history GROUP BY image_name);" +
                                           "PRAGMA user_version = 1;");
             }
-        }
-
-        public void BackInitUpdate()
-        {
 
             if (File.Exists("update.bat"))
                 File.Delete("update.bat");

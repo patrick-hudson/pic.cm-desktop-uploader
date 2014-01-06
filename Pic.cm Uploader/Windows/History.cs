@@ -24,6 +24,7 @@ namespace Piccm_Uploader.Windows
 
         private void History_Load(object sender, EventArgs e)
         {
+            int histupdate = 0;
             try
             {
                 SQLiteDatabase sqldb = new SQLiteDatabase();
@@ -43,7 +44,7 @@ namespace Piccm_Uploader.Windows
                     if (history.Rows[i]["image_data"].ToString().Length > 10)
                     {
                         string data = Encoding.Default.GetString((byte[])history.Rows[i]["image_data"]);
-                        byte[] bytes =Convert.FromBase64String(data);
+                        byte[] bytes = Convert.FromBase64String(data);
                         Image image;
                         using (MemoryStream ms = new MemoryStream(bytes))
                         {
@@ -53,17 +54,10 @@ namespace Piccm_Uploader.Windows
                     }
                     else
                     {
-                        Console.WriteLine("No data for image " + history.Rows[i]["image_name"]);
-                        Image tmp = LoadImage(References.URL_VIEW + history.Rows[i]["image_name"].ToString() + ".th." + history.Rows[i]["image_type"].ToString());
-                        MemoryStream ms = new MemoryStream();
-                        tmp.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-                        Dictionary<string, string> data = new Dictionary<string, string>();
-                        data.Add("image_data", Convert.ToBase64String(ms.ToArray(), Base64FormattingOptions.None));
-                        ms.Dispose();
-                        sqldb.Update("history", data, String.Format("id = {0}", history.Rows[i]["id"]));
-                        imgList.Images.Add(tmp);
+                        DBSaveImage.Save(References.URL_VIEW + item.Text + ".th." + history.Rows[i]["image_type"].ToString(), Convert.ToInt32(history.Rows[i]["id"]));
+                        histupdate++;
                     }
-                    item.ImageIndex = i + 1;
+                    item.ImageIndex = i;
                     listView1.Items.Add(item);
                 }
 
@@ -74,22 +68,11 @@ namespace Piccm_Uploader.Windows
                 MessageBox.Show("Unable to load history, a database error occured.");
                 this.Close();
             }
-        }
 
-        private Image LoadImage(string url)
-        {
-            System.Net.WebRequest request =
-                System.Net.WebRequest.Create(url);
-
-            System.Net.WebResponse response = request.GetResponse();
-            System.IO.Stream responseStream =
-                response.GetResponseStream();
-
-            Bitmap bmp = new Bitmap(responseStream);
-
-            responseStream.Dispose();
-
-            return bmp;
+            if (histupdate > 0)
+            {
+                MessageBox.Show("Your history has been updated. Please re-open this window.");
+            }
         }
 
         public void OpenPictureBox(object sender, EventArgs e)
