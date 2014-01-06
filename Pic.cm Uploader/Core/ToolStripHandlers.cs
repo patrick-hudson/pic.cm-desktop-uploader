@@ -85,6 +85,8 @@ namespace Piccm_Uploader.Core
         static Windows.History history = new Windows.History();
         static Windows.Settings settings = new Windows.Settings();
         static Windows.AboutBox about = new Windows.AboutBox();
+        static DragDropFiles ddf = new DragDropFiles();
+        static UrlUpload uu = new UrlUpload();
         internal static void ShowHistory(object sender, EventArgs e)
         {   
             history.Show();
@@ -122,14 +124,14 @@ namespace Piccm_Uploader.Core
         {
             // TODO Check if currently uploading
 
-            DragDropFiles ddf = new DragDropFiles();
             ddf.ShowDialog();
+            ddf.BringToFront();
         }
 
         internal static void UploadUrl(object sender, EventArgs e)
         {
-            UrlUpload uu = new UrlUpload();
             uu.Show();
+            uu.BringToFront();
         }
     }
 }
