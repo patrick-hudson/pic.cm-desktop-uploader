@@ -82,27 +82,35 @@ namespace Piccm_Uploader.Core
             }
         }
 
-        static Windows.History history = new Windows.History();
-        static Windows.Settings settings = new Windows.Settings();
-        static Windows.AboutBox about = new Windows.AboutBox();
-        static DragDropFiles ddf = new DragDropFiles();
-        static UrlUpload uu = new UrlUpload();
+        
+        private static bool CheckForm(Form form)
+        {
+            form = Application.OpenForms[form.Name];
+            if (form != null)
+                return true;
+            else
+                return false;
+        }
         internal static void ShowHistory(object sender, EventArgs e)
-        {   
-            history.Show();
-            history.BringToFront();
+        {
+            Windows.History history = new Windows.History();
+            if (!CheckForm(history))
+                history.ShowDialog();
         }
 
         internal static void ShowSettings(object sender, EventArgs e)
         {
-            settings.Show();
-            settings.BringToFront();
+            Windows.Settings settings = new Windows.Settings();
+            if (!CheckForm(settings))
+                settings.ShowDialog(); 
+            
         }
 
         internal static void ShowAbout(object sender, EventArgs e)
         {
-            about.Show();
-            about.BringToFront();
+            Windows.AboutBox about = new Windows.AboutBox();
+            if (!CheckForm(about))
+                about.Show();
         }
 
         internal static void Close(object sender, EventArgs e)
@@ -123,15 +131,16 @@ namespace Piccm_Uploader.Core
         internal static void DragDrop(object sender, EventArgs e)
         {
             // TODO Check if currently uploading
-
-            ddf.ShowDialog();
-            ddf.BringToFront();
+            DragDropFiles ddf = new DragDropFiles();
+            if (!CheckForm(ddf))
+                ddf.Show();
         }
 
         internal static void UploadUrl(object sender, EventArgs e)
         {
-            uu.Show();
-            uu.BringToFront();
+            UrlUpload uu = new UrlUpload();
+            if (!CheckForm(uu))
+                uu.ShowDialog();
         }
     }
 }

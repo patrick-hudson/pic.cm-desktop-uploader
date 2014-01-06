@@ -39,6 +39,7 @@ namespace Piccm_Uploader
             this.FormClosing += new FormClosingEventHandler(DragDropFiles_FormClosing);
         }
 
+
         void DragDropFiles_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (Items.Count == 0)
