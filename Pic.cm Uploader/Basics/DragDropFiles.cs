@@ -43,8 +43,9 @@ namespace Piccm_Uploader
         {
             if (Items.Count == 0)
             {
-                e.Cancel = true;
+                e.Cancel = false;
             }
+
             else
             {
                 foreach (var v in Items)
