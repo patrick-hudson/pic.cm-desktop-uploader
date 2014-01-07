@@ -14,7 +14,11 @@ namespace Hash_Generator
                 string[] filePaths = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory);
                 XmlDocument xml = new XmlDocument();
                 XmlElement root = xml.CreateElement("root");
+#if !DEBUG
                 root.SetAttribute("update_server", "http://pic.cm/releases/live/");
+#else
+                root.SetAttribute("update_server", "http://pic.cm/releases/dev/");
+#endif
                 xml.AppendChild(root);
                 foreach (String file in filePaths)
                 {
