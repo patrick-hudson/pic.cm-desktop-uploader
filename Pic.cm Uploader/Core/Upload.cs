@@ -57,7 +57,7 @@ namespace Piccm_Uploader.Core
             t.Start();
 
             // Check if we need to save locally
-            if (Sets.SaveScreenshots)
+            if (Properties.Settings.Default.CopyAfterUpload)
                 SaveLocal((Image)bitmap);
         }
 
@@ -87,13 +87,13 @@ namespace Piccm_Uploader.Core
                 if (clipboardHack.Count > 0)
                 {
                     string url = clipboardHack.Dequeue();
-                    if (Sets.CopyAfterUpload)
+                    if (Properties.Settings.Default.CopyAfterUpload)
                     {
                         System.Windows.Forms.Clipboard.Clear();
                         System.Windows.Forms.Clipboard.SetText(url);
                     }
 
-                    if (Sets.Sound)
+                    if (Properties.Settings.Default.SoundAfterUpload)
                     {
                         Notifications.NotifySound(References.Sound.SOUND_JINGLE);
                     }

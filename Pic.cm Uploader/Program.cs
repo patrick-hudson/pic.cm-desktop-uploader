@@ -61,15 +61,6 @@ namespace Piccm_Uploader
             //Application.SetCompatibleTextRenderingDefault(false);
             //here we read app's settings, configuration (api key, url) and history
             Core.Notifications.Initialize();
-            Sets.ReadSets();
-            //a strange bug's fix
-            if (Sets.Bug563Fix) Sets.Bug563Fix = false;
-            else
-            {
-                Process[] p = Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName);
-                if (p.Length > 1) Process.GetCurrentProcess().Kill();
-            }
-            //some init
             MainClassInstance = new MainClass();
             MainClassInstance.Wins = new IntPtr[3];
             MainClassInstance.Wins[0] = GetForegroundWindow();
@@ -97,10 +88,9 @@ namespace Piccm_Uploader
             string hotkeyConfigPath = References.APPDATA + "hotkeys.ini";
             if (File.Exists(References.APPDATA + "hotkeys.ini"))
             {
-                Ini i = new Ini(hotkeyConfigPath);
-                var cropped = i.IniRead("hotkey", "cropped");
-                var desktop = i.IniRead("hotkey", "desktop");
-                var window = i.IniRead("hotkey", "window");
+                var cropped = Properties.Settings.Default.HotKey_Area;
+                var desktop = Properties.Settings.Default.HotKey_Desktop;
+                var window = Properties.Settings.Default.HotKey_ActiveWindow;
 
                 string[] keys = cropped.Split(new char[] { '+' });
                 ModifierKeys modifierKey;

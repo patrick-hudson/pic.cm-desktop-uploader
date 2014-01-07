@@ -38,38 +38,39 @@ namespace Piccm_Uploader.Windows
             InitializeComponent();
             this.ShowInTaskbar = true;
             this.Icon = Resources.Resource.default_large;
+            this.FormClosing += Settings_FormClosing;
 
-            if (Sets.CopyAfterUpload)
+            if (Properties.Settings.Default.CopyAfterUpload)
             {
-                checkBox1.Checked = Sets.CopyAfterUpload;
+                checkBox1.Checked = Properties.Settings.Default.CopyAfterUpload;
             }
-            if (Sets.AutoUpdateCheck)
+            if (Properties.Settings.Default.CheckForUpdates)
             {
-                checkBox6.Checked = Sets.AutoUpdateCheck;
+                checkBox6.Checked = Properties.Settings.Default.CheckForUpdates;
             }
 
-            if (Sets.StartOnStartup)
+            if (Properties.Settings.Default.RunAtStartup)
             {
-                checkBox2.Checked = Sets.StartOnStartup;
+                checkBox2.Checked = Properties.Settings.Default.RunAtStartup;
             }
-            checkBox7.Checked = Sets.ProxyOn;
-            label1.Enabled = Sets.ProxyOn;
-            label2.Enabled = Sets.ProxyOn;
-            textBox1.Enabled = Sets.ProxyOn;
-            numericUpDown1.Enabled = Sets.ProxyOn;
-            textBox1.Text = Sets.ProxyServer;
-            if (Sets.SaveScreenshots)
+            checkBox7.Checked = Properties.Settings.Default.ProxyEnabled;
+            label1.Enabled = Properties.Settings.Default.ProxyEnabled;
+            label2.Enabled = Properties.Settings.Default.ProxyEnabled;
+            textBox1.Enabled = Properties.Settings.Default.ProxyEnabled;
+            numericUpDown1.Enabled = Properties.Settings.Default.ProxyEnabled;
+            textBox1.Text = Properties.Settings.Default.ProxyAddress;
+            if (Properties.Settings.Default.SaveLocal)
             {
-                checkBox3.Checked = Sets.SaveScreenshots;
+                checkBox3.Checked = Properties.Settings.Default.SaveLocal;
             }
-            if (Sets.Sound)
+            if (Properties.Settings.Default.SoundAfterUpload)
             {
-                checkBox4.Checked = Sets.Sound;
+                checkBox4.Checked = Properties.Settings.Default.SoundAfterUpload;
             }
 
             try
             {
-                numericUpDown1.Value = Convert.ToInt32(Sets.ProxyPort);
+                numericUpDown1.Value = Convert.ToInt32(Properties.Settings.Default.ProxyPort);
             }
             catch
             {
@@ -79,10 +80,9 @@ namespace Piccm_Uploader.Windows
             string hotkeyConfigPath = References.APPDATA + "hotkeys.ini";
             if (File.Exists(References.APPDATA + "hotkeys.ini"))
             {
-                Ini i = new Ini(hotkeyConfigPath);
-                var cropped = i.IniRead("hotkey", "cropped");
-                var desktop = i.IniRead("hotkey", "desktop");
-                var window = i.IniRead("hotkey", "window");
+                var cropped = Properties.Settings.Default.HotKey_Area;
+                var desktop = Properties.Settings.Default.HotKey_Desktop;
+                var window = Properties.Settings.Default.HotKey_ActiveWindow;
 
                 string[] keys = cropped.Split(new char[] { '+' });
                 if (keys != null && keys.Length > 1)
@@ -117,6 +117,11 @@ namespace Piccm_Uploader.Windows
             }
         }
 
+        private void Settings_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Properties.Settings.Default.Save();
+        }
+
         //event handler for auto updating
         private void AutomaticUpdaterOnUpdateAvailable(object sender, EventArgs eventArgs)
         {
@@ -130,7 +135,7 @@ namespace Piccm_Uploader.Windows
 
         private void checkBox6_CheckedChanged(object sender, EventArgs e)
         {
-            Sets.AutoUpdateCheck = checkBox6.Checked;
+            Properties.Settings.Default.CheckForUpdates = checkBox6.Checked;
             if (checkBox6.Checked)
             {
 
@@ -139,17 +144,17 @@ namespace Piccm_Uploader.Windows
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            Sets.CopyAfterUpload = checkBox1.Checked;
+            Properties.Settings.Default.CopyAfterUpload = checkBox1.Checked;
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
             //run @ startup
-            Sets.StartOnStartup = checkBox2.Checked;
+            Properties.Settings.Default.RunAtStartup = checkBox2.Checked;
             RegistryKey rk = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
             try
             {
-                if (Sets.StartOnStartup) rk.SetValue("Pic.cm Desktop Uploader", Application.ExecutablePath.ToString());
+                if (Properties.Settings.Default.RunAtStartup) rk.SetValue("Pic.cm Desktop Uploader", Application.ExecutablePath.ToString());
                 else rk.DeleteValue("Pic.cm Desktop Uploader", true);
             }
             catch
@@ -163,25 +168,25 @@ namespace Piccm_Uploader.Windows
         }
         private void checkBox4_CheckedChanged(object sender, EventArgs e)
         {
-            Sets.Sound = checkBox4.Checked;
+            Properties.Settings.Default.SoundAfterUpload = checkBox4.Checked;
         }
         private void checkBox7_CheckedChanged(object sender, EventArgs e)
         {
-            Sets.ProxyOn = checkBox7.Checked;
-            label1.Enabled = Sets.ProxyOn;
-            label2.Enabled = Sets.ProxyOn;
-            textBox1.Enabled = Sets.ProxyOn;
-            numericUpDown1.Enabled = Sets.ProxyOn;
+            Properties.Settings.Default.ProxyEnabled = checkBox7.Checked;
+            label1.Enabled = Properties.Settings.Default.ProxyEnabled;
+            label2.Enabled = Properties.Settings.Default.ProxyEnabled;
+            textBox1.Enabled = Properties.Settings.Default.ProxyEnabled;
+            numericUpDown1.Enabled = Properties.Settings.Default.ProxyEnabled;
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            Sets.ProxyServer = textBox1.Text;
+            Properties.Settings.Default.ProxyAddress = textBox1.Text;
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            Sets.ProxyPort = numericUpDown1.Value.ToString();
+            Properties.Settings.Default.ProxyPort = Convert.ToInt16(numericUpDown1.Value.ToString());
         }
 
         private void groupBox2_Enter(object sender, EventArgs e)
@@ -191,7 +196,7 @@ namespace Piccm_Uploader.Windows
 
         private void checkBox3_CheckedChanged_1(object sender, EventArgs e)
         {
-            Sets.SaveScreenshots = checkBox3.Checked;
+            Properties.Settings.Default.SaveLocal = checkBox3.Checked;
         }
 
         private void btnCoppedScreenshot_KeyDown(object sender, KeyEventArgs e)
@@ -225,11 +230,9 @@ namespace Piccm_Uploader.Windows
                         file.Close();
                     }
 
-                    Ini i = new Ini(hotkeyConfigPath);
-                    i.IniWrite("hotkey", "cropped", string.Format("{0}+{1}", modifiers, key));
+                    Properties.Settings.Default.HotKey_Area = string.Format("{0}+{1}", modifiers, key);
 
-                    btnCoppedScreenshot.Text = string.Format("{0}+{1}",
-                       modifiers, key);
+                    btnCoppedScreenshot.Text = string.Format("{0}+{1}", modifiers, key);
                 }
             }
         }
@@ -265,11 +268,9 @@ namespace Piccm_Uploader.Windows
                         file.Close();
                     }
 
-                    Ini i = new Ini(hotkeyConfigPath);
-                    i.IniWrite("hotkey", "window", string.Format("{0}+{1}", modifiers, key));
+                    Properties.Settings.Default.HotKey_ActiveWindow = string.Format("{0}+{1}", modifiers, key);
 
-                    btnUploadWindow.Text = string.Format("{0}+{1}",
-                       modifiers, key);
+                    btnUploadWindow.Text = string.Format("{0}+{1}", modifiers, key);
                 }
             }
         }
@@ -305,11 +306,9 @@ namespace Piccm_Uploader.Windows
                         file.Close();
                     }
 
-                    Ini i = new Ini(hotkeyConfigPath);
-                    i.IniWrite("hotkey", "desktop", string.Format("{0}+{1}", modifiers, key));
+                    Properties.Settings.Default.HotKey_Desktop = string.Format("{0}+{1}", modifiers, key);
 
-                    btnUploadDesktop.Text = string.Format("{0}+{1}",
-                       modifiers, key);
+                    btnUploadDesktop.Text = string.Format("{0}+{1}", modifiers, key);
                 }
             }
         }
