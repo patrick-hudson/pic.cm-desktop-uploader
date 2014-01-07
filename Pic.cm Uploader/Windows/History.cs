@@ -60,7 +60,7 @@ namespace Piccm_Uploader.Windows
                         histupdate++;
                     }
                     item.ImageIndex = i;
-                    lastid = (int)history.Rows[i]["id"];
+                    lastid = Convert.ToInt32(history.Rows[i]["id"]);
                     listView1.Items.Add(item);
                 }
 
