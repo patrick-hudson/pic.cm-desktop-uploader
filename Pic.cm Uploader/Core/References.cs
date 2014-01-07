@@ -8,7 +8,7 @@ namespace Piccm_Uploader.Core
     public class References
     {
 
-        private static string _url_upload = "http://pic.cm/api.php", _url_view = "http://i.pic.cm/";
+        private static string _url_site = "http://pic.cm/", _url_upload = "http://pic.cm/api.php", _url_view = "http://i.pic.cm/";
 
         internal enum Icon
         {
@@ -38,6 +38,12 @@ namespace Piccm_Uploader.Core
         {
             get { return _url_view; }
             set { _url_view = value; }
+        }
+
+        internal static string URL_SITE
+        {
+            get { return _url_site; }
+            set { _url_site = value; }
         }
 
         internal static string APIKey = "thisismyapikeynooneshouldknowmyapikey";

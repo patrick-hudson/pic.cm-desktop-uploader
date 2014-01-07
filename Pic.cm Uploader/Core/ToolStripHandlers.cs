@@ -83,7 +83,7 @@ namespace Piccm_Uploader.Core
         }
 
         
-        private static bool CheckForm(Form form)
+        public static bool CheckForm(Form form)
         {
             form = Application.OpenForms[form.Name];
             if (form != null)
@@ -91,6 +91,7 @@ namespace Piccm_Uploader.Core
             else
                 return false;
         }
+
         internal static void ShowHistory(object sender, EventArgs e)
         {
             Windows.History history = new Windows.History();

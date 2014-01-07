@@ -30,9 +30,8 @@ namespace Piccm_Uploader.Windows
             try
             {
                 SQLiteDatabase sqldb = new SQLiteDatabase();
-                DataTable history;
-                String query = "SELECT id, image_name, image_type, image_width, image_height, image_bytes, image_id_public, image_delete_hash, image_date, image_data FROM history;";
-                history = sqldb.GetDataTable(query);
+                String query = "SELECT id, image_name, image_type, image_data FROM history;";
+                DataTable history = sqldb.GetDataTable(query);
                 ImageList imgList = new ImageList();
 
                 listView1.LargeImageList = imgList;
@@ -82,7 +81,14 @@ namespace Piccm_Uploader.Windows
         {
             string itemid = listView1.SelectedItems[0].Text;
             Picture picWindow = new Picture(itemid);
-            picWindow.Show();
+            if (ToolStripHandlers.CheckForm(picWindow))
+            {
+                MessageBox.Show("Unable to open, please close the current image window.", "Unable to open", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                picWindow.Show();
+            }
         }
 
         private void refreshHistory(object sender, EventArgs e)
