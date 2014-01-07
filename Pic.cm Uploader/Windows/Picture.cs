@@ -27,7 +27,7 @@ namespace Piccm_Uploader.Windows
         private void Picture_Load(object sender, EventArgs e)
         {
             SQLiteDatabase sqldb = new SQLiteDatabase();
-            String query = "SELECT id, image_name, image_type, image_width, image_height, image_bytes, image_id_public, image_delete_hash, image_date, image_data FROM history WHERE image_name = '{0}';";
+            String query = "SELECT id, image_name, image_type, image_width, image_height, image_bytes, image_id_public, image_delete_hash, image_date FROM history WHERE image_name = '{0}';";
             imgdata = sqldb.GetDataTable(String.Format(query, pictureid));
             String url = References.URL_VIEW + imgdata.Rows[0]["image_name"] + "." + imgdata.Rows[0]["image_type"];
             String bburl = References.URL_VIEW + imgdata.Rows[0]["image_name"] + ".th." + imgdata.Rows[0]["image_type"];
@@ -45,7 +45,7 @@ namespace Piccm_Uploader.Windows
             textBoxDBBLink.Text = "[IMG]" + url + "[/IMG]";
             textBoxDHtml.Text = "<img src=\"" + url + "\" alt=\"\" />";
             textBoxDLink.Text = url;
-            textBoxDViewer.Text = References.URL_SITE + "image/" + imgdata.Rows[0]["image_id_public"];
+            textBoxDViewer.Text = References.URL_SITE + "image/" + imgdata.Rows[0]["image_name"];
 
             textBoxThumbLink.Text = bburl;
             textBoxThumbBB.Text = "[IMG]" + bburl + "[/IMG]";
