@@ -31,6 +31,7 @@ namespace Piccm_Uploader.Windows
             imgdata = sqldb.GetDataTable(String.Format(query, pictureid));
             String url = References.URL_VIEW + imgdata.Rows[0]["image_name"] + "." + imgdata.Rows[0]["image_type"];
             String bburl = References.URL_VIEW + imgdata.Rows[0]["image_name"] + ".th." + imgdata.Rows[0]["image_type"];
+            String delete = References.URL_SITE + "delete/image/" + imgdata.Rows[0]["image_name"] + "/" + imgdata.Rows[0]["image_delete_hash"];
 
             pictureBox.Load(url);
 
@@ -51,6 +52,8 @@ namespace Piccm_Uploader.Windows
             textBoxThumbBB.Text = "[IMG]" + bburl + "[/IMG]";
             textBoxThumbHtml.Text = "<img src=\"" + bburl + "\" alt=\"\" />";
 
+
+
         }
 
         static string SizeSuffix(Int64 value)
@@ -67,9 +70,20 @@ namespace Piccm_Uploader.Windows
             return string.Format("{0:n1} {1}", dValue, suffixes[i]);
         }
 
-        private void Delete_Click(object sender, EventArgs e)
+
+        private void Delete_Click_1(object sender, EventArgs e)
         {
+            if (MessageBox.Show("Are you really sure you'd like to delete this image? It will be gone forever", "Delete?", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+            {
+                System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(References.URL_SITE + "delete-confirm/image/" + imgdata.Rows[0]["image_name"] + "/" + imgdata.Rows[0]["image_delete_hash"]);
+                System.Net.HttpWebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
+                SQLiteDatabase sqldb = new SQLiteDatabase();
+                sqldb.Delete("history", String.Format("image_name = '{0}'", pictureid));
+                this.Close();
+
+            }
 
         }
+
     }
 }

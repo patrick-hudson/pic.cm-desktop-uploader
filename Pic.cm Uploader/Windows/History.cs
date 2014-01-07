@@ -91,7 +91,7 @@ namespace Piccm_Uploader.Windows
             }
         }
 
-        private void refreshHistory(object sender, EventArgs e)
+        public void refreshHistory(object sender, EventArgs e)
         {
             listView1.Items.Clear();
             History_Load(sender, e);
