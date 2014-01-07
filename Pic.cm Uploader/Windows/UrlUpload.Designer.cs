@@ -63,7 +63,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(388, 90);
+            this.ClientSize = new System.Drawing.Size(388, 89);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox1);
@@ -71,6 +71,7 @@
             this.MaximumSize = new System.Drawing.Size(404, 128);
             this.MinimumSize = new System.Drawing.Size(404, 128);
             this.Name = "UrlUpload";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "URL Upload";
             this.ResumeLayout(false);
             this.PerformLayout();

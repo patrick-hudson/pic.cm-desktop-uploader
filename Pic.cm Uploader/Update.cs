@@ -45,7 +45,11 @@ namespace Piccm_Uploader
                 string message = String.Empty, downloadurl = String.Empty;
 
                 XmlDocument xdoc = new XmlDocument();
+#if !DEBUG
                 xdoc.Load("http://pic.cm/releases/live/Version.xml");
+#else
+                xdoc.Load("http://pic.cm/releases/dev/Version.xml");
+#endif
 
                 XmlNode root = xdoc.SelectSingleNode("//root");
                 XmlNodeList nodeList = root.SelectNodes("file");
@@ -83,11 +87,15 @@ namespace Piccm_Uploader
                         Application.Exit();
                     }
                 }
+                else if (Program.updateFirstStart == false)
+                {
+                    MessageBox.Show("No updates currently available", "Try again later!", MessageBoxButtons.OK);
+                }
 
             }
             catch (Exception err)
             {
-#if RELEASE
+#if !DEBUG
                 MessageBox.Show("An error occured contacting the update server.", "Network Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 #else
                 Console.WriteLine(err.Message);

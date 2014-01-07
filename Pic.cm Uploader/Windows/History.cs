@@ -81,5 +81,11 @@ namespace Piccm_Uploader.Windows
             Picture picWindow = new Picture(itemid);
             picWindow.Show();
         }
+        private void refreshHistory(object sender, EventArgs e)
+        {
+            listView1.Items.Clear();
+            History_Load(sender, e);
+        }
+
     }
 }

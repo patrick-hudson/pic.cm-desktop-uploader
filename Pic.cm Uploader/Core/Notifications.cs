@@ -189,8 +189,10 @@ namespace Piccm_Uploader.Core
 
         private static void BalloonTipClicked(object s, EventArgs e)
         {
-            if(URL.Length > 10)
+            if (URL.Length > 10)
                 System.Diagnostics.Process.Start(URL);
+            else
+                DoNothing();
         }
 
         private static void DoNothing() {

@@ -101,7 +101,7 @@ namespace Piccm_Uploader.Windows
             this.MinimizeBox = false;
             this.Name = "AboutBox";
             this.Padding = new System.Windows.Forms.Padding(9);
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "About";
             this.Load += new System.EventHandler(this.AboutBox_Load);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.AboutBox_KeyUp);

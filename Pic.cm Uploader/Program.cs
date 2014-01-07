@@ -30,6 +30,8 @@ namespace Piccm_Uploader
         public static extern IntPtr GetForegroundWindow();
         public static MainClass MainClassInstance;
         public static Checker checker;
+        public static Boolean updateFirstStart = true;
+        
         
         [STAThread]
         static void Main()
@@ -51,12 +53,9 @@ namespace Piccm_Uploader
             Update workerUpdate = new Update();
             Thread threadUpdate = new Thread(workerUpdate.InitUpdate);
             Thread threadUpload = new Thread(Upload.ProcessQueue);
-
             threadUpdate.Start();
-
             threadUpload.SetApartmentState(ApartmentState.STA);
             threadUpload.Start();
-
             Application.EnableVisualStyles();
 
             //Application.SetCompatibleTextRenderingDefault(false);
@@ -79,9 +78,13 @@ namespace Piccm_Uploader
             //initializing the formless notify icon and its menu
             checker = new Checker();
             ReadHotkeysConfig();
+            threadUpdate.Join();
+            updateFirstStart = false;
+            Core.Notifications.NotifyUser("Welcome to Pic.cm", "Right click on the icon to get started.",1000,ToolTipIcon.Info,"");
+            Notifications.ResetIcon();
+            Notifications.ClickHandler(References.ClickAction.NOTHING);
             Application.Run();
         }
-
         private static void OnExit(object sender, EventArgs e)
         {
             Notifications.notifyIcon.Visible = false;

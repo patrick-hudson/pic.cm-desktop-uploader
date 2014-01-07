@@ -102,7 +102,10 @@ namespace Piccm_Uploader.Core
         {
             Windows.Settings settings = new Windows.Settings();
             if (!CheckForm(settings))
-                settings.ShowDialog(); 
+            {
+                settings.ShowDialog();
+            }
+
             
         }
 
@@ -110,7 +113,7 @@ namespace Piccm_Uploader.Core
         {
             Windows.AboutBox about = new Windows.AboutBox();
             if (!CheckForm(about))
-                about.Show();
+                about.ShowDialog();
         }
 
         internal static void Close(object sender, EventArgs e)
