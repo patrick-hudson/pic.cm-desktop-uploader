@@ -80,7 +80,6 @@ namespace Piccm_Uploader
             ReadHotkeysConfig();
             threadUpdate.Join();
             updateFirstStart = false;
-            Core.Notifications.NotifyUser("Welcome to Pic.cm", "Right click on the icon to get started.",1000,ToolTipIcon.Info,"");
             Notifications.ResetIcon();
             Notifications.ClickHandler(References.ClickAction.NOTHING);
             Application.Run();
