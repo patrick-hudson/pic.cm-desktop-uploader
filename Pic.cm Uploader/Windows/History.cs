@@ -15,6 +15,8 @@ namespace Piccm_Uploader.Windows
 {
     public partial class History : Form
     {
+        private int lastid = 0;
+
         public History()
         {
             InitializeComponent();
@@ -58,6 +60,7 @@ namespace Piccm_Uploader.Windows
                         histupdate++;
                     }
                     item.ImageIndex = i;
+                    lastid = (int)history.Rows[i]["id"];
                     listView1.Items.Add(item);
                 }
 
@@ -81,6 +84,7 @@ namespace Piccm_Uploader.Windows
             Picture picWindow = new Picture(itemid);
             picWindow.Show();
         }
+
         private void refreshHistory(object sender, EventArgs e)
         {
             listView1.Items.Clear();

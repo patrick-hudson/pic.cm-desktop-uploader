@@ -1,39 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Security.Principal;
 using System.Security.Cryptography;
+using System.IO;
 using System.Text;
-using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
 using System.Xml;
 
-using Piccm_Uploader.Core;
-
-namespace Piccm_Uploader
+namespace Shell_Clients
 {
-    class Update
+    static class Program
     {
-        public void InitUpdate()
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main()
         {
-
-            History.SQLiteDatabase sqldb = new History.SQLiteDatabase();
-
-            System.Data.DataTable db = sqldb.GetDataTable("PRAGMA user_version;");
-            int dbversion = Convert.ToInt16(db.Rows[0][0]);
-            if (dbversion < References.DBVERSION)
-            {
-#if DEBUG
-                Console.WriteLine("Found database version: " + dbversion);
-#endif
-                if (dbversion == 0)
-                    sqldb.ExecuteNonQuery("ALTER TABLE history ADD COLUMN image_data BLOB;" +
-                                          "DELETE FROM history WHERE id NOT IN (SELECT MAX(id) FROM history GROUP BY image_name);" +
-                                          "PRAGMA user_version = 1;");
-            }
-
             if (File.Exists("update.bat"))
                 File.Delete("update.bat");
 
@@ -73,22 +58,23 @@ namespace Piccm_Uploader
 
                 if (downloadList.Count > 0)
                 {
-                    if (MessageBox.Show("Download update?", "Update Available!", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
-                    {
                         while (downloadList.Count > 0)
                         {
                             string file = downloadList.Dequeue();
                             DownloadFile(downloadurl, file);
                         }
 
-                        File.WriteAllText("update.bat", Resources.Resource.update);
+                        File.WriteAllText("update.bat", "@echo off"+
+"setlocal enabledelayedexpansion\n"+
+"echo Waiting for pic.cm to exit\n" +
+"::ping 1.1.1.1 -n 1 -w 3000 > nul\n" +
+"echo Replacing files\n" +
+"for %%f in (*.update) do (\n" +
+"  move /Y \"%%f\" \"%%~nf\"\n" +
+")\n"+
+"start ./\"Pic.cm Desktop Uploader\".exe");
                         Process.Start("update.bat");
                         Application.Exit();
-                    }
-                }
-                else if (Program.updateFirstStart == false)
-                {
-                    MessageBox.Show("No updates currently available", "Try again later!", MessageBoxButtons.OK);
                 }
 
             }
