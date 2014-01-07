@@ -109,8 +109,7 @@ namespace Piccm_Uploader.Core
                     }
                     else
                     {
-                        byte[] data = File.ReadAllBytes(path);
-                        SendRequest(data);
+                        UploadBitmap(new Bitmap(Bitmap.FromFile(path, false)));
                     }
                 }
                 System.Threading.Thread.Sleep(200);
@@ -166,11 +165,11 @@ namespace Piccm_Uploader.Core
                     XmlNodeList image_delete_hash = xmlDoc.GetElementsByTagName("image_delete_hash");
                     XmlNodeList image_date = xmlDoc.GetElementsByTagName("image_date");
 
-                    ImageData.Save(image_name[0].InnerText, image_type[0].InnerText, Convert.ToInt32(image_bytes[0].InnerText), Convert.ToInt32(image_height[0].InnerText),
-                         Convert.ToInt32(image_width[0].InnerText), image_id_public[0].InnerText, image_delete_hash[0].InnerText, image_date[0].InnerText,
+                    ImageData.Save(image_name[0].InnerText, image_type[0].InnerText, Convert.ToInt32(image_width[0].InnerText), Convert.ToInt32(image_height[0].InnerText),
+                         Convert.ToInt32(image_bytes[0].InnerText), image_id_public[0].InnerText, image_delete_hash[0].InnerText, image_date[0].InnerText,
                     DBSaveImage.Getbase64(References.URL_VIEW + image_name[0].InnerText + ".th." + image_type[0].InnerText));
 
-                    string url = References.URL_VIEW + image_name[0].InnerText + "." + image_type[0].InnerText;;
+                    string url = References.URL_VIEW + image_name[0].InnerText + "." + image_type[0].InnerText; ;
                     Notifications.NotifyUser("Upload Complete!", "Click here to view your image", 1000, ToolTipIcon.Info, url);
 
                     clipboardHack.Enqueue(url);
