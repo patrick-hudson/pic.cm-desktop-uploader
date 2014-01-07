@@ -29,11 +29,8 @@ namespace Piccm_Uploader.Windows
             InitializeComponent();
         }
 
-        private void AboutBox_Load(object sender, EventArgs e)
-        {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
-            labelVersionData.Text = fvi.FileVersion;
+        private void AboutBox_Load(object sender, EventArgs e){
+            labelVersionData.Text = Application.ProductVersion;
         }
 
         private void labelCopyRight_Click(object sender, EventArgs e)

@@ -20,11 +20,9 @@ namespace Piccm_Uploader.Core
 
         internal static void Initialize()
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
             version = new ToolStripMenuItem();
             version.Name = "Version";
-            version.Text = "Version " + fvi.FileVersion;
+            version.Text = "Version " + Application.ProductVersion;
             version.Enabled = false;
 
             toolStripSeparator5 = new ToolStripSeparator();
