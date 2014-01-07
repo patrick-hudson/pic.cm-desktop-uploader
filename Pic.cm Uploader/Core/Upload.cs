@@ -147,6 +147,9 @@ namespace Piccm_Uploader.Core
         private static void uploadComplete(object sender, UploadDataCompletedEventArgs e)
         {
             _uploadLock = false;
+#if DEBUG
+            Console.WriteLine(Encoding.UTF8.GetString(e.Result));
+#endif
             if (!e.Cancelled)
             {
                 XmlDocument xmlDoc = new XmlDocument();

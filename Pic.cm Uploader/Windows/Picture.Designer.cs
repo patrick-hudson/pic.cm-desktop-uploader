@@ -31,28 +31,29 @@
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.panelInfo = new System.Windows.Forms.Panel();
-            this.labelImageUploadDateText = new System.Windows.Forms.Label();
-            this.labelImageUploadDateData = new System.Windows.Forms.Label();
-            this.labelImageFileSizeText = new System.Windows.Forms.Label();
-            this.labelImageFileSizeData = new System.Windows.Forms.Label();
-            this.textBoxDViewer = new System.Windows.Forms.TextBox();
-            this.labelDivider2 = new System.Windows.Forms.Label();
-            this.labelDivider1 = new System.Windows.Forms.Label();
-            this.labelHeaderDirect = new System.Windows.Forms.Label();
-            this.labelDViewer = new System.Windows.Forms.Label();
-            this.textBoxDLink = new System.Windows.Forms.TextBox();
-            this.labelDLink = new System.Windows.Forms.Label();
-            this.textBoxDBBLink = new System.Windows.Forms.TextBox();
-            this.textBoxDHtml = new System.Windows.Forms.TextBox();
-            this.labelDBBCode = new System.Windows.Forms.Label();
-            this.labelDHtml = new System.Windows.Forms.Label();
-            this.textBoxThumbLink = new System.Windows.Forms.TextBox();
-            this.labelHeaderThumb = new System.Windows.Forms.Label();
-            this.labelTDlink = new System.Windows.Forms.Label();
-            this.textBoxThumbBB = new System.Windows.Forms.TextBox();
-            this.textBoxThumbHtml = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBoxThumbHtml = new System.Windows.Forms.TextBox();
+            this.textBoxThumbBB = new System.Windows.Forms.TextBox();
+            this.labelTDlink = new System.Windows.Forms.Label();
+            this.labelHeaderThumb = new System.Windows.Forms.Label();
+            this.textBoxThumbLink = new System.Windows.Forms.TextBox();
+            this.labelDHtml = new System.Windows.Forms.Label();
+            this.labelDBBCode = new System.Windows.Forms.Label();
+            this.textBoxDHtml = new System.Windows.Forms.TextBox();
+            this.textBoxDBBLink = new System.Windows.Forms.TextBox();
+            this.labelDLink = new System.Windows.Forms.Label();
+            this.textBoxDLink = new System.Windows.Forms.TextBox();
+            this.labelDViewer = new System.Windows.Forms.Label();
+            this.labelHeaderDirect = new System.Windows.Forms.Label();
+            this.labelDivider1 = new System.Windows.Forms.Label();
+            this.labelDivider2 = new System.Windows.Forms.Label();
+            this.textBoxDViewer = new System.Windows.Forms.TextBox();
+            this.labelImageFileSizeData = new System.Windows.Forms.Label();
+            this.labelImageFileSizeText = new System.Windows.Forms.Label();
+            this.labelImageUploadDateData = new System.Windows.Forms.Label();
+            this.labelImageUploadDateText = new System.Windows.Forms.Label();
+            this.Delete = new System.Windows.Forms.Button();
             this.tableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.panelInfo.SuspendLayout();
@@ -72,7 +73,7 @@
             this.tableLayoutPanel.Name = "tableLayoutPanel";
             this.tableLayoutPanel.RowCount = 1;
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(954, 405);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(958, 452);
             this.tableLayoutPanel.TabIndex = 0;
             // 
             // pictureBox
@@ -82,13 +83,14 @@
             this.pictureBox.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox.MinimumSize = new System.Drawing.Size(500, 400);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(654, 405);
+            this.pictureBox.Size = new System.Drawing.Size(658, 452);
             this.pictureBox.TabIndex = 0;
             this.pictureBox.TabStop = false;
             // 
             // panelInfo
             // 
             this.panelInfo.BackColor = System.Drawing.SystemColors.Control;
+            this.panelInfo.Controls.Add(this.Delete);
             this.panelInfo.Controls.Add(this.label2);
             this.panelInfo.Controls.Add(this.label1);
             this.panelInfo.Controls.Add(this.textBoxThumbHtml);
@@ -112,39 +114,191 @@
             this.panelInfo.Controls.Add(this.labelImageUploadDateData);
             this.panelInfo.Controls.Add(this.labelImageUploadDateText);
             this.panelInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelInfo.Location = new System.Drawing.Point(654, 0);
+            this.panelInfo.Location = new System.Drawing.Point(658, 0);
             this.panelInfo.Margin = new System.Windows.Forms.Padding(0);
             this.panelInfo.MinimumSize = new System.Drawing.Size(300, 400);
             this.panelInfo.Name = "panelInfo";
-            this.panelInfo.Size = new System.Drawing.Size(300, 405);
+            this.panelInfo.Size = new System.Drawing.Size(300, 452);
             this.panelInfo.TabIndex = 1;
             // 
-            // labelImageUploadDateText
+            // label2
             // 
-            this.labelImageUploadDateText.AutoSize = true;
-            this.labelImageUploadDateText.Location = new System.Drawing.Point(3, 9);
-            this.labelImageUploadDateText.Name = "labelImageUploadDateText";
-            this.labelImageUploadDateText.Size = new System.Drawing.Size(70, 13);
-            this.labelImageUploadDateText.TabIndex = 0;
-            this.labelImageUploadDateText.Text = "Upload Date:";
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 423);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(65, 13);
+            this.label2.TabIndex = 21;
+            this.label2.Text = "HTML Code";
             // 
-            // labelImageUploadDateData
+            // label1
             // 
-            this.labelImageUploadDateData.AutoSize = true;
-            this.labelImageUploadDateData.Location = new System.Drawing.Point(104, 9);
-            this.labelImageUploadDateData.Name = "labelImageUploadDateData";
-            this.labelImageUploadDateData.Size = new System.Drawing.Size(54, 13);
-            this.labelImageUploadDateData.TabIndex = 1;
-            this.labelImageUploadDateData.Text = "Loading...";
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 397);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(49, 13);
+            this.label1.TabIndex = 20;
+            this.label1.Text = "BB Code";
             // 
-            // labelImageFileSizeText
+            // textBoxThumbHtml
             // 
-            this.labelImageFileSizeText.AutoSize = true;
-            this.labelImageFileSizeText.Location = new System.Drawing.Point(3, 22);
-            this.labelImageFileSizeText.Name = "labelImageFileSizeText";
-            this.labelImageFileSizeText.Size = new System.Drawing.Size(62, 13);
-            this.labelImageFileSizeText.TabIndex = 2;
-            this.labelImageFileSizeText.Text = "Image Size:";
+            this.textBoxThumbHtml.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.textBoxThumbHtml.Location = new System.Drawing.Point(93, 420);
+            this.textBoxThumbHtml.Name = "textBoxThumbHtml";
+            this.textBoxThumbHtml.ReadOnly = true;
+            this.textBoxThumbHtml.Size = new System.Drawing.Size(195, 20);
+            this.textBoxThumbHtml.TabIndex = 19;
+            // 
+            // textBoxThumbBB
+            // 
+            this.textBoxThumbBB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.textBoxThumbBB.Location = new System.Drawing.Point(93, 394);
+            this.textBoxThumbBB.Name = "textBoxThumbBB";
+            this.textBoxThumbBB.ReadOnly = true;
+            this.textBoxThumbBB.Size = new System.Drawing.Size(195, 20);
+            this.textBoxThumbBB.TabIndex = 18;
+            // 
+            // labelTDlink
+            // 
+            this.labelTDlink.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.labelTDlink.AutoSize = true;
+            this.labelTDlink.Location = new System.Drawing.Point(3, 371);
+            this.labelTDlink.Name = "labelTDlink";
+            this.labelTDlink.Size = new System.Drawing.Size(58, 13);
+            this.labelTDlink.TabIndex = 17;
+            this.labelTDlink.Text = "Direct Link";
+            // 
+            // labelHeaderThumb
+            // 
+            this.labelHeaderThumb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.labelHeaderThumb.AutoSize = true;
+            this.labelHeaderThumb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelHeaderThumb.Location = new System.Drawing.Point(3, 349);
+            this.labelHeaderThumb.Name = "labelHeaderThumb";
+            this.labelHeaderThumb.Size = new System.Drawing.Size(105, 16);
+            this.labelHeaderThumb.TabIndex = 16;
+            this.labelHeaderThumb.Text = "Thumbnail Links";
+            // 
+            // textBoxThumbLink
+            // 
+            this.textBoxThumbLink.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.textBoxThumbLink.Location = new System.Drawing.Point(93, 368);
+            this.textBoxThumbLink.Name = "textBoxThumbLink";
+            this.textBoxThumbLink.ReadOnly = true;
+            this.textBoxThumbLink.Size = new System.Drawing.Size(195, 20);
+            this.textBoxThumbLink.TabIndex = 15;
+            // 
+            // labelDHtml
+            // 
+            this.labelDHtml.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.labelDHtml.AutoSize = true;
+            this.labelDHtml.Location = new System.Drawing.Point(3, 315);
+            this.labelDHtml.Name = "labelDHtml";
+            this.labelDHtml.Size = new System.Drawing.Size(65, 13);
+            this.labelDHtml.TabIndex = 14;
+            this.labelDHtml.Text = "HTML Code";
+            // 
+            // labelDBBCode
+            // 
+            this.labelDBBCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.labelDBBCode.AutoSize = true;
+            this.labelDBBCode.Location = new System.Drawing.Point(3, 289);
+            this.labelDBBCode.Name = "labelDBBCode";
+            this.labelDBBCode.Size = new System.Drawing.Size(49, 13);
+            this.labelDBBCode.TabIndex = 13;
+            this.labelDBBCode.Text = "BB Code";
+            // 
+            // textBoxDHtml
+            // 
+            this.textBoxDHtml.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.textBoxDHtml.Location = new System.Drawing.Point(93, 311);
+            this.textBoxDHtml.Name = "textBoxDHtml";
+            this.textBoxDHtml.ReadOnly = true;
+            this.textBoxDHtml.Size = new System.Drawing.Size(195, 20);
+            this.textBoxDHtml.TabIndex = 12;
+            // 
+            // textBoxDBBLink
+            // 
+            this.textBoxDBBLink.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.textBoxDBBLink.Location = new System.Drawing.Point(93, 285);
+            this.textBoxDBBLink.Name = "textBoxDBBLink";
+            this.textBoxDBBLink.ReadOnly = true;
+            this.textBoxDBBLink.Size = new System.Drawing.Size(195, 20);
+            this.textBoxDBBLink.TabIndex = 11;
+            // 
+            // labelDLink
+            // 
+            this.labelDLink.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.labelDLink.AutoSize = true;
+            this.labelDLink.Location = new System.Drawing.Point(3, 263);
+            this.labelDLink.Name = "labelDLink";
+            this.labelDLink.Size = new System.Drawing.Size(58, 13);
+            this.labelDLink.TabIndex = 10;
+            this.labelDLink.Text = "Direct Link";
+            // 
+            // textBoxDLink
+            // 
+            this.textBoxDLink.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.textBoxDLink.Location = new System.Drawing.Point(93, 259);
+            this.textBoxDLink.Name = "textBoxDLink";
+            this.textBoxDLink.ReadOnly = true;
+            this.textBoxDLink.Size = new System.Drawing.Size(195, 20);
+            this.textBoxDLink.TabIndex = 9;
+            // 
+            // labelDViewer
+            // 
+            this.labelDViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.labelDViewer.AutoSize = true;
+            this.labelDViewer.Location = new System.Drawing.Point(3, 237);
+            this.labelDViewer.Name = "labelDViewer";
+            this.labelDViewer.Size = new System.Drawing.Size(39, 13);
+            this.labelDViewer.TabIndex = 8;
+            this.labelDViewer.Text = "Viewer";
+            // 
+            // labelHeaderDirect
+            // 
+            this.labelHeaderDirect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.labelHeaderDirect.AutoSize = true;
+            this.labelHeaderDirect.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelHeaderDirect.Location = new System.Drawing.Point(3, 215);
+            this.labelHeaderDirect.Name = "labelHeaderDirect";
+            this.labelHeaderDirect.Size = new System.Drawing.Size(77, 16);
+            this.labelHeaderDirect.TabIndex = 7;
+            this.labelHeaderDirect.Text = "Direct Links";
+            // 
+            // labelDivider1
+            // 
+            this.labelDivider1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.labelDivider1.AutoSize = true;
+            this.labelDivider1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.labelDivider1.Location = new System.Drawing.Point(0, 200);
+            this.labelDivider1.MaximumSize = new System.Drawing.Size(300, 2);
+            this.labelDivider1.MinimumSize = new System.Drawing.Size(300, 2);
+            this.labelDivider1.Name = "labelDivider1";
+            this.labelDivider1.Size = new System.Drawing.Size(300, 2);
+            this.labelDivider1.TabIndex = 6;
+            // 
+            // labelDivider2
+            // 
+            this.labelDivider2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.labelDivider2.AutoSize = true;
+            this.labelDivider2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.labelDivider2.Location = new System.Drawing.Point(0, 347);
+            this.labelDivider2.MaximumSize = new System.Drawing.Size(300, 2);
+            this.labelDivider2.MinimumSize = new System.Drawing.Size(300, 2);
+            this.labelDivider2.Name = "labelDivider2";
+            this.labelDivider2.Size = new System.Drawing.Size(300, 2);
+            this.labelDivider2.TabIndex = 5;
+            // 
+            // textBoxDViewer
+            // 
+            this.textBoxDViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.textBoxDViewer.Location = new System.Drawing.Point(93, 233);
+            this.textBoxDViewer.Name = "textBoxDViewer";
+            this.textBoxDViewer.ReadOnly = true;
+            this.textBoxDViewer.Size = new System.Drawing.Size(195, 20);
+            this.textBoxDViewer.TabIndex = 4;
             // 
             // labelImageFileSizeData
             // 
@@ -155,190 +309,48 @@
             this.labelImageFileSizeData.TabIndex = 3;
             this.labelImageFileSizeData.Text = "Loading...";
             // 
-            // textBoxDViewer
+            // labelImageFileSizeText
             // 
-            this.textBoxDViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBoxDViewer.Location = new System.Drawing.Point(93, 190);
-            this.textBoxDViewer.Name = "textBoxDViewer";
-            this.textBoxDViewer.ReadOnly = true;
-            this.textBoxDViewer.Size = new System.Drawing.Size(195, 20);
-            this.textBoxDViewer.TabIndex = 4;
+            this.labelImageFileSizeText.AutoSize = true;
+            this.labelImageFileSizeText.Location = new System.Drawing.Point(3, 22);
+            this.labelImageFileSizeText.Name = "labelImageFileSizeText";
+            this.labelImageFileSizeText.Size = new System.Drawing.Size(62, 13);
+            this.labelImageFileSizeText.TabIndex = 2;
+            this.labelImageFileSizeText.Text = "Image Size:";
             // 
-            // labelDivider2
+            // labelImageUploadDateData
             // 
-            this.labelDivider2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.labelDivider2.AutoSize = true;
-            this.labelDivider2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labelDivider2.Location = new System.Drawing.Point(0, 300);
-            this.labelDivider2.MaximumSize = new System.Drawing.Size(300, 2);
-            this.labelDivider2.MinimumSize = new System.Drawing.Size(300, 2);
-            this.labelDivider2.Name = "labelDivider2";
-            this.labelDivider2.Size = new System.Drawing.Size(300, 2);
-            this.labelDivider2.TabIndex = 5;
+            this.labelImageUploadDateData.AutoSize = true;
+            this.labelImageUploadDateData.Location = new System.Drawing.Point(104, 9);
+            this.labelImageUploadDateData.Name = "labelImageUploadDateData";
+            this.labelImageUploadDateData.Size = new System.Drawing.Size(54, 13);
+            this.labelImageUploadDateData.TabIndex = 1;
+            this.labelImageUploadDateData.Text = "Loading...";
             // 
-            // labelDivider1
+            // labelImageUploadDateText
             // 
-            this.labelDivider1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.labelDivider1.AutoSize = true;
-            this.labelDivider1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.labelDivider1.Location = new System.Drawing.Point(0, 169);
-            this.labelDivider1.MaximumSize = new System.Drawing.Size(300, 2);
-            this.labelDivider1.MinimumSize = new System.Drawing.Size(300, 2);
-            this.labelDivider1.Name = "labelDivider1";
-            this.labelDivider1.Size = new System.Drawing.Size(300, 2);
-            this.labelDivider1.TabIndex = 6;
+            this.labelImageUploadDateText.AutoSize = true;
+            this.labelImageUploadDateText.Location = new System.Drawing.Point(3, 9);
+            this.labelImageUploadDateText.Name = "labelImageUploadDateText";
+            this.labelImageUploadDateText.Size = new System.Drawing.Size(70, 13);
+            this.labelImageUploadDateText.TabIndex = 0;
+            this.labelImageUploadDateText.Text = "Upload Date:";
             // 
-            // labelHeaderDirect
+            // Delete
             // 
-            this.labelHeaderDirect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.labelHeaderDirect.AutoSize = true;
-            this.labelHeaderDirect.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelHeaderDirect.Location = new System.Drawing.Point(3, 171);
-            this.labelHeaderDirect.Name = "labelHeaderDirect";
-            this.labelHeaderDirect.Size = new System.Drawing.Size(77, 16);
-            this.labelHeaderDirect.TabIndex = 7;
-            this.labelHeaderDirect.Text = "Direct Links";
-            // 
-            // labelDViewer
-            // 
-            this.labelDViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.labelDViewer.AutoSize = true;
-            this.labelDViewer.Location = new System.Drawing.Point(3, 193);
-            this.labelDViewer.Name = "labelDViewer";
-            this.labelDViewer.Size = new System.Drawing.Size(39, 13);
-            this.labelDViewer.TabIndex = 8;
-            this.labelDViewer.Text = "Viewer";
-            // 
-            // textBoxDLink
-            // 
-            this.textBoxDLink.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBoxDLink.Location = new System.Drawing.Point(93, 216);
-            this.textBoxDLink.Name = "textBoxDLink";
-            this.textBoxDLink.ReadOnly = true;
-            this.textBoxDLink.Size = new System.Drawing.Size(195, 20);
-            this.textBoxDLink.TabIndex = 9;
-            // 
-            // labelDLink
-            // 
-            this.labelDLink.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.labelDLink.AutoSize = true;
-            this.labelDLink.Location = new System.Drawing.Point(3, 219);
-            this.labelDLink.Name = "labelDLink";
-            this.labelDLink.Size = new System.Drawing.Size(58, 13);
-            this.labelDLink.TabIndex = 10;
-            this.labelDLink.Text = "Direct Link";
-            // 
-            // textBoxDBBLink
-            // 
-            this.textBoxDBBLink.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBoxDBBLink.Location = new System.Drawing.Point(93, 242);
-            this.textBoxDBBLink.Name = "textBoxDBBLink";
-            this.textBoxDBBLink.ReadOnly = true;
-            this.textBoxDBBLink.Size = new System.Drawing.Size(195, 20);
-            this.textBoxDBBLink.TabIndex = 11;
-            // 
-            // textBoxDHtml
-            // 
-            this.textBoxDHtml.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBoxDHtml.Location = new System.Drawing.Point(93, 268);
-            this.textBoxDHtml.Name = "textBoxDHtml";
-            this.textBoxDHtml.ReadOnly = true;
-            this.textBoxDHtml.Size = new System.Drawing.Size(195, 20);
-            this.textBoxDHtml.TabIndex = 12;
-            // 
-            // labelDBBCode
-            // 
-            this.labelDBBCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.labelDBBCode.AutoSize = true;
-            this.labelDBBCode.Location = new System.Drawing.Point(3, 245);
-            this.labelDBBCode.Name = "labelDBBCode";
-            this.labelDBBCode.Size = new System.Drawing.Size(49, 13);
-            this.labelDBBCode.TabIndex = 13;
-            this.labelDBBCode.Text = "BB Code";
-            // 
-            // labelDHtml
-            // 
-            this.labelDHtml.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.labelDHtml.AutoSize = true;
-            this.labelDHtml.Location = new System.Drawing.Point(3, 271);
-            this.labelDHtml.Name = "labelDHtml";
-            this.labelDHtml.Size = new System.Drawing.Size(65, 13);
-            this.labelDHtml.TabIndex = 14;
-            this.labelDHtml.Text = "HTML Code";
-            // 
-            // textBoxThumbLink
-            // 
-            this.textBoxThumbLink.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBoxThumbLink.Location = new System.Drawing.Point(93, 321);
-            this.textBoxThumbLink.Name = "textBoxThumbLink";
-            this.textBoxThumbLink.ReadOnly = true;
-            this.textBoxThumbLink.Size = new System.Drawing.Size(195, 20);
-            this.textBoxThumbLink.TabIndex = 15;
-            // 
-            // labelHeaderThumb
-            // 
-            this.labelHeaderThumb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.labelHeaderThumb.AutoSize = true;
-            this.labelHeaderThumb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelHeaderThumb.Location = new System.Drawing.Point(3, 302);
-            this.labelHeaderThumb.Name = "labelHeaderThumb";
-            this.labelHeaderThumb.Size = new System.Drawing.Size(105, 16);
-            this.labelHeaderThumb.TabIndex = 16;
-            this.labelHeaderThumb.Text = "Thumbnail Links";
-            // 
-            // labelTDlink
-            // 
-            this.labelTDlink.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.labelTDlink.AutoSize = true;
-            this.labelTDlink.Location = new System.Drawing.Point(3, 324);
-            this.labelTDlink.Name = "labelTDlink";
-            this.labelTDlink.Size = new System.Drawing.Size(58, 13);
-            this.labelTDlink.TabIndex = 17;
-            this.labelTDlink.Text = "Direct Link";
-            // 
-            // textBoxThumbBB
-            // 
-            this.textBoxThumbBB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBoxThumbBB.Location = new System.Drawing.Point(93, 347);
-            this.textBoxThumbBB.Name = "textBoxThumbBB";
-            this.textBoxThumbBB.ReadOnly = true;
-            this.textBoxThumbBB.Size = new System.Drawing.Size(195, 20);
-            this.textBoxThumbBB.TabIndex = 18;
-            // 
-            // textBoxThumbHtml
-            // 
-            this.textBoxThumbHtml.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBoxThumbHtml.Location = new System.Drawing.Point(93, 373);
-            this.textBoxThumbHtml.Name = "textBoxThumbHtml";
-            this.textBoxThumbHtml.ReadOnly = true;
-            this.textBoxThumbHtml.Size = new System.Drawing.Size(195, 20);
-            this.textBoxThumbHtml.TabIndex = 19;
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 350);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(49, 13);
-            this.label1.TabIndex = 20;
-            this.label1.Text = "BB Code";
-            // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 376);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(65, 13);
-            this.label2.TabIndex = 21;
-            this.label2.Text = "HTML Code";
+            this.Delete.Location = new System.Drawing.Point(4, 48);
+            this.Delete.Name = "Delete";
+            this.Delete.Size = new System.Drawing.Size(75, 23);
+            this.Delete.TabIndex = 22;
+            this.Delete.Text = "button1";
+            this.Delete.UseVisualStyleBackColor = true;
+            this.Delete.Click += new System.EventHandler(this.Delete_Click_1);
             // 
             // Picture
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(954, 405);
+            this.ClientSize = new System.Drawing.Size(958, 452);
             this.Controls.Add(this.tableLayoutPanel);
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(970, 443);
@@ -380,6 +392,7 @@
         private System.Windows.Forms.Label labelTDlink;
         private System.Windows.Forms.Label labelHeaderThumb;
         private System.Windows.Forms.TextBox textBoxThumbLink;
+        private System.Windows.Forms.Button Delete;
 
     }
 }
