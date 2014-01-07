@@ -77,6 +77,8 @@
             this.ClientSize = new System.Drawing.Size(1008, 729);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = global::Piccm_Uploader.Resources.Resource.default_small;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "History";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "History";

@@ -68,7 +68,9 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(404, 128);
+            this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(404, 128);
             this.Name = "UrlUpload";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

@@ -2,6 +2,8 @@
 using System.Drawing;
 using System.Media;
 using System.Windows.Forms;
+using System.Reflection;
+using System.Diagnostics;
 
 namespace Piccm_Uploader.Core
 {
@@ -13,11 +15,21 @@ namespace Piccm_Uploader.Core
         internal static String URL = String.Empty;
 
 
-        private static ToolStripMenuItem uploadFile, uploadClipboard, uploadDesktop, uploadArea, uploadActiveWindow, uploadDragDrop, uploadRemote, windowSettings, windowHistory, windowAbout, exitApp;
-        private static ToolStripSeparator toolStripSeparator1, toolStripSeparator2, toolStripSeparator3, toolStripSeparator4;
+        private static ToolStripMenuItem uploadFile, uploadClipboard, uploadDesktop, uploadArea, uploadActiveWindow, uploadDragDrop, uploadRemote, windowSettings, windowHistory, windowAbout, exitApp, version;
+        private static ToolStripSeparator toolStripSeparator1, toolStripSeparator2, toolStripSeparator3, toolStripSeparator4, toolStripSeparator5;
 
         internal static void Initialize()
         {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+            version = new ToolStripMenuItem();
+            version.Name = "Version";
+            version.Text = "Version " + fvi.FileVersion;
+            version.Enabled = false;
+
+            toolStripSeparator5 = new ToolStripSeparator();
+            toolStripSeparator5.Name = "toolStripSeparator5";
+
             Control.CheckForIllegalCrossThreadCalls = false;
             uploadPercent.Name = "uploadPercent";
             uploadPercent.Text = "No current uploads";
@@ -105,6 +117,8 @@ namespace Piccm_Uploader.Core
 
 
             NotifyIconMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { 
+                version,
+                toolStripSeparator5,
                 uploadPercent,
                 toolStripSeparator4,
                 uploadFile,

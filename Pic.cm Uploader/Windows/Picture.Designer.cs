@@ -36,7 +36,7 @@
             this.bleh.Dock = System.Windows.Forms.DockStyle.Fill;
             this.bleh.Location = new System.Drawing.Point(0, 0);
             this.bleh.Name = "bleh";
-            this.bleh.Size = new System.Drawing.Size(284, 52);
+            this.bleh.Size = new System.Drawing.Size(284, 51);
             this.bleh.TabIndex = 0;
             this.bleh.UseVisualStyleBackColor = true;
             // 
@@ -44,10 +44,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 52);
+            this.ClientSize = new System.Drawing.Size(284, 51);
             this.Controls.Add(this.bleh);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(300, 90);
+            this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(300, 90);
             this.Name = "Picture";
             this.Text = "Picture";
