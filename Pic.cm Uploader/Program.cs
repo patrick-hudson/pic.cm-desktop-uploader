@@ -31,54 +31,47 @@ namespace Piccm_Uploader
         public static MainClass MainClassInstance;
         public static Boolean updateFirstStart = true;
 
-
         [STAThread]
         static void Main()
         {
-            Application.ApplicationExit += new EventHandler(OnExit);
-
-#if DEBUG
-            var screens = Screen.AllScreens;
-            foreach (var screen in screens)
-            {
-                Console.WriteLine(screen.DeviceName + ") X: " + screen.Bounds.X + ", Y: " + screen.Bounds.Y);
-                Console.WriteLine(screen.DeviceName + ") Width: " + screen.Bounds.Width + ", Height: " + screen.Bounds.Height);
-            }
-#endif
-
             if (!File.Exists(References.APPDATA + "history.db"))
                 System.IO.File.WriteAllBytes(References.APPDATA + "history.db", Resources.Resource.history);
 
-            Update workerUpdate = new Update();
-            Thread threadUpdate = new Thread(workerUpdate.InitUpdate);
+            // Start the upload thread
             Thread threadUpload = new Thread(Upload.ProcessQueue);
-            //threadUpdate.Start();
             threadUpload.SetApartmentState(ApartmentState.STA);
             threadUpload.Start();
-            Application.EnableVisualStyles();
 
-            //Application.SetCompatibleTextRenderingDefault(false);
-            //here we read app's settings, configuration (api key, url) and history
-            Core.Notifications.Initialize();
+            // Is this needed?
             MainClassInstance = new MainClass();
             MainClassInstance.Wins = new IntPtr[3];
             MainClassInstance.Wins[0] = GetForegroundWindow();
             MainClassInstance.Wins[1] = MainClassInstance.Wins[0];
             MainClassInstance.Wins[2] = MainClassInstance.Wins[1];
-            
             ReadHotkeysConfig();
-            //threadUpdate.Join();
+
+            // check for updates
+            Update workerUpdate = new Update();
+            Thread threadUpdate = new Thread(workerUpdate.InitUpdate);
+            threadUpdate.Start();
+            threadUpdate.Join();
             updateFirstStart = false;
+
+            // show the notify icon in teh taskbar
+            Notifications.Initialize();
             Notifications.ResetIcon();
             Notifications.ClickHandler(References.ClickAction.NOTHING);
 
-            Windows.TestForm tf = new Windows.TestForm();
-            tf.ShowDialog();
+            // start the application
+            Application.ApplicationExit += new EventHandler(OnExit);
+            Application.EnableVisualStyles();
+            Application.Run();
         }
 
         private static void OnExit(object sender, EventArgs e)
         {
             Notifications.notifyIcon.Visible = false;
+            Notifications.notifyIcon.Icon = null;
             Notifications.notifyIcon.Dispose();
             Environment.Exit(0);
         }
