@@ -166,5 +166,17 @@ namespace Piccm_Uploader.Properties {
                 this["HotKey_Desktop"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Control")]
+        public string hotKey_Modifier {
+            get {
+                return ((string)(this["hotKey_Modifier"]));
+            }
+            set {
+                this["hotKey_Modifier"] = value;
+            }
+        }
     }
 }

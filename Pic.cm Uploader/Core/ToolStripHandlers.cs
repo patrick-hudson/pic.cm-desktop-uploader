@@ -46,11 +46,14 @@ namespace Piccm_Uploader.Core
 
         internal static void UploadClipboard(object sender, EventArgs e)
         {
-            // TODO Check if currently uploading
-            // Check if the clipboard contains text
-            if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Text))
+            if (Clipboard.ContainsImage()) // If the data in the clipboard is a bitmap
             {
-                // Store the text in the clipboard locally
+                Console.WriteLine("Clipboard contains image!");
+                Upload.UploadBitmap(new Bitmap(Clipboard.GetImage())); // Upload the bitmap
+            }
+            else
+            {
+                Console.WriteLine("Clipboard contains text!");
                 string s = Clipboard.GetText(TextDataFormat.Text);
 
                 // Check if text is a HTTP or HTTPS url first to prevent mscorlib errors
@@ -76,10 +79,7 @@ namespace Piccm_Uploader.Core
                     }
                 }
             }
-            else if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Bitmap)) // If the data in the clipboard is a bitmap
-            {
-                Upload.UploadBitmap(new Bitmap(Clipboard.GetImage())); // Upload the bitmap
-            }
+
         }
 
         
@@ -106,8 +106,6 @@ namespace Piccm_Uploader.Core
             {
                 settings.ShowDialog();
             }
-
-            
         }
 
         internal static void ShowAbout(object sender, EventArgs e)

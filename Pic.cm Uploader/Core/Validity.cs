@@ -29,14 +29,15 @@ namespace Piccm_Uploader.Core
                 FileInfo fileInfo = new FileInfo(fileName);
                 if (fileInfo.Exists) // Does the file exist
                 {
-                    //if (fileInfo.Length < 10480000) // If it exists is it smaller than 9.99451 MB (10485760 for 10MB)
-                    return true;
+                    if (fileInfo.Length < 10480000) // If it exists is it smaller than 9.99451 MB (10485760 for 10MB)
+                        return true;
                 }
             }
             catch (Exception e)
             {
+#if DEBUD
                 Console.WriteLine(e.Message);
-                Console.WriteLine(e.StackTrace);
+#endif
                 return false;
             }
             return false;

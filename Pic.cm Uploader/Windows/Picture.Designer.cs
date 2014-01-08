@@ -31,6 +31,7 @@
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.panelInfo = new System.Windows.Forms.Panel();
+            this.Delete = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxThumbHtml = new System.Windows.Forms.TextBox();
@@ -53,7 +54,6 @@
             this.labelImageFileSizeText = new System.Windows.Forms.Label();
             this.labelImageUploadDateData = new System.Windows.Forms.Label();
             this.labelImageUploadDateText = new System.Windows.Forms.Label();
-            this.Delete = new System.Windows.Forms.Button();
             this.tableLayoutPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.panelInfo.SuspendLayout();
@@ -120,6 +120,21 @@
             this.panelInfo.Name = "panelInfo";
             this.panelInfo.Size = new System.Drawing.Size(300, 452);
             this.panelInfo.TabIndex = 1;
+            // 
+            // Delete
+            // 
+            this.Delete.BackColor = System.Drawing.Color.Red;
+            this.Delete.FlatAppearance.BorderColor = System.Drawing.Color.DarkRed;
+            this.Delete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Delete.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Delete.ForeColor = System.Drawing.Color.White;
+            this.Delete.Location = new System.Drawing.Point(3, 172);
+            this.Delete.Name = "Delete";
+            this.Delete.Size = new System.Drawing.Size(294, 25);
+            this.Delete.TabIndex = 22;
+            this.Delete.Text = "Delete Image";
+            this.Delete.UseVisualStyleBackColor = false;
+            this.Delete.Click += new System.EventHandler(this.Delete_Click_1);
             // 
             // label2
             // 
@@ -335,16 +350,6 @@
             this.labelImageUploadDateText.Size = new System.Drawing.Size(70, 13);
             this.labelImageUploadDateText.TabIndex = 0;
             this.labelImageUploadDateText.Text = "Upload Date:";
-            // 
-            // Delete
-            // 
-            this.Delete.Location = new System.Drawing.Point(4, 48);
-            this.Delete.Name = "Delete";
-            this.Delete.Size = new System.Drawing.Size(75, 23);
-            this.Delete.TabIndex = 22;
-            this.Delete.Text = "button1";
-            this.Delete.UseVisualStyleBackColor = true;
-            this.Delete.Click += new System.EventHandler(this.Delete_Click_1);
             // 
             // Picture
             // 
