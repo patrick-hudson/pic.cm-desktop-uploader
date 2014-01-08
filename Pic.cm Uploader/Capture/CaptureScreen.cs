@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace Piccm_Uploader.Misc
+namespace Piccm_Uploader.Capture
 {
-    class ScreenGrab
+    public class CaptureScreen
     {
         #region Exported WIN APIs
         [DllImport("GDI32.dll")]
@@ -33,7 +31,7 @@ namespace Piccm_Uploader.Misc
         public static extern int SelectObject(int hdc, int hgdiobj);
         #endregion
 
-        public static Bitmap CaptureScreen(int x, int y, int wid, int hei)
+        public static Bitmap ScreenCapture(int x, int y, int wid, int hei)
         {
             //create DC for the entire virtual screen
             int hdcSrc = CreateDC("DISPLAY", null, null, IntPtr.Zero);

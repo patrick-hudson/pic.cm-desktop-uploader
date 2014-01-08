@@ -23,9 +23,9 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Reflection;
+
+using Piccm_Uploader.Capture;
 using Piccm_Uploader.Core;
-using Piccm_Uploader.Misc;
-using Piccm_Uploader.Basics;
 
 namespace Piccm_Uploader
 {
@@ -46,65 +46,6 @@ namespace Piccm_Uploader
         private static CropForm[] cropForms;
         public static CropForm cropForm;
         public int capd = 0;
-
-        public MainClass()
-        {
-            //var t = new System.Windows.Forms.Timer();
-            //t.Interval = 100;
-            //t.Tick += delegate
-            //{
-            //    //@ every 100 ms, get the active window
-            //    IntPtr i = GetForegroundWindow();
-            //    if (i == IntPtr.Zero) return;
-            //    if (i != Wins[0])
-            //    {
-            //        //I memorize 3 windows because:
-            //        //Wins[2] is the "active" window, the window i want to screenshot, which
-            //        //is no more so active, because, by selecting the notif icon and choosing
-            //        //an item from the menu, I activate the Windows Desktop window then the
-            //        //"virtual" window containing the context menu
-            //        Wins[2] = Wins[1];
-            //        //Wins[1] is this app's window
-            //        Wins[1] = Wins[0];
-            //        //Wins[0] is the Destop window
-            //        Wins[0] = i;
-            //    }
-            //};
-            //t.Start();
-        }
-
-        public void uploadFromClipboardToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //upload from clipboard - upload if the clipboard contains the PATH to a file or a bitmap
-            //if the clipboard contains a URL, see the UrlUpload class
-            // TODO Check if currently uploading
-            if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Text))
-            {
-                string s = Clipboard.GetText(TextDataFormat.Text);
-                if (Validity.CheckFile(s))
-                {
-                    if (Validity.CheckImage(s))
-                    {
-                        //if there is a path to an image file
-                        Upload.uploadQueue.Enqueue(s);
-                    }
-                    else
-                    {
-                        //if there is a path, but not to an image file
-                        MessageBox.Show("Invalid image path in url.");
-                    }
-                }
-                else
-                {
-                    //if there is a text but not a path
-                    MessageBox.Show("Unknown data in clipboard");
-                }
-            }
-            else if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Bitmap))
-            {
-                Core.Upload.UploadBitmap(new Bitmap(Clipboard.GetImage()));
-            }
-        }
 
         public void hook_KeyPressed(object sender, KeyPressedEventArgs e)
         {
@@ -134,7 +75,7 @@ namespace Piccm_Uploader
                 if (ymax < screens[i].Bounds.Height) ymax = screens[i].Bounds.Height;
             }
 
-            Upload.UploadBitmap(ScreenGrab.CaptureScreen(xmin, ymin, xmax, ymax));
+            Upload.UploadBitmap(CaptureScreen.ScreenCapture(xmin, ymin, xmax, ymax));
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -192,54 +133,6 @@ namespace Piccm_Uploader
             return b;
         }
 
-        public void ScreenshotActiveWindow(object sender, EventArgs e)
-        {
-            CaptureActiveWindow();
-        }
-
-        public void ScreenshotActiveWindowHotKeyPressed(object sender, KeyPressedEventArgs e)
-        {
-            CaptureActiveWindow();
-        }
-
-        private void CaptureActiveWindow()
-        {
-            // TODO Rewrite This Class
-            ////get the window handle
-            //RECT r = new RECT();
-            //GetWindowRect(new HandleRef(this, Wins[2]), out r);
-            ////screenshot
-            //Bitmap b = Screenshot();
-            //string filepath = "";
-            //if (Sets.SaveScreenshots)
-            //{
-            //    if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "\\Pic.cm\\Screenshots") == false) Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "\\Pic.cm\\Screenshots");
-            //    filepath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "\\Pic.cm\\Screenshots\\Active " + DateTime.Now.Day.ToString() + "." + DateTime.Now.Month + "." +
-            //        DateTime.Now.Year + "." + DateTime.Now.Hour + "." + DateTime.Now.Minute + "." + DateTime.Now.Second;
-            //    for (int x = 0; File.Exists(filepath); x++) filepath += x.ToString();
-            //    filepath += ".png";
-            //}
-            ////crop it
-            //Rectangle z = new Rectangle(r.Left, r.Top, r.Right - r.Left + 1, r.Bottom - r.Top + 1);
-            //Bitmap Output = new Bitmap(z.Width, z.Height);
-            //Graphics g = Graphics.FromImage(Output);
-            //g.DrawImage(b, new Rectangle(0, 0, Output.Width, Output.Height), z, GraphicsUnit.Pixel);
-            //Program.checker.CancelTheUpload();
-            ////and upload it
-            //if (Sets.SaveScreenshots)
-            //{
-            //    Output.Save(filepath);
-            //    Program.FilesToUpload.Add(filepath);
-            //    Uploadr.StartUpload();
-            //}
-            //else
-            //{
-            //    MemoryStream ms = new MemoryStream();
-            //    Output.Save(ms, ImageFormat.Jpeg);
-            //    Uploadr.StartUpload(ms.ToArray());
-            //}
-        }
-
         public void Grabwholescreen(int sc)  // called when ALL screen capture; sc is screen number
         {
             var screens = Screen.AllScreens;
@@ -248,7 +141,7 @@ namespace Piccm_Uploader
                 cropForms[i].Close();
                 cropForms[i].Dispose();
             }
-            Core.Upload.UploadBitmap(ScreenGrab.CaptureScreen(screens[sc].Bounds.X, screens[sc].Bounds.Y, screens[sc].Bounds.Width, screens[sc].Bounds.Height));
+            Core.Upload.UploadBitmap(CaptureScreen.ScreenCapture(screens[sc].Bounds.X, screens[sc].Bounds.Y, screens[sc].Bounds.Width, screens[sc].Bounds.Height));
         }
 
         public void Smallscreengrab(int sc, int x, int y, int x1, int y1) // grab part of screen
@@ -269,27 +162,12 @@ namespace Piccm_Uploader
             finalwidth = X2 - X1 + 1;
             finalheight = Y2 - Y1 + 1;
 
-            Core.Upload.UploadBitmap(ScreenGrab.CaptureScreen(finalx, finaly, finalwidth, finalheight));
+            Core.Upload.UploadBitmap(CaptureScreen.ScreenCapture(finalx, finaly, finalwidth, finalheight));
         }
 
         public void resetScreen()
         {
             capd = 0;
-        }
-
-        private ImageCodecInfo GetEncoder(ImageFormat format)
-        {
-
-            ImageCodecInfo[] codecs = ImageCodecInfo.GetImageDecoders();
-
-            foreach (ImageCodecInfo codec in codecs)
-            {
-                if (codec.FormatID == format.Guid)
-                {
-                    return codec;
-                }
-            }
-            return null;
         }
     }
 }

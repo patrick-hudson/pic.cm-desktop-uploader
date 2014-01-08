@@ -25,7 +25,7 @@ using System.Threading;
 
 using Piccm_Uploader;
 using Piccm_Uploader.Core;
-using Piccm_Uploader.Misc;
+using Piccm_Uploader.Capture;
 
 namespace Piccm_Uploader.Windows
 {
@@ -208,17 +208,17 @@ namespace Piccm_Uploader.Windows
             if (e.Modifiers != Keys.None)
             {
                 Keys key = Keys.None;
-                Piccm_Uploader.Misc.ModifierKeys modifiers = Piccm_Uploader.Misc.KeyboardHook.GetModifiers(e.KeyData, out key);
+                ModifierKeys modifiers = KeyboardHook.GetModifiers(e.KeyData, out key);
 
                 // The pressed key is valid.
                 if (key != Keys.None)
                 {
-                    Checker.croppedScreenShotKeyHook.Dispose();
-                    Checker.croppedScreenShotKeyHook = new Misc.KeyboardHook();
-                    Checker.croppedScreenShotKeyHook.KeyPressed +=
+                    RegisterHotkeys.croppedScreenShotKeyHook.Dispose();
+                    RegisterHotkeys.croppedScreenShotKeyHook = new KeyboardHook();
+                    RegisterHotkeys.croppedScreenShotKeyHook.KeyPressed +=
                     new EventHandler<KeyPressedEventArgs>(Program.MainClassInstance.CroppedScreenshotHotKeyPressed);
                     // register the control + 1 combination as hot key.
-                    Checker.croppedScreenShotKeyHook.RegisterHotKey(modifiers,
+                    RegisterHotkeys.croppedScreenShotKeyHook.RegisterHotKey(modifiers,
                         key);
 
                     string hotkeyConfigPath = References.APPDATA + "hotkeys.ini";
@@ -246,17 +246,17 @@ namespace Piccm_Uploader.Windows
             if (e.Modifiers != Keys.None)
             {
                 Keys key = Keys.None;
-                Piccm_Uploader.Misc.ModifierKeys modifiers = Piccm_Uploader.Misc.KeyboardHook.GetModifiers(e.KeyData, out key);
+                ModifierKeys modifiers = KeyboardHook.GetModifiers(e.KeyData, out key);
 
                 // The pressed key is valid.
                 if (key != Keys.None)
                 {
-                    Checker.activeWindowsScreenShotKeyHook.Dispose();
-                    Checker.activeWindowsScreenShotKeyHook = new Misc.KeyboardHook();
-                    Checker.activeWindowsScreenShotKeyHook.KeyPressed +=
-                    new EventHandler<KeyPressedEventArgs>(Program.MainClassInstance.ScreenshotActiveWindowHotKeyPressed);
+                    //RegisterHotkeys.activeWindowsScreenShotKeyHook.Dispose();
+                    //RegisterHotkeys.activeWindowsScreenShotKeyHook = new KeyboardHook();
+                    //RegisterHotkeys.activeWindowsScreenShotKeyHook.KeyPressed += new EventHandler<KeyPressedEventArgs>(Program.MainClassInstance.ScreenshotActiveWindowHotKeyPressed);
+
                     // register the control + 1 combination as hot key.
-                    Checker.activeWindowsScreenShotKeyHook.RegisterHotKey(modifiers,
+                    RegisterHotkeys.activeWindowsScreenShotKeyHook.RegisterHotKey(modifiers,
                         key);
 
                     string hotkeyConfigPath = References.APPDATA + "hotkeys.ini";
@@ -284,17 +284,17 @@ namespace Piccm_Uploader.Windows
             if (e.Modifiers != Keys.None)
             {
                 Keys key = Keys.None;
-                Piccm_Uploader.Misc.ModifierKeys modifiers = Piccm_Uploader.Misc.KeyboardHook.GetModifiers(e.KeyData, out key);
+                ModifierKeys modifiers = KeyboardHook.GetModifiers(e.KeyData, out key);
 
                 // The pressed key is valid.
                 if (key != Keys.None)
                 {
-                    Checker.desktopScreenShotKeyHook.Dispose();
-                    Checker.desktopScreenShotKeyHook = new Misc.KeyboardHook();
-                    Checker.desktopScreenShotKeyHook.KeyPressed +=
+                    RegisterHotkeys.desktopScreenShotKeyHook.Dispose();
+                    RegisterHotkeys.desktopScreenShotKeyHook = new KeyboardHook();
+                    RegisterHotkeys.desktopScreenShotKeyHook.KeyPressed +=
                     new EventHandler<KeyPressedEventArgs>(Program.MainClassInstance.hook_KeyPressed);
                     // register the control + 1 combination as hot key.
-                    Checker.desktopScreenShotKeyHook.RegisterHotKey(modifiers,
+                    RegisterHotkeys.desktopScreenShotKeyHook.RegisterHotKey(modifiers,
                         key);
 
                     string hotkeyConfigPath = References.APPDATA + "hotkeys.ini";

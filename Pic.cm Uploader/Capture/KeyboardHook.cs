@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 
-namespace Piccm_Uploader.Misc
+namespace Piccm_Uploader.Capture
 {
     public sealed class KeyboardHook : IDisposable
     {

@@ -113,32 +113,33 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Basics\CropArea.cs">
+    <Compile Include="Capture\CaptureScreen.cs" />
+    <Compile Include="Capture\CropArea.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Basics\CropArea.Designer.cs">
+    <Compile Include="Capture\CropArea.Designer.cs">
       <DependentUpon>CropArea.cs</DependentUpon>
     </Compile>
-    <Compile Include="Basics\CropForm.cs">
+    <Compile Include="Capture\CropForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Basics\CropForm.Designer.cs">
+    <Compile Include="Capture\CropForm.Designer.cs">
       <DependentUpon>CropForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Basics\CropSelector.cs">
+    <Compile Include="Capture\CropSelector.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Basics\CropSelector.Designer.cs">
+    <Compile Include="Capture\CropSelector.Designer.cs">
       <DependentUpon>CropSelector.cs</DependentUpon>
     </Compile>
-    <Compile Include="Basics\DragDropFiles.cs">
+    <Compile Include="Windows\DragDropFiles.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Basics\DragDropFiles.Designer.cs">
+    <Compile Include="Windows\DragDropFiles.Designer.cs">
       <DependentUpon>DragDropFiles.cs</DependentUpon>
     </Compile>
     <Compile Include="Basics\MainClass.cs" />
-    <Compile Include="Core\Capture.cs" />
+    <Compile Include="Capture\RegisterHotkeys.cs" />
     <Compile Include="Core\Notifications.cs" />
     <Compile Include="Core\References.cs" />
     <Compile Include="Core\ToolStripHandlers.cs" />
@@ -147,9 +148,7 @@
     <Compile Include="History\DBSaveImage.cs" />
     <Compile Include="History\ImageData.cs" />
     <Compile Include="History\SQLiteDatabase.cs" />
-    <Compile Include="Misc\Checker.cs" />
-    <Compile Include="Misc\KeyboardHook.cs" />
-    <Compile Include="Misc\ScreenGrab.cs" />
+    <Compile Include="Capture\KeyboardHook.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -187,22 +186,28 @@
     <Compile Include="Windows\Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Windows\TestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\TestForm.Designer.cs">
+      <DependentUpon>TestForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Windows\UrlUpload.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Windows\UrlUpload.Designer.cs">
       <DependentUpon>UrlUpload.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Basics\CropArea.resx">
+    <EmbeddedResource Include="Capture\CropArea.resx">
       <DependentUpon>CropArea.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Basics\CropForm.resx">
+    <EmbeddedResource Include="Capture\CropForm.resx">
       <DependentUpon>CropForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Basics\CropSelector.resx">
+    <EmbeddedResource Include="Capture\CropSelector.resx">
       <DependentUpon>CropSelector.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Basics\DragDropFiles.resx">
+    <EmbeddedResource Include="Windows\DragDropFiles.resx">
       <DependentUpon>DragDropFiles.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -1,6 +1,6 @@
-﻿namespace Piccm_Uploader.Basics
+﻿namespace Piccm_Uploader.Windows
 {
-    partial class CropForm
+    partial class TestForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,17 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // CropForm
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
-            this.Name = "CropForm";
-            this.Text = "CropForm";
-            this.ResumeLayout(false);
-
+            this.Text = "TestForm";
         }
 
         #endregion

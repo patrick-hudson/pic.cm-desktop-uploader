@@ -17,8 +17,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Runtime.InteropServices;
-using Piccm_Uploader.Misc;
 
+using Piccm_Uploader.Capture;
 using Piccm_Uploader.Core;
 
 namespace Piccm_Uploader
@@ -29,10 +29,9 @@ namespace Piccm_Uploader
         [DllImport("user32.dll")]
         public static extern IntPtr GetForegroundWindow();
         public static MainClass MainClassInstance;
-        public static Checker checker;
         public static Boolean updateFirstStart = true;
-        
-        
+
+
         [STAThread]
         static void Main()
         {
@@ -53,7 +52,7 @@ namespace Piccm_Uploader
             Update workerUpdate = new Update();
             Thread threadUpdate = new Thread(workerUpdate.InitUpdate);
             Thread threadUpload = new Thread(Upload.ProcessQueue);
-            threadUpdate.Start();
+            //threadUpdate.Start();
             threadUpload.SetApartmentState(ApartmentState.STA);
             threadUpload.Start();
             Application.EnableVisualStyles();
@@ -66,15 +65,17 @@ namespace Piccm_Uploader
             MainClassInstance.Wins[0] = GetForegroundWindow();
             MainClassInstance.Wins[1] = MainClassInstance.Wins[0];
             MainClassInstance.Wins[2] = MainClassInstance.Wins[1];
-            //initializing the formless notify icon and its menu
-            checker = new Checker();
+            
             ReadHotkeysConfig();
-            threadUpdate.Join();
+            //threadUpdate.Join();
             updateFirstStart = false;
             Notifications.ResetIcon();
             Notifications.ClickHandler(References.ClickAction.NOTHING);
-            Application.Run();
+
+            Windows.TestForm tf = new Windows.TestForm();
+            tf.ShowDialog();
         }
+
         private static void OnExit(object sender, EventArgs e)
         {
             Notifications.notifyIcon.Visible = false;
@@ -107,16 +108,14 @@ namespace Piccm_Uploader
                     key = (Keys)Enum.Parse(typeof(Keys), keys[1], true);
                 }
 
-                if (Checker.croppedScreenShotKeyHook != null)
-                    Checker.croppedScreenShotKeyHook.Dispose();
+                if (RegisterHotkeys.croppedScreenShotKeyHook != null)
+                    RegisterHotkeys.croppedScreenShotKeyHook.Dispose();
 
                 // hot key for desktop screenshot
-                Checker.croppedScreenShotKeyHook = new KeyboardHook();
-                Checker.croppedScreenShotKeyHook.KeyPressed +=
-                    new EventHandler<KeyPressedEventArgs>(Program.MainClassInstance.CroppedScreenshotHotKeyPressed);
+                RegisterHotkeys.croppedScreenShotKeyHook = new KeyboardHook();
+                RegisterHotkeys.croppedScreenShotKeyHook.KeyPressed += new EventHandler<KeyPressedEventArgs>(ToolStripHandlers.UploadClipboard);
                 // register the control + 1 combination as hot key.
-                Checker.croppedScreenShotKeyHook.RegisterHotKey(modifierKey,
-                    key);
+                RegisterHotkeys.croppedScreenShotKeyHook.RegisterHotKey(modifierKey, key);
 
 
 
@@ -132,18 +131,15 @@ namespace Piccm_Uploader
                     key = (Keys)Enum.Parse(typeof(Keys), keys[1], true);
                 }
 
-                if (Checker.desktopScreenShotKeyHook != null)
-                    Checker.desktopScreenShotKeyHook.Dispose();
+                if (RegisterHotkeys.desktopScreenShotKeyHook != null)
+                    RegisterHotkeys.desktopScreenShotKeyHook.Dispose();
 
                 // hot key for desktop screenshot
-                Checker.desktopScreenShotKeyHook = new KeyboardHook();
-                Checker.desktopScreenShotKeyHook.KeyPressed +=
+                RegisterHotkeys.desktopScreenShotKeyHook = new KeyboardHook();
+                RegisterHotkeys.desktopScreenShotKeyHook.KeyPressed +=
                     new EventHandler<KeyPressedEventArgs>(Program.MainClassInstance.hook_KeyPressed);
                 // register the control + 1 combination as hot key.
-                Checker.desktopScreenShotKeyHook.RegisterHotKey(modifierKey,
-                    key);
-
-
+                RegisterHotkeys.desktopScreenShotKeyHook.RegisterHotKey(modifierKey, key);
 
                 keys = window.Split(new char[] { '+' });
                 if (keys == null || keys.Length < 2)
@@ -157,21 +153,19 @@ namespace Piccm_Uploader
                     key = (Keys)Enum.Parse(typeof(Keys), keys[1], true);
                 }
 
-                if (Checker.activeWindowsScreenShotKeyHook != null)
-                    Checker.activeWindowsScreenShotKeyHook.Dispose();
+                if (RegisterHotkeys.activeWindowsScreenShotKeyHook != null)
+                    RegisterHotkeys.activeWindowsScreenShotKeyHook.Dispose();
 
-                // hot key for desktop screenshot
-                Checker.activeWindowsScreenShotKeyHook = new KeyboardHook();
-                Checker.activeWindowsScreenShotKeyHook.KeyPressed +=
-                    new EventHandler<KeyPressedEventArgs>(Program.MainClassInstance.ScreenshotActiveWindowHotKeyPressed);
-                // register the control + 1 combination as hot key.
-                Checker.activeWindowsScreenShotKeyHook.RegisterHotKey(modifierKey,
-                    key);
+                //// hot key for desktop screenshot
+                //RegisterHotkeys.activeWindowsScreenShotKeyHook = new KeyboardHook();
+                //RegisterHotkeys.activeWindowsScreenShotKeyHook.KeyPressed += new EventHandler<KeyPressedEventArgs>(Program.MainClassInstance.ScreenshotActiveWindowHotKeyPressed);
+                //// register the control + 1 combination as hot key.
+                //RegisterHotkeys.activeWindowsScreenShotKeyHook.RegisterHotKey(modifierKey, key);
 
             }
             else
             {
-                Checker.RegisterGlobalHotKeys();
+                RegisterHotkeys.Register();
             }
         }
     }
