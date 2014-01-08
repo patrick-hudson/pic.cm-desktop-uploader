@@ -24,8 +24,8 @@ using System.Text;
 using System.Threading;
 
 using Piccm_Uploader;
+using Piccm_Uploader.Capture;
 using Piccm_Uploader.Core;
-using Piccm_Uploader.Misc;
 
 namespace Piccm_Uploader.Windows
 {
@@ -38,7 +38,6 @@ namespace Piccm_Uploader.Windows
             InitializeComponent();
             this.ShowInTaskbar = true;
             this.Icon = Resources.Resource.default_large;
-
             if (Sets.CopyAfterUpload)
             {
                 checkBox1.Checked = Sets.CopyAfterUpload;
@@ -58,23 +57,18 @@ namespace Piccm_Uploader.Windows
             textBox1.Enabled = Sets.ProxyOn;
             numericUpDown1.Enabled = Sets.ProxyOn;
             textBox1.Text = Sets.ProxyServer;
+
             if (Sets.SaveScreenshots)
             {
                 checkBox3.Checked = Sets.SaveScreenshots;
             }
+
             if (Sets.Sound)
             {
                 checkBox4.Checked = Sets.Sound;
             }
 
-            try
-            {
-                numericUpDown1.Value = Convert.ToInt32(Sets.ProxyPort);
-            }
-            catch
-            {
-                numericUpDown1.Value = 0;
-            }
+            numericUpDown1.Value = (Convert.ToInt32(Sets.ProxyPort) > 0 ? Convert.ToInt32(Sets.ProxyPort) : 80);
 
             string hotkeyConfigPath = References.APPDATA + "hotkeys.ini";
             if (File.Exists(References.APPDATA + "hotkeys.ini"))

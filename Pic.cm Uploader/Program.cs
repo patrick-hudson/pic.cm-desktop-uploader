@@ -17,8 +17,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Runtime.InteropServices;
-using Piccm_Uploader.Misc;
 
+using Piccm_Uploader.Capture;
 using Piccm_Uploader.Core;
 
 namespace Piccm_Uploader
@@ -31,8 +31,8 @@ namespace Piccm_Uploader
         public static MainClass MainClassInstance;
         public static Checker checker;
         public static Boolean updateFirstStart = true;
-        
-        
+
+
         [STAThread]
         static void Main()
         {
@@ -53,7 +53,7 @@ namespace Piccm_Uploader
             Update workerUpdate = new Update();
             Thread threadUpdate = new Thread(workerUpdate.InitUpdate);
             Thread threadUpload = new Thread(Upload.ProcessQueue);
-            threadUpdate.Start();
+            //threadUpdate.Start();
             threadUpload.SetApartmentState(ApartmentState.STA);
             threadUpload.Start();
             Application.EnableVisualStyles();
@@ -78,12 +78,15 @@ namespace Piccm_Uploader
             //initializing the formless notify icon and its menu
             checker = new Checker();
             ReadHotkeysConfig();
-            threadUpdate.Join();
+            //threadUpdate.Join();
             updateFirstStart = false;
             Notifications.ResetIcon();
             Notifications.ClickHandler(References.ClickAction.NOTHING);
-            Application.Run();
+
+            Windows.TestForm tf = new Windows.TestForm();
+            tf.ShowDialog();
         }
+
         private static void OnExit(object sender, EventArgs e)
         {
             Notifications.notifyIcon.Visible = false;
@@ -122,8 +125,7 @@ namespace Piccm_Uploader
 
                 // hot key for desktop screenshot
                 Checker.croppedScreenShotKeyHook = new KeyboardHook();
-                Checker.croppedScreenShotKeyHook.KeyPressed +=
-                    new EventHandler<KeyPressedEventArgs>(Program.MainClassInstance.CroppedScreenshotHotKeyPressed);
+                Checker.croppedScreenShotKeyHook.KeyPressed += new EventHandler<KeyPressedEventArgs>(ToolStripHandlers.UploadClipboard);
                 // register the control + 1 combination as hot key.
                 Checker.croppedScreenShotKeyHook.RegisterHotKey(modifierKey,
                     key);

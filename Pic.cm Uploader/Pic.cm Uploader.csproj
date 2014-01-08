@@ -138,7 +138,6 @@
       <DependentUpon>DragDropFiles.cs</DependentUpon>
     </Compile>
     <Compile Include="Basics\MainClass.cs" />
-    <Compile Include="Core\Capture.cs" />
     <Compile Include="Core\Notifications.cs" />
     <Compile Include="Core\References.cs" />
     <Compile Include="Core\ToolStripHandlers.cs" />
@@ -149,7 +148,7 @@
     <Compile Include="History\SQLiteDatabase.cs" />
     <Compile Include="Misc\Checker.cs" />
     <Compile Include="Misc\Ini.cs" />
-    <Compile Include="Misc\KeyboardHook.cs" />
+    <Compile Include="Capture\KeyboardHook.cs" />
     <Compile Include="Misc\ScreenGrab.cs" />
     <Compile Include="Misc\Sets.cs" />
     <Compile Include="Program.cs" />
@@ -188,6 +187,12 @@
     </Compile>
     <Compile Include="Windows\Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\TestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\TestForm.Designer.cs">
+      <DependentUpon>TestForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Windows\UrlUpload.cs">
       <SubType>Form</SubType>

@@ -23,9 +23,9 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Reflection;
+
+using Piccm_Uploader.Capture;
 using Piccm_Uploader.Core;
-using Piccm_Uploader.Misc;
-using Piccm_Uploader.Basics;
 
 namespace Piccm_Uploader
 {
@@ -71,39 +71,6 @@ namespace Piccm_Uploader
             //    }
             //};
             //t.Start();
-        }
-
-        public void uploadFromClipboardToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //upload from clipboard - upload if the clipboard contains the PATH to a file or a bitmap
-            //if the clipboard contains a URL, see the UrlUpload class
-            // TODO Check if currently uploading
-            if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Text))
-            {
-                string s = Clipboard.GetText(TextDataFormat.Text);
-                if (Validity.CheckFile(s))
-                {
-                    if (Validity.CheckImage(s))
-                    {
-                        //if there is a path to an image file
-                        Upload.uploadQueue.Enqueue(s);
-                    }
-                    else
-                    {
-                        //if there is a path, but not to an image file
-                        MessageBox.Show("Invalid image path in url.");
-                    }
-                }
-                else
-                {
-                    //if there is a text but not a path
-                    MessageBox.Show("Unknown data in clipboard");
-                }
-            }
-            else if (Clipboard.GetDataObject().GetDataPresent(DataFormats.Bitmap))
-            {
-                Core.Upload.UploadBitmap(new Bitmap(Clipboard.GetImage()));
-            }
         }
 
         public void hook_KeyPressed(object sender, KeyPressedEventArgs e)
