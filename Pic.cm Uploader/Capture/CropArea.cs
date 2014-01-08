@@ -17,7 +17,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Piccm_Uploader
+namespace Piccm_Uploader.Capture
 {
     //class used to select a region from the screen in order to crop the screenshot according to that region
     public partial class CropArea : Form

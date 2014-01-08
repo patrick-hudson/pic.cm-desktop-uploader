@@ -7,10 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using Piccm_Uploader.Misc;
 using System.Diagnostics;
 
-namespace Piccm_Uploader.Basics
+namespace Piccm_Uploader.Capture
 {
     public partial class CropForm : Form
     {

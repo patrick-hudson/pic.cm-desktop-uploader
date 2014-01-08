@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace Piccm_Uploader.Capture
 {
-    class RegisterHotkeys
+    public class RegisterHotkeys
     {
         public static KeyboardHook desktopScreenShotKeyHook = null;
         public static KeyboardHook croppedScreenShotKeyHook = null;
@@ -28,19 +28,15 @@ namespace Piccm_Uploader.Capture
                 croppedScreenShotKeyHook.KeyPressed +=
                     new EventHandler<KeyPressedEventArgs>(Program.MainClassInstance.CroppedScreenshotHotKeyPressed);
                 // register the control + 1 combination as hot key.
-                croppedScreenShotKeyHook.RegisterHotKey(ModifierKeys.Control,
-                    Keys.D1);
+                croppedScreenShotKeyHook.RegisterHotKey(ModifierKeys.Control, Keys.D1);
             }
 
             if (activeWindowsScreenShotKeyHook == null)
             {
-                // hot key for desktop screenshot
-                activeWindowsScreenShotKeyHook = new KeyboardHook();
-                activeWindowsScreenShotKeyHook.KeyPressed +=
-                    new EventHandler<KeyPressedEventArgs>(Program.MainClassInstance.ScreenshotActiveWindowHotKeyPressed);
-                // register the control + 3 combination as hot key.
-                activeWindowsScreenShotKeyHook.RegisterHotKey(ModifierKeys.Control,
-                    Keys.D3);
+                // TODO Redo capture active window
+                // activeWindowsScreenShotKeyHook = new KeyboardHook();
+                // activeWindowsScreenShotKeyHook.KeyPressed += new EventHandler<KeyPressedEventArgs>(Program.MainClassInstance.ScreenshotActiveWindowHotKeyPressed);
+                // activeWindowsScreenShotKeyHook.RegisterHotKey(ModifierKeys.Control, Keys.D3);
             }
         }
 

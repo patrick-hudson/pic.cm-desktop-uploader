@@ -29,7 +29,6 @@ namespace Piccm_Uploader
         [DllImport("user32.dll")]
         public static extern IntPtr GetForegroundWindow();
         public static MainClass MainClassInstance;
-        public static Checker checker;
         public static Boolean updateFirstStart = true;
 
 
@@ -61,22 +60,12 @@ namespace Piccm_Uploader
             //Application.SetCompatibleTextRenderingDefault(false);
             //here we read app's settings, configuration (api key, url) and history
             Core.Notifications.Initialize();
-            Sets.ReadSets();
-            //a strange bug's fix
-            if (Sets.Bug563Fix) Sets.Bug563Fix = false;
-            else
-            {
-                Process[] p = Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName);
-                if (p.Length > 1) Process.GetCurrentProcess().Kill();
-            }
-            //some init
             MainClassInstance = new MainClass();
             MainClassInstance.Wins = new IntPtr[3];
             MainClassInstance.Wins[0] = GetForegroundWindow();
             MainClassInstance.Wins[1] = MainClassInstance.Wins[0];
             MainClassInstance.Wins[2] = MainClassInstance.Wins[1];
-            //initializing the formless notify icon and its menu
-            checker = new Checker();
+            
             ReadHotkeysConfig();
             //threadUpdate.Join();
             updateFirstStart = false;
@@ -100,10 +89,9 @@ namespace Piccm_Uploader
             string hotkeyConfigPath = References.APPDATA + "hotkeys.ini";
             if (File.Exists(References.APPDATA + "hotkeys.ini"))
             {
-                Ini i = new Ini(hotkeyConfigPath);
-                var cropped = i.IniRead("hotkey", "cropped");
-                var desktop = i.IniRead("hotkey", "desktop");
-                var window = i.IniRead("hotkey", "window");
+                var cropped = Properties.Settings.Default.HotKey_Area;
+                var desktop = Properties.Settings.Default.HotKey_Desktop;
+                var window = Properties.Settings.Default.HotKey_ActiveWindow;
 
                 string[] keys = cropped.Split(new char[] { '+' });
                 ModifierKeys modifierKey;
@@ -120,15 +108,14 @@ namespace Piccm_Uploader
                     key = (Keys)Enum.Parse(typeof(Keys), keys[1], true);
                 }
 
-                if (Checker.croppedScreenShotKeyHook != null)
-                    Checker.croppedScreenShotKeyHook.Dispose();
+                if (RegisterHotkeys.croppedScreenShotKeyHook != null)
+                    RegisterHotkeys.croppedScreenShotKeyHook.Dispose();
 
                 // hot key for desktop screenshot
-                Checker.croppedScreenShotKeyHook = new KeyboardHook();
-                Checker.croppedScreenShotKeyHook.KeyPressed += new EventHandler<KeyPressedEventArgs>(ToolStripHandlers.UploadClipboard);
+                RegisterHotkeys.croppedScreenShotKeyHook = new KeyboardHook();
+                RegisterHotkeys.croppedScreenShotKeyHook.KeyPressed += new EventHandler<KeyPressedEventArgs>(ToolStripHandlers.UploadClipboard);
                 // register the control + 1 combination as hot key.
-                Checker.croppedScreenShotKeyHook.RegisterHotKey(modifierKey,
-                    key);
+                RegisterHotkeys.croppedScreenShotKeyHook.RegisterHotKey(modifierKey, key);
 
 
 
@@ -144,18 +131,15 @@ namespace Piccm_Uploader
                     key = (Keys)Enum.Parse(typeof(Keys), keys[1], true);
                 }
 
-                if (Checker.desktopScreenShotKeyHook != null)
-                    Checker.desktopScreenShotKeyHook.Dispose();
+                if (RegisterHotkeys.desktopScreenShotKeyHook != null)
+                    RegisterHotkeys.desktopScreenShotKeyHook.Dispose();
 
                 // hot key for desktop screenshot
-                Checker.desktopScreenShotKeyHook = new KeyboardHook();
-                Checker.desktopScreenShotKeyHook.KeyPressed +=
+                RegisterHotkeys.desktopScreenShotKeyHook = new KeyboardHook();
+                RegisterHotkeys.desktopScreenShotKeyHook.KeyPressed +=
                     new EventHandler<KeyPressedEventArgs>(Program.MainClassInstance.hook_KeyPressed);
                 // register the control + 1 combination as hot key.
-                Checker.desktopScreenShotKeyHook.RegisterHotKey(modifierKey,
-                    key);
-
-
+                RegisterHotkeys.desktopScreenShotKeyHook.RegisterHotKey(modifierKey, key);
 
                 keys = window.Split(new char[] { '+' });
                 if (keys == null || keys.Length < 2)
@@ -169,21 +153,19 @@ namespace Piccm_Uploader
                     key = (Keys)Enum.Parse(typeof(Keys), keys[1], true);
                 }
 
-                if (Checker.activeWindowsScreenShotKeyHook != null)
-                    Checker.activeWindowsScreenShotKeyHook.Dispose();
+                if (RegisterHotkeys.activeWindowsScreenShotKeyHook != null)
+                    RegisterHotkeys.activeWindowsScreenShotKeyHook.Dispose();
 
-                // hot key for desktop screenshot
-                Checker.activeWindowsScreenShotKeyHook = new KeyboardHook();
-                Checker.activeWindowsScreenShotKeyHook.KeyPressed +=
-                    new EventHandler<KeyPressedEventArgs>(Program.MainClassInstance.ScreenshotActiveWindowHotKeyPressed);
-                // register the control + 1 combination as hot key.
-                Checker.activeWindowsScreenShotKeyHook.RegisterHotKey(modifierKey,
-                    key);
+                //// hot key for desktop screenshot
+                //RegisterHotkeys.activeWindowsScreenShotKeyHook = new KeyboardHook();
+                //RegisterHotkeys.activeWindowsScreenShotKeyHook.KeyPressed += new EventHandler<KeyPressedEventArgs>(Program.MainClassInstance.ScreenshotActiveWindowHotKeyPressed);
+                //// register the control + 1 combination as hot key.
+                //RegisterHotkeys.activeWindowsScreenShotKeyHook.RegisterHotKey(modifierKey, key);
 
             }
             else
             {
-                Checker.RegisterGlobalHotKeys();
+                RegisterHotkeys.Register();
             }
         }
     }

@@ -20,7 +20,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Drawing.Imaging;
 
-namespace Piccm_Uploader
+namespace Piccm_Uploader.Windows
 {
     public partial class DragDropFiles : Form
     {

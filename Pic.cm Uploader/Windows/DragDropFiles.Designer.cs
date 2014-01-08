@@ -1,4 +1,4 @@
-﻿namespace Piccm_Uploader
+﻿namespace Piccm_Uploader.Windows
 {
     partial class DragDropFiles
     {

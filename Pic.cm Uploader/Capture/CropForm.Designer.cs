@@ -1,4 +1,4 @@
-﻿namespace Piccm_Uploader.Basics
+﻿namespace Piccm_Uploader.Capture
 {
     partial class CropForm
     {

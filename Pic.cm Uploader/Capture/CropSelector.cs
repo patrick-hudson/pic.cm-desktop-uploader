@@ -14,7 +14,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Piccm_Uploader
+namespace Piccm_Uploader.Capture
 {
 	public partial class CropSelector : UserControl
 	{
