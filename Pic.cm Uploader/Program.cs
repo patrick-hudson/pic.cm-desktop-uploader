@@ -129,8 +129,7 @@ namespace Piccm_Uploader
 
                 // hot key for desktop screenshot
                 RegisterHotkeys.desktopScreenShotKeyHook = new KeyboardHook();
-                RegisterHotkeys.desktopScreenShotKeyHook.KeyPressed +=
-                    new EventHandler<KeyPressedEventArgs>(Program.MainClassInstance.hook_KeyPressed);
+                RegisterHotkeys.desktopScreenShotKeyHook.KeyPressed += new EventHandler<KeyPressedEventArgs>(Program.MainClassInstance.hook_KeyPressed);
                 // register the control + 1 combination as hot key.
                 RegisterHotkeys.desktopScreenShotKeyHook.RegisterHotKey(modifierKey, key);
 

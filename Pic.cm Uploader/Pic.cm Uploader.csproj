@@ -65,7 +65,7 @@
     <StartupObject>Piccm_Uploader.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\Icons\default_large.ico</ApplicationIcon>
+    <ApplicationIcon>default_large.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
@@ -272,6 +272,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="default_large.ico" />
     <Content Include="Resources\3rd Party\System.Data.SQLite.DLL" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
