@@ -78,7 +78,11 @@ namespace Shell_Clients
                 }
 
             }
+#if DEBUG
             catch (Exception err)
+#else
+            catch (Exception)
+#endif
             {
 #if !DEBUG
                 MessageBox.Show("An error occured contacting the update server.", "Network Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

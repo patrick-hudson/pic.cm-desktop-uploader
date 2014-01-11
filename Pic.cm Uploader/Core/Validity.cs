@@ -33,7 +33,11 @@ namespace Piccm_Uploader.Core
                         return true;
                 }
             }
+#if DEBUG
             catch (Exception e)
+#else
+            catch (Exception)
+#endif
             {
 #if DEBUD
                 Console.WriteLine(e.Message);

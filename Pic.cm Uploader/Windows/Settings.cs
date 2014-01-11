@@ -70,11 +70,11 @@ namespace Piccm_Uploader.Windows
 
             try
             {
-                numericUpDown1.Value = Convert.ToInt32(Properties.Settings.Default.ProxyPort);
+               // numericUpDown1.Value = Convert.ToInt32(Properties.Settings.Default.ProxyPort);
             }
             catch
             {
-                numericUpDown1.Value = 0;
+               // numericUpDown1.Value = 0;
             }
 
             string hotkeyConfigPath = References.APPDATA + "hotkeys.ini";
