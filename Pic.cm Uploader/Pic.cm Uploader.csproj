@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{0812FDC2-72D4-427F-8161-C5D168DFF92C}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Piccm_Uploader</RootNamespace>
     <AssemblyName>Pic.cm Desktop Uploader</AssemblyName>
@@ -201,6 +201,7 @@
     </Compile>
     <EmbeddedResource Include="Capture\CropArea.resx">
       <DependentUpon>CropArea.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Capture\CropForm.resx">
       <DependentUpon>CropForm.cs</DependentUpon>

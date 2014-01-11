@@ -73,7 +73,7 @@ namespace Piccm_Uploader
 
                 if (downloadList.Count > 0)
                 {
-                    if (MessageBox.Show("Download update?", "Update Available!", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                    if (MessageBox.Show(new Form(), "Download update?", "Update Available!", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
                     {
                         while (downloadList.Count > 0)
                         {
@@ -88,7 +88,7 @@ namespace Piccm_Uploader
                 }
                 else if (Program.updateFirstStart == false)
                 {
-                    MessageBox.Show("No updates currently available", "Try again later!", MessageBoxButtons.OK);
+                    MessageBox.Show(new Form(), "No updates currently available", "Try again later!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
             }
@@ -99,7 +99,7 @@ namespace Piccm_Uploader
 #endif
             {
 #if !DEBUG
-                MessageBox.Show("An error occured contacting the update server.", "Network Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(new Form(), "An error occured contacting the update server.", "Network Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 #else
                 Console.WriteLine(err.Message);
                 Console.WriteLine(err.StackTrace);
